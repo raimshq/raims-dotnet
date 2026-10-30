@@ -1,0 +1,156 @@
+name: Publish .NET SDK
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: raims-dotnet-nuget-release
+  cancel-in-progress: false
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+  PYTHONDONTWRITEBYTECODE: '1'
+  RAIMS_DOTNET_TOOLKIT_REF: bb8a5e618f4e79656811c1df45270a067bf0e5f5
+
+jobs:
+  validateWindows:
+    name: Validate supported runtimes and package
+    if: github.repository == 'raimshq/raims-dotnet' && github.event.action == 'published' && !github.event.release.draft
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - image:windows-ec2-2022
+      - instance-size:medium
+      - dotnet-sdk-validate
+    timeout-minutes: 45
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout the release commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Dotnet
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Validate release identity
+        id: context
+        run: |
+          python Raims-Dotnet/scripts/release.py context --source Raims-Dotnet
+          if ($LASTEXITCODE -ne 0) { throw 'Release identity validation failed.' }
+
+      - name: Create a read-only validation source token
+        id: sources
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.RAIMS_CI_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.RAIMS_CI_SOURCE_READER_PRIVATE_KEY }}
+          owner: raimshq
+          repositories: Raims-Developer-Toolkit
+          permission-contents: read
+
+      - name: Checkout the reviewed validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: raimshq/Raims-Developer-Toolkit
+          ref: ${{ steps.context.outputs.toolkitRevision }}
+          path: Developer-Toolkit
+          token: ${{ steps.sources.outputs.token }}
+          persist-credentials: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: '10.0.403'
+
+      - name: Run the canonical SDK checks
+        run: |
+          $workspace = $env:GITHUB_WORKSPACE
+          $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          Copy-Item -LiteralPath (Join-Path $workspace 'Raims-Dotnet/AGENTS.md') -Destination (Join-Path $workspace 'AGENTS.md')
+          if ((dotnet --version).Trim() -ne '10.0.403') { throw 'Unexpected .NET SDK version.' }
+          python (Join-Path $workspace 'Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py') --source (Join-Path $workspace 'Raims-Dotnet') --workspace $workspace --output $output
+          if ($LASTEXITCODE -ne 0) { throw 'Canonical SDK validation failed.' }
+          python (Join-Path $workspace 'Raims-Dotnet/scripts/release.py') bundle --source (Join-Path $workspace 'Raims-Dotnet') --report (Join-Path $output 'report.json') --artifact (Join-Path $workspace '.tmp/raims-dotnet-sdk/nuget-upload')
+          if ($LASTEXITCODE -ne 0) { throw 'Release artifact binding failed.' }
+
+      - name: Upload only the validated public package
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: raims-nuget-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .tmp/raims-dotnet-sdk/nuget-upload/*.nupkg
+            .tmp/raims-dotnet-sdk/nuget-upload/release-manifest.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+  publishLinux:
+    name: Publish the validated NuGet package
+    needs: validateWindows
+    if: github.repository == 'raimshq/raims-dotnet' && github.event.action == 'published' && !github.event.release.draft
+    environment: release
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - dotnet-sdk-publish
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the release commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Dotnet
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: '10.0.403'
+
+      - name: Download the artifact from this validation job
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          artifact-ids: ${{ needs.validateWindows.outputs.artifact_id }}
+          path: .tmp/raims-dotnet-sdk/nuget-upload
+          merge-multiple: true
+          digest-mismatch: error
+
+      - name: Verify release and artifact identities before requesting a credential
+        run: python Raims-Dotnet/scripts/release.py verify --source Raims-Dotnet --artifact .tmp/raims-dotnet-sdk/nuget-upload
+
+      - name: Exchange the release identity for a temporary NuGet credential
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: Raims
+
+      - name: Publish the exact validated package
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: python Raims-Dotnet/scripts/release.py publish --source Raims-Dotnet --artifact .tmp/raims-dotnet-sdk/nuget-upload

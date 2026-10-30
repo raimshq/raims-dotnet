@@ -8,8 +8,14 @@ assíncronos. Os modelos mantêm os nomes JSON da API e os tipos no editor.
 
 Os fontes de desenvolvimento estão disponíveis em
 [raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-Ainda não há release estável nem pacote publicado no NuGet. Veja a
-[instalação](docs/installation.md) para usar um checkout ou gerar um pacote local.
+Instale a versão `0.1.0` pelo NuGet:
+
+```powershell
+dotnet add package Raims --version 0.1.0
+```
+
+Veja a [instalação](docs/installation.md) para requisitos, atualização,
+uso dos fontes e geração de um pacote local.
 
 A chave de API define a empresa, o ambiente e as permissões; a URL-base é
 `https://api.raims.com`.

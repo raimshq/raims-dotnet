@@ -62,6 +62,19 @@ O projeto habilita a validação de pacote do .NET para conferir os destinos
 incluídos. Após a primeira release estável, estabeleça a versão publicada como
 baseline dessa validação antes de uma nova distribuição.
 
+## Preparar uma versão
+
+A versão do pacote em `src/Raims/Raims.csproj` e a constante
+`RaimsClient.Version` precisam ter o mesmo valor. Atualize também os exemplos
+de instalação para a versão que será distribuída. O nome do pacote continua
+definido em `PackageId`; a versão não altera a versão HTTP `/v1` da API.
+
+Antes de distribuir, confira a versão, os metadados e o pacote resultante,
+execute os gates de entrega e valide sua instalação nos destinos suportados.
+Use os runners CodeBuild autorizados para o fluxo de release. A existência de
+uma release no GitHub, por si só, não confirma a disponibilidade no NuGet;
+confira o resultado da publicação e a instalação da versão no registro público.
+
 ## Diagnóstico e disponibilidade
 
 As exceções de conexão, HTTP e protocolo e o observador de tentativas permitem

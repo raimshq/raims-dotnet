@@ -23,4 +23,9 @@ código dos hosts da Raims.
   Preserve procedência e avisos obrigatórios de qualquer código incorporado.
 - Deixe as alterações locais sem commit e sem conteúdo em staging.
   GitHub, NuGet, release e deploy exigem suas autorizações próprias.
-- Não adicionar workflows ou infraestrutura de publicação nesta implementação.
+- O workflow `nuget-release.yml` publica releases versionadas após validar o
+  pacote nos runners CodeBuild autorizados. Não publicar a cada commit na main
+  nem usar runners hospedados pelo GitHub ou computadores pessoais.
+- O CI usa o validador canônico do Developer Toolkit em uma revisão fixada.
+  A publicação consome somente o pacote e o manifesto aprovados, com OIDC
+  restrito ao job de publicação e ao ambiente `release`.

@@ -2,8 +2,20 @@
 
 Os fontes de desenvolvimento estão em
 [raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-A versão `0.1.0-dev` ainda não foi publicada no NuGet. O comando
-`dotnet add package Raims` sem uma fonte local não instala esta entrega.
+O pacote público é [`Raims`](https://www.nuget.org/packages/Raims), com versões
+para aplicações x64 em .NET Framework 4.8/4.8.1 e .NET 10.
+
+## Instalar pelo NuGet
+
+No diretório da aplicação consumidora:
+
+```powershell
+dotnet add package Raims --version 0.1.0
+```
+
+Mantenha a versão sob controle da aplicação. Revise as notas de cada release
+antes de atualizar e teste a integração nos frameworks usados pelo seu projeto.
+A versão do SDK é independente da versão HTTP `/v1` da API.
 
 ## Usar os fontes
 
@@ -51,7 +63,7 @@ pacote foi gerado. Para um projeto novo, o arquivo pode conter:
 No diretório da aplicação consumidora, onde esse arquivo foi salvo:
 
 ```powershell
-dotnet add package Raims --version 0.1.0-dev --no-restore
+dotnet add package Raims --version 0.1.0 --no-restore
 dotnet restore --configfile NuGet.Config
 ```
 

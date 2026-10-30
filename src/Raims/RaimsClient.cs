@@ -5,7 +5,7 @@ namespace Raims
     /// <summary>An isolated client for the published Raims API.</summary>
     public sealed class RaimsClient : IDisposable
     {
-        public const string Version = "0.1.0-dev";
+        public const string Version = "0.1.0";
         public const string DefaultBaseUrl = "https://api.raims.com";
         private readonly ApiRequestor requestor;
 
