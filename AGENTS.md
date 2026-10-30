@@ -23,9 +23,16 @@ código dos hosts da Raims.
   Preserve procedência e avisos obrigatórios de qualquer código incorporado.
 - Deixe as alterações locais sem commit e sem conteúdo em staging.
   GitHub, NuGet, release e deploy exigem suas autorizações próprias.
+- O workflow `validate.yml` valida pushes de branches deste repositório e
+  execuções manuais, com os jobs obrigatórios `validateWindows` e `securityLinux`.
+  Ele não publica pacotes e não recebe eventos de pull request ou de forks.
 - O workflow `nuget-release.yml` publica releases versionadas após validar o
   pacote nos runners CodeBuild autorizados. Não publicar a cada commit na main
   nem usar runners hospedados pelo GitHub ou computadores pessoais.
+- Antes da release, os dois jobs de `validate.yml` devem ter concluído com
+  sucesso para o mesmo commit. Jobs ignorados não aprovam a entrega. Preserve
+  a consulta ao Actions, os prazos e o vínculo da execução e tentativa no
+  manifesto; confira novamente antes de solicitar a credencial do NuGet.
 - O CI usa o validador canônico do Developer Toolkit em uma revisão fixada.
   A publicação consome somente o pacote e o manifesto aprovados, com OIDC
   restrito ao job de publicação e ao ambiente `release`.

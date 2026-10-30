@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: raims-dotnet-nuget-release
@@ -15,7 +16,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: '1'
   DOTNET_NOLOGO: '1'
   PYTHONDONTWRITEBYTECODE: '1'
-  RAIMS_DOTNET_TOOLKIT_REF: 634ceac4b08a3937060eda78834af934b8f860f8
+  RAIMS_DOTNET_TOOLKIT_REF: ac988d048bba24a6e4cec10859c4f2343a9edfbe
 
 jobs:
   validateWindows:
@@ -48,6 +49,8 @@ jobs:
 
       - name: Validate release identity
         id: context
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           python Raims-Dotnet/scripts/release.py context --source Raims-Dotnet
           if ($LASTEXITCODE -ne 0) { throw 'Release identity validation failed.' }
@@ -84,7 +87,14 @@ jobs:
           if ((dotnet --version).Trim() -ne '10.0.403') { throw 'Unexpected .NET SDK version.' }
           python (Join-Path $workspace 'Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py') --source (Join-Path $workspace 'Raims-Dotnet') --workspace $workspace --output $output
           if ($LASTEXITCODE -ne 0) { throw 'Canonical SDK validation failed.' }
-          python (Join-Path $workspace 'Raims-Dotnet/scripts/release.py') bundle --source (Join-Path $workspace 'Raims-Dotnet') --report (Join-Path $output 'report.json') --artifact (Join-Path $workspace '.tmp/raims-dotnet-sdk/nuget-upload')
+
+      - name: Bind the package to the prior validation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          $workspace = $env:GITHUB_WORKSPACE
+          $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          python (Join-Path $workspace 'Raims-Dotnet/scripts/release.py') bundle --source (Join-Path $workspace 'Raims-Dotnet') --report (Join-Path $output 'report.json') --artifact (Join-Path $workspace '.tmp/raims-dotnet-sdk/nuget-upload') --validation-run-id '${{ steps.context.outputs.validationRunId }}' --validation-run-attempt '${{ steps.context.outputs.validationRunAttempt }}'
           if ($LASTEXITCODE -ne 0) { throw 'Release artifact binding failed.' }
 
       - name: Upload only the validated public package
@@ -110,6 +120,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      actions: read
       id-token: write
     defaults:
       run:
@@ -142,6 +153,8 @@ jobs:
           digest-mismatch: error
 
       - name: Verify release and artifact identities before requesting a credential
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python Raims-Dotnet/scripts/release.py verify --source Raims-Dotnet --artifact .tmp/raims-dotnet-sdk/nuget-upload
 
       - name: Exchange the release identity for a temporary NuGet credential
@@ -152,5 +165,6 @@ jobs:
 
       - name: Publish the exact validated package
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: python Raims-Dotnet/scripts/release.py publish --source Raims-Dotnet --artifact .tmp/raims-dotnet-sdk/nuget-upload

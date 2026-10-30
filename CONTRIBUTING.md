@@ -58,7 +58,18 @@ não podem remover um arquivo exigido pelo projeto ou pelos links dos guias.
 Descreva os recursos da Raims diretamente nos textos e exemplos. Preserve
 avisos obrigatórios de licença e procedência de código incorporado.
 
-Os fontes de desenvolvimento ficam no GitHub. CI, release e NuGet são etapas
-distintas dessa distribuição de fontes. A primeira release precisa usar os
-runners CodeBuild autorizados e os gates canônicos do Toolkit, com revisão e
-autorização específicas.
+O workflow `validate.yml` executa o mesmo gate canônico após pushes de branches
+deste repositório ou por execução manual. O job `validateWindows` confere os
+destinos e o pacote; `securityLinux` executa a análise de segurança pelo helper
+canônico do Toolkit. Ambos usam runners CodeBuild autorizados. Essa validação
+não publica no NuGet nem roda em pull requests ou forks.
+
+Antes de publicar uma release, confira uma execução concluída de `validate.yml`
+para o commit escolhido. Todos os jobs precisam ter resultado `success`, antes
+da data de publicação da release. `skipped`, falha ou validação de outro commit
+bloqueiam a publicação. O fluxo de release confere esse histórico e registra
+a execução e a tentativa no manifesto do pacote.
+
+Os fontes de desenvolvimento, CI, release e NuGet continuam sendo etapas
+distintas. Uma validação aprovada não autoriza commit, push, criação de release
+ou publicação.

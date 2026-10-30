@@ -15,3 +15,11 @@
 - [x] Publicar a nota do SDK .NET no changelog em português e inglês, com a
   data de disponibilização do pacote, 29/10/2026, instalação e compatibilidade
   confirmadas.
+
+## Validação antes da release
+
+- [ ] Consolidar os perfis e o SAST na `main` do Toolkit, validar o candidato
+  nos runners AWS antes da release e bloquear a publicação sem aprovação do
+  mesmo commit. A mudança afeta somente o processo de engenharia; não altera
+  endpoints, requisitos ou comportamento do SDK e não exige nova orientação
+  no atendimento nem nota no changelog público.

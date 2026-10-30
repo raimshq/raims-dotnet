@@ -75,6 +75,32 @@ Use os runners CodeBuild autorizados para o fluxo de release. A existência de
 uma release no GitHub, por si só, não confirma a disponibilidade no NuGet;
 confira o resultado da publicação e a instalação da versão no registro público.
 
+## Validação antes da release
+
+O workflow `validate.yml` executa após pushes de branches do próprio repositório
+e por execução manual. `validateWindows` usa o gate canônico que compila e
+executa os consumidores em .NET Framework 4.8 e .NET 10, além de conferir o pacote.
+`securityLinux` chama o helper canônico de segurança do Toolkit. A revisão do
+Toolkit é fixada nos workflows; ferramentas ausentes ou uma análise incompleta
+recusam a validação.
+
+Os dois jobs usam runners CodeBuild e precisam terminar com `success` para
+o mesmo commit que será publicado. Pull requests e forks não entram nesse
+fluxo. A validação não publica pacotes, cria releases nem solicita credenciais
+do NuGet.
+
+Publique a release somente depois dessa execução terminar. O workflow
+`nuget-release.yml` consulta o Actions para conferir repositório, evento, commit,
+execução, tentativa, runners e conclusão dos jobs. Uma execução posterior à
+publicação da release não aprova retroativamente a entrega. `skipped` e falhas
+também bloqueiam a publicação.
+
+O manifesto do artefato registra o ID, a tentativa, o workflow e a conclusão
+da validação anterior. O job de publicação verifica esse vínculo novamente
+antes de solicitar a credencial temporária por OIDC. Depois de publicar,
+confira a disponibilidade e a instalação do pacote no NuGet; o aceite do upload
+pode anteceder a indexação no registro.
+
 ## Diagnóstico e disponibilidade
 
 As exceções de conexão, HTTP e protocolo e o observador de tentativas permitem

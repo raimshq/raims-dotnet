@@ -1,0 +1,29 @@
+rules:
+  - id: raims.dotnet.tls-validation-disabled
+    languages: [csharp]
+    severity: ERROR
+    message: Keep TLS certificate and hostname validation enabled.
+    pattern-either:
+      - pattern: $HANDLER.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+      - pattern: $HANDLER.ServerCertificateCustomValidationCallback = (...) => true
+      - pattern: ServicePointManager.ServerCertificateValidationCallback = (...) => true
+      - pattern: ServicePointManager.ServerCertificateValidationCallback += (...) => true
+  - id: raims.dotnet.shell-command
+    languages: [csharp]
+    severity: ERROR
+    message: Do not execute shell commands from the SDK.
+    patterns:
+      - pattern: Process.Start($SHELL, ...)
+      - metavariable-regex:
+          metavariable: $SHELL
+          regex: (?i)["'](?:cmd(?:\.exe)?|powershell(?:\.exe)?|pwsh(?:\.exe)?|/bin/(?:sh|bash))["']
+  - id: raims.dotnet.embedded-private-key
+    languages: [generic]
+    severity: ERROR
+    message: Load private keys from the application's secret store.
+    pattern-regex: '-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s]+[A-Za-z0-9+/=]{32}'
+  - id: raims.dotnet.embedded-github-token
+    languages: [generic]
+    severity: ERROR
+    message: Keep access tokens outside source files.
+    pattern-regex: '\b(?:gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{82})\b'

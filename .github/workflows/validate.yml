@@ -1,0 +1,139 @@
+name: Validate .NET SDK
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: raims-dotnet-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+  PYTHONDONTWRITEBYTECODE: '1'
+  RAIMS_DOTNET_TOOLKIT_REF: ac988d048bba24a6e4cec10859c4f2343a9edfbe
+
+jobs:
+  validateWindows:
+    if: github.repository == 'raimshq/raims-dotnet'
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - image:windows-ec2-2022
+      - instance-size:medium
+      - dotnet-sdk-check
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout the repository commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Dotnet
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14.10'
+
+      - name: Validate repository and tooling identities
+        id: context
+        run: |
+          python Raims-Dotnet/scripts/release.py validation-context --source Raims-Dotnet
+          if ($LASTEXITCODE -ne 0) { throw 'Repository validation identity failed.' }
+
+      - name: Create a read-only validation source token
+        id: sources
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.RAIMS_CI_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.RAIMS_CI_SOURCE_READER_PRIVATE_KEY }}
+          owner: raimshq
+          repositories: Raims-Developer-Toolkit
+          permission-contents: read
+
+      - name: Checkout the reviewed validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: raimshq/Raims-Developer-Toolkit
+          ref: ${{ steps.context.outputs.toolkitRevision }}
+          path: Developer-Toolkit
+          token: ${{ steps.sources.outputs.token }}
+          persist-credentials: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: '10.0.403'
+
+      - name: Run the canonical SDK checks
+        run: |
+          $workspace = $env:GITHUB_WORKSPACE
+          $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/validate-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          Copy-Item -LiteralPath (Join-Path $workspace 'Raims-Dotnet/AGENTS.md') -Destination (Join-Path $workspace 'AGENTS.md')
+          if ((dotnet --version).Trim() -ne '10.0.403') { throw 'Unexpected .NET SDK version.' }
+          python (Join-Path $workspace 'Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py') --source (Join-Path $workspace 'Raims-Dotnet') --workspace $workspace --output $output
+          if ($LASTEXITCODE -ne 0) { throw 'Canonical SDK validation failed.' }
+
+  securityLinux:
+    if: github.repository == 'raimshq/raims-dotnet'
+    runs-on:
+      - codebuild-raims-github-actions-${{ github.run_id }}-${{ github.run_attempt }}
+      - dotnet-sdk-security
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout the repository commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          path: Raims-Dotnet
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
+
+      - name: Validate repository and tooling identities
+        id: context
+        run: python Raims-Dotnet/scripts/release.py validation-context --source Raims-Dotnet
+
+      - name: Create a read-only validation source token
+        id: sources
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.RAIMS_CI_SOURCE_READER_CLIENT_ID }}
+          private-key: ${{ secrets.RAIMS_CI_SOURCE_READER_PRIVATE_KEY }}
+          owner: raimshq
+          repositories: Raims-Developer-Toolkit
+          permission-contents: read
+
+      - name: Checkout the reviewed validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: raimshq/Raims-Developer-Toolkit
+          ref: ${{ steps.context.outputs.toolkitRevision }}
+          path: Developer-Toolkit
+          token: ${{ steps.sources.outputs.token }}
+          persist-credentials: false
+
+      - name: Run the canonical SDK security checks
+        run: |
+          workspace="$RUNNER_TEMP/workspace"
+          output="$GITHUB_WORKSPACE/Raims-Dotnet/.tmp/raims-dotnet-sdk/security-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$workspace"
+          cp Raims-Dotnet/AGENTS.md "$workspace/AGENTS.md"
+          python Developer-Toolkit/scripts/release-preflight/sdk_security.py --source "$GITHUB_WORKSPACE/Raims-Dotnet" --workspace "$workspace" --repository Raims-Dotnet --output "$output" --prepare-tools
+          python -c 'import json,os,sys; r=json.load(open(sys.argv[1],encoding="utf-8")); sys.exit(0 if r.get("status")=="pass" and r.get("repository")=="Raims-Dotnet" and r.get("toolkitRevision")==os.environ["RAIMS_DOTNET_TOOLKIT_REF"] else "Canonical SDK security summary is invalid.")' "$output/summary.json"
