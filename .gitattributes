@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.cs text eol=lf
+*.sln text eol=crlf
+/AGENTS.md export-ignore
+/TODO.md export-ignore

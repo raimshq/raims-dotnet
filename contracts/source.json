@@ -1,0 +1,8 @@
+{
+    "repository": "https://github.com/raimshq/openapi",
+    "revision": "a412f1f2d12edec7edf001bf2fb4b48403fcec97",
+    "url": "https://raw.githubusercontent.com/raimshq/openapi/a412f1f2d12edec7edf001bf2fb4b48403fcec97/latest/openapi.spec3.json",
+    "sha256": "dc456099d6eb25808cd0cbf166ae7d4d8303578c83d1975ec524fe18e15f02af",
+    "api_version": "1.0.0",
+    "operations": 67
+}

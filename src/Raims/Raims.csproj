@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <AssemblyName>Raims</AssemblyName>
+    <RootNamespace>Raims</RootNamespace>
+    <PackageId>Raims</PackageId>
+    <Version>0.1.0-dev</Version>
+    <Authors>Raims</Authors>
+    <Description>Official .NET SDK for the Raims public API.</Description>
+    <PackageTags>raims;payments;sdk</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/raimshq/raims-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/raimshq/raims-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <IsPackable>true</IsPackable>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.14" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <EmbeddedResource Include="Generated/contract.json" LogicalName="Raims.Generated.contract.json" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="../../CONTRIBUTING.md" Pack="true" PackagePath="/" />
+    <None Include="../../SECURITY.md" Pack="true" PackagePath="/" />
+    <None Include="../../docs/*.md" Pack="true" PackagePath="docs/" />
+  </ItemGroup>
+</Project>

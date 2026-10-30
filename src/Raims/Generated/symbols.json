@@ -1,0 +1,471 @@
+{
+  "CompensateSimulationBoleto": {
+    "member": "Simulations.Charges",
+    "method": "CompensateBoleto",
+    "options": null,
+    "response": "ChargeBoletoCompensation",
+    "service": "SimulationChargesService"
+  },
+  "CompleteSimulationRefund": {
+    "member": "Simulations.Refunds",
+    "method": "Complete",
+    "options": null,
+    "response": "Refund",
+    "service": "SimulationRefundsService"
+  },
+  "ConfigureSimulationScenario": {
+    "member": "Simulations.Charges",
+    "method": "ConfigureScenario",
+    "options": "ConfigureSimulationScenarioOptions",
+    "response": "ChargeScenario",
+    "service": "SimulationChargesService"
+  },
+  "ConfirmSimulationPayment": {
+    "member": "Simulations.Charges",
+    "method": "ConfirmPayment",
+    "options": null,
+    "response": "ChargeSimulation",
+    "service": "SimulationChargesService"
+  },
+  "CreateCharge": {
+    "member": "Charges",
+    "method": "Create",
+    "options": "CreateChargeOptions",
+    "response": "ChargeCreated",
+    "service": "ChargesService"
+  },
+  "CreateCheckoutFaviconUpload": {
+    "member": "Accounts",
+    "method": "CreateCheckoutFaviconUpload",
+    "options": "CreateCheckoutFaviconUploadOptions",
+    "response": "CheckoutAssetUpload",
+    "service": "AccountsService"
+  },
+  "CreateCheckoutLogoUpload": {
+    "member": "Accounts",
+    "method": "CreateCheckoutLogoUpload",
+    "options": "CreateCheckoutLogoUploadOptions",
+    "response": "CheckoutAssetUpload",
+    "service": "AccountsService"
+  },
+  "CreateCustomer": {
+    "member": "Customers",
+    "method": "Create",
+    "options": "CreateCustomerOptions",
+    "response": "CustomerCreated",
+    "service": "CustomersService"
+  },
+  "CreatePaymentLink": {
+    "member": "PaymentLinks",
+    "method": "Create",
+    "options": "CreatePaymentLinkOptions",
+    "response": "PaymentLink",
+    "service": "PaymentLinksService"
+  },
+  "CreateRefund": {
+    "member": "Charges",
+    "method": "CreateRefund",
+    "options": "CreateRefundOptions",
+    "response": "Refund",
+    "service": "ChargesService"
+  },
+  "CreateSimulationRefund": {
+    "member": "Simulations.Charges",
+    "method": "CreateRefund",
+    "options": "CreateSimulationRefundOptions",
+    "response": "Refund",
+    "service": "SimulationChargesService"
+  },
+  "CreateWebhook": {
+    "member": "Webhooks",
+    "method": "Create",
+    "options": "CreateWebhookOptions",
+    "response": "WebhookCreated",
+    "service": "WebhooksService"
+  },
+  "CreateWithdrawal": {
+    "member": "Withdrawals",
+    "method": "Create",
+    "options": "CreateWithdrawalOptions",
+    "response": "Withdrawal",
+    "service": "WithdrawalsService"
+  },
+  "DeleteCheckoutAssetUpload": {
+    "member": "Accounts",
+    "method": "DeleteCheckoutAssetUpload",
+    "options": null,
+    "response": "CheckoutAssetUploadDeleted",
+    "service": "AccountsService"
+  },
+  "DeleteCustomer": {
+    "member": "Customers",
+    "method": "Delete",
+    "options": null,
+    "response": "CustomerDeleted",
+    "service": "CustomersService"
+  },
+  "DeleteCustomersBatch": {
+    "member": "Customers",
+    "method": "DeleteBatch",
+    "options": "DeleteCustomersBatchOptions",
+    "response": "CustomerBatchDeleted",
+    "service": "CustomersService"
+  },
+  "DeleteWebhook": {
+    "member": "Webhooks",
+    "method": "Delete",
+    "options": null,
+    "response": "EmptyResponse",
+    "service": "WebhooksService"
+  },
+  "FailSimulationPayment": {
+    "member": "Simulations.Charges",
+    "method": "FailPayment",
+    "options": null,
+    "response": "ChargeSimulation",
+    "service": "SimulationChargesService"
+  },
+  "FailSimulationRefund": {
+    "member": "Simulations.Refunds",
+    "method": "Fail",
+    "options": null,
+    "response": "Refund",
+    "service": "SimulationRefundsService"
+  },
+  "GetAccountFees": {
+    "member": "Accounts",
+    "method": "GetFees",
+    "options": null,
+    "response": "AccountFees",
+    "service": "AccountsService"
+  },
+  "GetAccountNumber": {
+    "member": "Accounts",
+    "method": "GetNumber",
+    "options": null,
+    "response": "AccountNumber",
+    "service": "AccountsService"
+  },
+  "GetAutomaticWithdrawalSettings": {
+    "member": "Withdrawals",
+    "method": "GetAutomaticSettings",
+    "options": null,
+    "response": "AutomaticWithdrawalSettings",
+    "service": "WithdrawalsService"
+  },
+  "GetBalance": {
+    "member": "Balances",
+    "method": "Get",
+    "options": null,
+    "response": "Balance",
+    "service": "BalancesService"
+  },
+  "GetBalanceForecast": {
+    "member": "Balances",
+    "method": "Forecast",
+    "options": "GetBalanceForecastOptions",
+    "response": "BalanceForecast",
+    "service": "BalancesService"
+  },
+  "GetCharge": {
+    "member": "Charges",
+    "method": "Get",
+    "options": null,
+    "response": "Charge",
+    "service": "ChargesService"
+  },
+  "GetChargeBoleto": {
+    "member": "Charges",
+    "method": "GetBoleto",
+    "options": null,
+    "response": "FinancialDocument",
+    "service": "ChargesService"
+  },
+  "GetChargePayment": {
+    "member": "Charges",
+    "method": "GetPayment",
+    "options": null,
+    "response": "PaymentReceipt",
+    "service": "ChargesService"
+  },
+  "GetChargeReceipt": {
+    "member": "Charges",
+    "method": "GetReceipt",
+    "options": null,
+    "response": "FinancialDocument",
+    "service": "ChargesService"
+  },
+  "GetChargeStatistics": {
+    "member": "Charges",
+    "method": "Statistics",
+    "options": "GetChargeStatisticsOptions",
+    "response": "ChargeStatistics",
+    "service": "ChargesService"
+  },
+  "GetCheckoutSettings": {
+    "member": "Accounts",
+    "method": "GetCheckoutSettings",
+    "options": null,
+    "response": "CheckoutSettings",
+    "service": "AccountsService"
+  },
+  "GetCustomer": {
+    "member": "Customers",
+    "method": "Get",
+    "options": null,
+    "response": "CustomerListItem",
+    "service": "CustomersService"
+  },
+  "GetDispute": {
+    "member": "Disputes",
+    "method": "Get",
+    "options": null,
+    "response": "Dispute",
+    "service": "DisputesService"
+  },
+  "GetPaymentLink": {
+    "member": "PaymentLinks",
+    "method": "Get",
+    "options": null,
+    "response": "PaymentLinkDetails",
+    "service": "PaymentLinksService"
+  },
+  "GetRefund": {
+    "member": "Refunds",
+    "method": "Get",
+    "options": null,
+    "response": "Refund",
+    "service": "RefundsService"
+  },
+  "GetRefundEligibility": {
+    "member": "Charges",
+    "method": "GetRefundEligibility",
+    "options": null,
+    "response": "RefundEligibility",
+    "service": "ChargesService"
+  },
+  "GetRefundReceipt": {
+    "member": "Refunds",
+    "method": "GetReceipt",
+    "options": null,
+    "response": "FinancialDocument",
+    "service": "RefundsService"
+  },
+  "GetStatement": {
+    "member": "Statements",
+    "method": "Get",
+    "options": null,
+    "response": "Statement",
+    "service": "StatementsService"
+  },
+  "GetWebhook": {
+    "member": "Webhooks",
+    "method": "Get",
+    "options": null,
+    "response": "Webhook",
+    "service": "WebhooksService"
+  },
+  "GetWebhookHealth": {
+    "member": "Webhooks",
+    "method": "GetHealth",
+    "options": null,
+    "response": "WebhookHealth",
+    "service": "WebhooksService"
+  },
+  "GetWithdrawal": {
+    "member": "Withdrawals",
+    "method": "Get",
+    "options": null,
+    "response": "Withdrawal",
+    "service": "WithdrawalsService"
+  },
+  "GetWithdrawalDestination": {
+    "member": "WithdrawalDestinations",
+    "method": "Get",
+    "options": null,
+    "response": "WithdrawalDestination",
+    "service": "WithdrawalDestinationsService"
+  },
+  "GetWithdrawalLimits": {
+    "member": "Withdrawals",
+    "method": "GetLimits",
+    "options": null,
+    "response": "WithdrawalLimits",
+    "service": "WithdrawalsService"
+  },
+  "GetWithdrawalSummary": {
+    "member": "Withdrawals",
+    "method": "GetSummary",
+    "options": null,
+    "response": "WithdrawalSummary",
+    "service": "WithdrawalsService"
+  },
+  "IssueSimulationPayment": {
+    "member": "Simulations.Charges",
+    "method": "IssuePayment",
+    "options": "IssueSimulationPaymentOptions",
+    "response": "Charge",
+    "service": "SimulationChargesService"
+  },
+  "ListChargeRefunds": {
+    "member": "Charges",
+    "method": "ListRefunds",
+    "options": "ListChargeRefundsOptions",
+    "response": "RefundListResponse",
+    "service": "ChargesService"
+  },
+  "ListCharges": {
+    "member": "Charges",
+    "method": "List",
+    "options": "ListChargesOptions",
+    "response": "ChargeListResponse",
+    "service": "ChargesService"
+  },
+  "ListCustomers": {
+    "member": "Customers",
+    "method": "List",
+    "options": "ListCustomersOptions",
+    "response": "CustomerListResponse",
+    "service": "CustomersService"
+  },
+  "ListDisputes": {
+    "member": "Disputes",
+    "method": "List",
+    "options": "ListDisputesOptions",
+    "response": "DisputeListResponse",
+    "service": "DisputesService"
+  },
+  "ListPaymentLinks": {
+    "member": "PaymentLinks",
+    "method": "List",
+    "options": "ListPaymentLinksOptions",
+    "response": "PaymentLinkListResponse",
+    "service": "PaymentLinksService"
+  },
+  "ListRefunds": {
+    "member": "Refunds",
+    "method": "List",
+    "options": "ListRefundsOptions",
+    "response": "RefundListResponse",
+    "service": "RefundsService"
+  },
+  "ListStatements": {
+    "member": "Statements",
+    "method": "List",
+    "options": "ListStatementsOptions",
+    "response": "StatementListResponse",
+    "service": "StatementsService"
+  },
+  "ListWebhookEventTypes": {
+    "member": "WebhookEventTypes",
+    "method": "List",
+    "options": null,
+    "response": "WebhookEventTypeListResponse",
+    "service": "WebhookEventTypesService"
+  },
+  "ListWebhooks": {
+    "member": "Webhooks",
+    "method": "List",
+    "options": "ListWebhooksOptions",
+    "response": "WebhookListResponse",
+    "service": "WebhooksService"
+  },
+  "ListWithdrawalDestinations": {
+    "member": "WithdrawalDestinations",
+    "method": "List",
+    "options": "ListWithdrawalDestinationsOptions",
+    "response": "WithdrawalDestinationListResponse",
+    "service": "WithdrawalDestinationsService"
+  },
+  "ListWithdrawals": {
+    "member": "Withdrawals",
+    "method": "List",
+    "options": "ListWithdrawalsOptions",
+    "response": "WithdrawalListResponse",
+    "service": "WithdrawalsService"
+  },
+  "ResolveSimulationScenario": {
+    "member": "Simulations.Charges",
+    "method": "ResolveScenario",
+    "options": "ResolveSimulationScenarioOptions",
+    "response": "ChargeScenario",
+    "service": "SimulationChargesService"
+  },
+  "RevokeCharge": {
+    "member": "Charges",
+    "method": "Revoke",
+    "options": null,
+    "response": "ChargeRevoked",
+    "service": "ChargesService"
+  },
+  "RotateWebhookSecret": {
+    "member": "Webhooks",
+    "method": "RotateSecret",
+    "options": "RotateWebhookSecretOptions",
+    "response": "WebhookSecretRotation",
+    "service": "WebhooksService"
+  },
+  "SendPaymentLinkEmail": {
+    "member": "PaymentLinks",
+    "method": "SendEmail",
+    "options": null,
+    "response": "PaymentLinkEmailRequestAccepted",
+    "service": "PaymentLinksService"
+  },
+  "SetWebhookPause": {
+    "member": "Webhooks",
+    "method": "SetPause",
+    "options": "SetWebhookPauseOptions",
+    "response": "WebhookPause",
+    "service": "WebhooksService"
+  },
+  "TestWebhook": {
+    "member": "Webhooks",
+    "method": "Test",
+    "options": null,
+    "response": "WebhookTestAccepted",
+    "service": "WebhooksService"
+  },
+  "UpdateAutomaticWithdrawalSettings": {
+    "member": "Withdrawals",
+    "method": "UpdateAutomaticSettings",
+    "options": "UpdateAutomaticWithdrawalSettingsOptions",
+    "response": "AutomaticWithdrawalSettings",
+    "service": "WithdrawalsService"
+  },
+  "UpdateCharge": {
+    "member": "Charges",
+    "method": "Update",
+    "options": "UpdateChargeOptions",
+    "response": "Charge",
+    "service": "ChargesService"
+  },
+  "UpdateCheckoutSettings": {
+    "member": "Accounts",
+    "method": "UpdateCheckoutSettings",
+    "options": "UpdateCheckoutSettingsOptions",
+    "response": "CheckoutSettings",
+    "service": "AccountsService"
+  },
+  "UpdateCustomer": {
+    "member": "Customers",
+    "method": "Update",
+    "options": "UpdateCustomerOptions",
+    "response": "CustomerListItem",
+    "service": "CustomersService"
+  },
+  "UpdatePaymentLink": {
+    "member": "PaymentLinks",
+    "method": "Update",
+    "options": "UpdatePaymentLinkOptions",
+    "response": "PaymentLink",
+    "service": "PaymentLinksService"
+  },
+  "UpdateWebhook": {
+    "member": "Webhooks",
+    "method": "Update",
+    "options": "UpdateWebhookOptions",
+    "response": "Webhook",
+    "service": "WebhooksService"
+  }
+}

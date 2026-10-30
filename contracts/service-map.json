@@ -1,0 +1,97 @@
+{
+  "Accounts": {
+    "GetFees": "GetAccountFees",
+    "GetNumber": "GetAccountNumber",
+    "GetCheckoutSettings": "GetCheckoutSettings",
+    "UpdateCheckoutSettings": "UpdateCheckoutSettings",
+    "CreateCheckoutLogoUpload": "CreateCheckoutLogoUpload",
+    "CreateCheckoutFaviconUpload": "CreateCheckoutFaviconUpload",
+    "DeleteCheckoutAssetUpload": "DeleteCheckoutAssetUpload"
+  },
+  "Balances": {
+    "Get": "GetBalance",
+    "Forecast": "GetBalanceForecast"
+  },
+  "Charges": {
+    "Create": "CreateCharge",
+    "List": "ListCharges",
+    "Get": "GetCharge",
+    "Update": "UpdateCharge",
+    "Revoke": "RevokeCharge",
+    "GetPayment": "GetChargePayment",
+    "GetReceipt": "GetChargeReceipt",
+    "GetBoleto": "GetChargeBoleto",
+    "CreateRefund": "CreateRefund",
+    "ListRefunds": "ListChargeRefunds",
+    "GetRefundEligibility": "GetRefundEligibility",
+    "Statistics": "GetChargeStatistics"
+  },
+  "Customers": {
+    "Create": "CreateCustomer",
+    "List": "ListCustomers",
+    "Get": "GetCustomer",
+    "Update": "UpdateCustomer",
+    "Delete": "DeleteCustomer",
+    "DeleteBatch": "DeleteCustomersBatch"
+  },
+  "Disputes": {
+    "List": "ListDisputes",
+    "Get": "GetDispute"
+  },
+  "PaymentLinks": {
+    "Create": "CreatePaymentLink",
+    "List": "ListPaymentLinks",
+    "Get": "GetPaymentLink",
+    "Update": "UpdatePaymentLink",
+    "SendEmail": "SendPaymentLinkEmail"
+  },
+  "Refunds": {
+    "List": "ListRefunds",
+    "Get": "GetRefund",
+    "GetReceipt": "GetRefundReceipt"
+  },
+  "Statements": {
+    "List": "ListStatements",
+    "Get": "GetStatement"
+  },
+  "WebhookEventTypes": {
+    "List": "ListWebhookEventTypes"
+  },
+  "Webhooks": {
+    "Create": "CreateWebhook",
+    "List": "ListWebhooks",
+    "Get": "GetWebhook",
+    "Update": "UpdateWebhook",
+    "Delete": "DeleteWebhook",
+    "GetHealth": "GetWebhookHealth",
+    "SetPause": "SetWebhookPause",
+    "RotateSecret": "RotateWebhookSecret",
+    "Test": "TestWebhook"
+  },
+  "WithdrawalDestinations": {
+    "List": "ListWithdrawalDestinations",
+    "Get": "GetWithdrawalDestination"
+  },
+  "Withdrawals": {
+    "Create": "CreateWithdrawal",
+    "List": "ListWithdrawals",
+    "Get": "GetWithdrawal",
+    "GetLimits": "GetWithdrawalLimits",
+    "GetSummary": "GetWithdrawalSummary",
+    "GetAutomaticSettings": "GetAutomaticWithdrawalSettings",
+    "UpdateAutomaticSettings": "UpdateAutomaticWithdrawalSettings"
+  },
+  "SimulationCharges": {
+    "ConfirmPayment": "ConfirmSimulationPayment",
+    "FailPayment": "FailSimulationPayment",
+    "ConfigureScenario": "ConfigureSimulationScenario",
+    "ResolveScenario": "ResolveSimulationScenario",
+    "IssuePayment": "IssueSimulationPayment",
+    "CompensateBoleto": "CompensateSimulationBoleto",
+    "CreateRefund": "CreateSimulationRefund"
+  },
+  "SimulationRefunds": {
+    "Complete": "CompleteSimulationRefund",
+    "Fail": "FailSimulationRefund"
+  }
+}
