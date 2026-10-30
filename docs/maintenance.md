@@ -82,7 +82,8 @@ As exceções de conexão, HTTP e protocolo e o observador de tentativas permite
 falhas e confirme recuperação por novas respostas válidas. Não repita uma
 escrita anterior para verificar a saúde e não envie telemetria com dados pessoais.
 
-Os fontes de desenvolvimento estão no GitHub. A distribuição estável no NuGet,
-os guias aprovados do atendimento e o changelog público continuam registrados
-no `TODO.md` do checkout. O atendimento deve distinguir um checkout de
-desenvolvimento de uma versão estável disponível no gerenciador de pacotes.
+Os fontes estão no GitHub, e o pacote `Raims` está disponível no
+[NuGet](https://www.nuget.org/packages/Raims). Os guias do atendimento e o
+changelog do site continuam registrados no `TODO.md` até sua publicação.
+O atendimento deve distinguir um checkout de desenvolvimento de uma versão
+disponível no gerenciador de pacotes.

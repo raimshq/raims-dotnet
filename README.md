@@ -8,13 +8,13 @@ assíncronos. Os modelos mantêm os nomes JSON da API e os tipos no editor.
 
 Os fontes de desenvolvimento estão disponíveis em
 [raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-Instale a versão `0.1.3` pelo NuGet:
+Instale a versão `0.1.4` pelo NuGet:
 
 ```powershell
-dotnet add package Raims --version 0.1.3
+dotnet add package Raims --version 0.1.4
 ```
 
-Veja a [instalação](docs/installation.md) para requisitos, atualização,
+Veja a [instalação](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md) para requisitos, atualização,
 uso dos fontes e geração de um pacote local.
 
 A chave de API define a empresa, o ambiente e as permissões; a URL-base é
@@ -110,21 +110,21 @@ idempotência nem repete escritas automaticamente.
 | `Simulations.Refunds` | Simulações de estorno com chave Sandbox |
 
 Os métodos de recurso usam `Create`, `Get`, `Update` e `List`, com as variantes
-`Async`. A [referência gerada](docs/reference.md) lista cada operação, opções,
+`Async`. A [referência gerada](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md) lista cada operação, opções,
 retorno, status de sucesso e suporte à idempotência.
 
 ## Documentação
 
-- [Instalação e compatibilidade](docs/installation.md)
-- [Configuração, respostas e atualizações parciais](docs/usage.md)
-- [Paginação](docs/pagination.md)
-- [Erros, idempotência e retries](docs/errors-and-retries.md)
-- [Recebimento e validação de webhooks](docs/webhooks.md)
-- [Referência dos endpoints](docs/reference.md)
-- [Contrato e manutenção](docs/maintenance.md)
-- [Contribuição](CONTRIBUTING.md) e [segurança](SECURITY.md)
+- [Instalação e compatibilidade](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
+- [Configuração, respostas e atualizações parciais](https://github.com/raimshq/raims-dotnet/blob/main/docs/usage.md)
+- [Paginação](https://github.com/raimshq/raims-dotnet/blob/main/docs/pagination.md)
+- [Erros, idempotência e retries](https://github.com/raimshq/raims-dotnet/blob/main/docs/errors-and-retries.md)
+- [Recebimento e validação de webhooks](https://github.com/raimshq/raims-dotnet/blob/main/docs/webhooks.md)
+- [Referência dos endpoints](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
+- [Contrato e manutenção](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
+- [Contribuição](https://github.com/raimshq/raims-dotnet/blob/main/CONTRIBUTING.md) e [segurança](https://github.com/raimshq/raims-dotnet/blob/main/SECURITY.md)
 - [Documentação da API](https://docs.raims.com/br/api)
 
 ## Licença
 
-Distribuído sob a licença [MIT](LICENSE).
+Distribuído sob a licença [MIT](https://github.com/raimshq/raims-dotnet/blob/main/LICENSE).

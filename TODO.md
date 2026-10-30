@@ -2,12 +2,10 @@
 
 - [x] Disponibilizar os fontes de desenvolvimento em `raimshq/raims-dotnet`,
   na branch `main`, com instalação por checkout e pacote local documentadas.
-- [ ] Preparar CI nos runners CodeBuild autorizados, distribuir a primeira
-  versão `0.1.3` no NuGet e publicar as versões seguintes após uma release
-  versionada do GitHub. Conferir
-  o nome do pacote, os metadados, a compatibilidade, o pacote e os consumidores
-  antes da distribuição. Marcar como concluído somente após conferir a
-  execução, o pacote público e a instalação no NuGet.
+- [x] Disponibilizar o pacote `Raims` no NuGet, com CI nos runners CodeBuild
+  autorizados e publicação após uma release versionada do GitHub. A versão
+  `0.1.3` foi instalada pelo registro público com cache vazio e validada em
+  .NET Framework 4.8 e .NET 10, em Release/x64.
 - [ ] Incluir o SDK .NET nas fontes aprovadas do atendimento em
   `raims-developer-docs` e `Raims-Chat/docs/knowledge-sources.md` quando a
   distribuição estiver disponível. A IA deve reconhecer a finalidade do SDK,
