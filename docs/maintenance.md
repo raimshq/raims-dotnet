@@ -83,7 +83,10 @@ falhas e confirme recuperação por novas respostas válidas. Não repita uma
 escrita anterior para verificar a saúde e não envie telemetria com dados pessoais.
 
 Os fontes estão no GitHub, e o pacote `Raims` está disponível no
-[NuGet](https://www.nuget.org/packages/Raims). Os guias do atendimento e o
-changelog do site continuam registrados no `TODO.md` até sua publicação.
+[NuGet](https://www.nuget.org/packages/Raims). O
+[guia de integração](https://docs.raims.com/br/integracoes/sdk-dotnet) e a
+[nota de publicação](https://docs.raims.com/br/changelog/post/2026-10-29-sdk-dotnet)
+estão na documentação da Raims. O guia também integra o catálogo aprovado do
+atendimento.
 O atendimento deve distinguir um checkout de desenvolvimento de uma versão
 disponível no gerenciador de pacotes.
