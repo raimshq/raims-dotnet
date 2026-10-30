@@ -10,7 +10,7 @@ para aplicações x64 em .NET Framework 4.8/4.8.1 e .NET 10.
 No diretório da aplicação consumidora:
 
 ```powershell
-dotnet add package Raims --version 0.1.1
+dotnet add package Raims --version 0.1.2
 ```
 
 Mantenha a versão sob controle da aplicação. Revise as notas de cada release
@@ -63,7 +63,7 @@ pacote foi gerado. Para um projeto novo, o arquivo pode conter:
 No diretório da aplicação consumidora, onde esse arquivo foi salvo:
 
 ```powershell
-dotnet add package Raims --version 0.1.1 --no-restore
+dotnet add package Raims --version 0.1.2 --no-restore
 dotnet restore --configfile NuGet.Config
 ```
 

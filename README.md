@@ -8,10 +8,10 @@ assíncronos. Os modelos mantêm os nomes JSON da API e os tipos no editor.
 
 Os fontes de desenvolvimento estão disponíveis em
 [raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-Instale a versão `0.1.1` pelo NuGet:
+Instale a versão `0.1.2` pelo NuGet:
 
 ```powershell
-dotnet add package Raims --version 0.1.1
+dotnet add package Raims --version 0.1.2
 ```
 
 Veja a [instalação](docs/installation.md) para requisitos, atualização,
