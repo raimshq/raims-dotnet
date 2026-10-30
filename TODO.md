@@ -3,7 +3,7 @@
 - [x] Disponibilizar os fontes de desenvolvimento em `raimshq/raims-dotnet`,
   na branch `main`, com instalação por checkout e pacote local documentadas.
 - [ ] Preparar CI nos runners CodeBuild autorizados, distribuir a primeira
-  versão `0.1.0` no NuGet e publicar as versões seguintes após uma release
+  versão `0.1.1` no NuGet e publicar as versões seguintes após uma release
   versionada do GitHub. Conferir
   o nome do pacote, os metadados, a compatibilidade, o pacote e os consumidores
   antes da distribuição. Marcar como concluído somente após conferir a
