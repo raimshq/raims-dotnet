@@ -4,7 +4,7 @@
     <AssemblyName>Raims</AssemblyName>
     <RootNamespace>Raims</RootNamespace>
     <PackageId>Raims</PackageId>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <Authors>Raims</Authors>
     <Description>Official .NET SDK for the Raims public API.</Description>
     <PackageTags>raims;payments;sdk</PackageTags>

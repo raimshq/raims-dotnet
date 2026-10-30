@@ -1,31 +1,22 @@
 # Raims .NET
 
-SDK C# para a API pública da Raims, com serviços por recurso, opções e respostas
-tipadas, paginação por cursor e validação de webhooks.
+SDK C# para facilitar a integração com a API pública da Raims.
 
-O SDK cobre os 67 endpoints do contrato publicado, com métodos síncronos e
-assíncronos. Os modelos mantêm os nomes JSON da API e os tipos no editor.
-
-Os fontes de desenvolvimento estão disponíveis em
-[raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-Instale a versão `0.1.4` pelo NuGet:
+Instale pelo NuGet:
 
 ```powershell
-dotnet add package Raims --version 0.1.4
+dotnet add package Raims --version 0.1.5
 ```
 
-Veja a [instalação](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md) para requisitos, atualização,
-uso dos fontes e geração de um pacote local.
+Veja a [instalação](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
+para requisitos e orientações de uso e atualização.
 
 A chave de API define a empresa, o ambiente e as permissões; a URL-base é
 `https://api.raims.com`.
 
 ## Requisitos
 
-Aplicação x64 em .NET Framework 4.8/4.8.1 ou .NET 10. O pacote inclui os destinos
-`netstandard2.0` e `net10.0`; as verificações de compatibilidade executam
-consumidores em .NET Framework 4.8 e .NET 10. A versão Standard também pode ser
-consumida por outras versões compatíveis, sem ampliar a matriz de suporte validada.
+Aplicação x64 em .NET Framework 4.8/4.8.1 ou .NET 10.
 
 Use o SDK no servidor. Mantenha chaves de API, segredos de webhook, documentos
 pessoais e links temporários fora do navegador, do controle de versão e dos logs.
@@ -110,8 +101,8 @@ idempotência nem repete escritas automaticamente.
 | `Simulations.Refunds` | Simulações de estorno com chave Sandbox |
 
 Os métodos de recurso usam `Create`, `Get`, `Update` e `List`, com as variantes
-`Async`. A [referência gerada](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md) lista cada operação, opções,
-retorno, status de sucesso e suporte à idempotência.
+`Async`. Consulte a [referência do SDK](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
+para os parâmetros e as respostas de cada serviço.
 
 ## Documentação
 
@@ -120,8 +111,8 @@ retorno, status de sucesso e suporte à idempotência.
 - [Paginação](https://github.com/raimshq/raims-dotnet/blob/main/docs/pagination.md)
 - [Erros, idempotência e retries](https://github.com/raimshq/raims-dotnet/blob/main/docs/errors-and-retries.md)
 - [Recebimento e validação de webhooks](https://github.com/raimshq/raims-dotnet/blob/main/docs/webhooks.md)
-- [Referência dos endpoints](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
-- [Contrato e manutenção](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
+- [Referência do SDK](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
+- [Manutenção](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
 - [Contribuição](https://github.com/raimshq/raims-dotnet/blob/main/CONTRIBUTING.md) e [segurança](https://github.com/raimshq/raims-dotnet/blob/main/SECURITY.md)
 - [Documentação da API](https://docs.raims.com/br/api)
 
