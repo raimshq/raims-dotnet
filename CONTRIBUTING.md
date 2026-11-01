@@ -48,8 +48,11 @@ os processos temporários e confira suas portas antes de concluir.
 Preserve assinaturas públicas, tipos, nomes JSON, omissão, null, datas e valores
 monetários. Não acrescente geração de idempotência ou retries de escrita.
 O pacote deve conter assemblies e documentação para os dois destinos, licença
-e guias de integração. Contratos de engenharia, gerador, TODO, testes e evidências
+e guias de integração. Contratos de engenharia, gerador, testes e evidências
 ficam fora do pacote NuGet.
+
+O acompanhamento de tarefas e pendências de desenvolvimento fica em fonte
+interna, fora do GitHub.
 
 O arquivo ZIP de fontes inclui os contratos, o gerador e os guias necessários
 para gerar, compilar e empacotar a biblioteca. As regras de `export-ignore`

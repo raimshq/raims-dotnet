@@ -4,6 +4,10 @@ Leia o README e os guias de contribuição e manutenção antes de alterar o SDK
 Este repositório consome somente o contrato público publicado e não importa
 código dos hosts da Raims.
 
+- Não versionar nem publicar TODOs, backlogs ou planos de trabalho internos,
+  independentemente do nome, formato ou diretório. Mantenha o acompanhamento
+  de tarefas em fonte interna, fora do GitHub. Não inclua listas de pendências
+  nem caminhos privados na documentação pública.
 - Namespace público `Raims`; pacote NuGet `Raims`; destinos `netstandard2.0`
   e `net10.0`. Builds e solução usam Release/x64 conforme o workspace.
 - O contrato fixado e sua origem ficam em `contracts`. Geração offline deve

@@ -11,3 +11,17 @@ packages/
 .tmp/
 __pycache__/
 *.py[cod]
+
+# Planejamento interno fica fora do repositório público.
+[Tt][Oo][Dd][Oo]
+[Tt][Oo][Dd][Oo][._-]*
+*[._-][Tt][Oo][Dd][Oo]
+*[._-][Tt][Oo][Dd][Oo][._-]*
+[Bb][Aa][Cc][Kk][Ll][Oo][Gg]
+[Bb][Aa][Cc][Kk][Ll][Oo][Gg][._-]*
+*[._-][Bb][Aa][Cc][Kk][Ll][Oo][Gg]
+*[._-][Bb][Aa][Cc][Kk][Ll][Oo][Gg][._-]*
+[Rr][Oo][Aa][Dd][Mm][Aa][Pp]
+[Rr][Oo][Aa][Dd][Mm][Aa][Pp][._-]*
+*[._-][Rr][Oo][Aa][Dd][Mm][Aa][Pp]
+*[._-][Rr][Oo][Aa][Dd][Mm][Aa][Pp][._-]*
