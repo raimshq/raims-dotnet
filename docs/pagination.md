@@ -1,7 +1,7 @@
-# Paginação
+# Pagination
 
-Os métodos `List` e `ListAsync` retornam uma página tipada. Enumerar a página
-atual não faz novas chamadas HTTP:
+`List` and `ListAsync` methods return a typed page. Enumerating the current page
+does not make additional HTTP calls:
 
 ```csharp
 var page = await raims.Charges.ListAsync(new ListChargesOptions { PageSize = 20 });
@@ -11,23 +11,23 @@ foreach (var charge in page)
 }
 ```
 
-As informações em `Page` indicam se existe continuação e os cursores opacos
-`NextAfter` e `PreviousBefore`. Não interprete nem altere esses valores.
+`Page` indicates whether more results are available and provides the opaque
+`NextAfter` and `PreviousBefore` cursors. Do not interpret or modify these values.
 
-`NextPageAsync()` e `PreviousPageAsync()` carregam a página seguinte ou anterior.
-Quando não há continuação, retornam null. Os métodos conservam os filtros, a
-ordenação, a identidade do recurso e as opções da chamada original.
+`NextPageAsync()` and `PreviousPageAsync()` load the next or previous page.
+They return null when no further page exists. The methods retain the filters,
+sort order, resource identity, and options of the original call.
 
 ```csharp
 var next = await page.NextPageAsync();
 var previous = await page.PreviousPageAsync();
 ```
 
-Para percorrer as próximas páginas, use `GetAutoPagingEnumerable()` ou a
-variante assíncrona `GetAutoPagingAsyncEnumerable()`. O carregamento acontece
-durante a enumeração e pode fazer várias requisições. Limite o trabalho na sua
-aplicação e passe um `CancellationToken` quando necessário.
+To iterate through subsequent pages, use `GetAutoPagingEnumerable()` or its
+asynchronous variant, `GetAutoPagingAsyncEnumerable()`. Loading happens during
+enumeration and may make several requests. Limit the work in your application
+and pass a `CancellationToken` when needed.
 
-Uma página vazia pode conter um cursor de continuação. O iterador segue esse
-cursor; cursores ausentes ou repetidos com continuação ativa são falhas de
-protocolo e interrompem a leitura.
+An empty page may contain a continuation cursor. The iterator follows it;
+missing or repeated cursors with continuation enabled are protocol failures
+that stop iteration.

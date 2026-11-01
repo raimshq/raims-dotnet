@@ -1,13 +1,13 @@
-# Contribuir
+# Contributing
 
-Leia o [guia de manutenção](docs/maintenance.md) e as instruções em `AGENTS.md`.
-Relate problemas com uma reprodução mínima, sem credenciais, dados pessoais
-ou URLs de acesso a recursos.
+Read the [maintenance guide](docs/maintenance.md) and the instructions in
+`AGENTS.md`. Report issues with a minimal reproduction, without credentials,
+personal data, or resource access URLs.
 
-## Geração e compilação
+## Generation and build
 
-O SDK usa .NET SDK 10 e Python 3.8 ou superior para a geração offline.
-Na raiz do checkout:
+The SDK uses .NET SDK 10 and Python 3.8 or later for offline generation.
+From the checkout root:
 
 ```powershell
 python scripts/generate.py --check
@@ -15,64 +15,64 @@ dotnet restore Raims.sln --locked-mode -p:Platform=x64
 dotnet build Raims.sln -c Release -p:Platform=x64 --no-restore
 ```
 
-Para alterar o contrato, siga o procedimento de manutenção e execute o gerador
-sem `--check`. Não edite modelos, opções, serviços ou a referência gerados.
-Revise todo o diff, inclusive arquivos novos e mudanças de nullability.
+To update the contract, follow the maintenance procedure and run the generator
+without `--check`. Do not edit generated models, options, services, or the
+reference. Review the entire diff, including new files and nullability changes.
 
-## Validação completa
+## Full validation
 
 ```powershell
 .\scripts\check.ps1
 ```
 
-O comando chama o validador canônico do Developer Toolkit no checkout vizinho.
-Ele materializa os consumidores e os testes somente em `.tmp`, confere o
-contrato, compila a solução, executa os consumidores e inspeciona o pacote.
-Os cenários usam transporte falso e loopback; não chamam a API real.
+The command calls the canonical Developer Toolkit validator in the neighboring
+checkout. It materializes consumers and tests only in `.tmp`, checks the
+contract, builds the solution, runs consumers, and inspects the package.
+Scenarios use fake transport and loopback; they do not call the real API.
 
-O gate também executa a instalação documentada com cache vazio, confere as
-descrições no XML e na referência e usa Git para exportar uma árvore temporária
-sem commit. O ZIP resultante precisa permitir geração, compilação e
-empacotamento, com os links locais dos guias válidos.
+The gate also runs the documented installation with an empty cache, checks
+descriptions in the XML and reference, and uses Git to export a temporary tree
+without a commit. The resulting ZIP must support generation, build, and
+packaging, with valid local guide links.
 
-Um clone isolado sem o Toolkit informa essa dependência ausente e não declara
-uma validação parcial aprovada. Geração e build continuam disponíveis no SDK.
+A standalone clone without the Toolkit reports that missing dependency and
+does not declare partial validation successful. Generation and build remain
+available in the SDK.
 
-No workspace Raims, testes, simuladores, consumidores de validação, pacotes e
-relatórios ficam exclusivamente em `C:\server\raims\.tmp\raims-dotnet-sdk`.
-Não os inclua neste repositório ou em arquivos de distribuição. Encerre todos
-os processos temporários e confira suas portas antes de concluir.
+In the Raims workspace, tests, simulators, validation consumers, packages, and
+reports belong exclusively in `C:\server\raims\.tmp\raims-dotnet-sdk`.
+Do not include them in this repository or distribution archives. Stop all
+temporary processes and check their ports before finishing.
 
-## Compatibilidade e distribuição
+## Compatibility and distribution
 
-Preserve assinaturas públicas, tipos, nomes JSON, omissão, null, datas e valores
-monetários. Não acrescente geração de idempotência ou retries de escrita.
-O pacote deve conter assemblies e documentação para os dois destinos, licença
-e guias de integração. Contratos de engenharia, gerador, testes e evidências
-ficam fora do pacote NuGet.
+Preserve public signatures, types, JSON names, omission, null, dates, and monetary
+values. Do not add idempotency key generation or write retries. The package must
+contain assemblies and documentation for both targets, the license, and
+integration guides. Engineering contracts, the generator, tests, and evidence
+stay outside the NuGet package.
 
-O acompanhamento de tarefas e pendências de desenvolvimento fica em fonte
-interna, fora do GitHub.
+Development tasks and pending work are tracked in an internal source outside
+GitHub.
 
-O arquivo ZIP de fontes inclui os contratos, o gerador e os guias necessários
-para gerar, compilar e empacotar a biblioteca. As regras de `export-ignore`
-não podem remover um arquivo exigido pelo projeto ou pelos links dos guias.
+The source ZIP includes the contracts, generator, and guides needed to
+generate, build, and package the library. `export-ignore` rules must not remove
+a file required by the project or guide links.
 
-Descreva os recursos da Raims diretamente nos textos e exemplos. Preserve
-avisos obrigatórios de licença e procedência de código incorporado.
+Describe Raims features directly in text and examples. Preserve mandatory
+license notices and the provenance of incorporated code.
 
-O workflow `validate.yml` executa o mesmo gate canônico após pushes de branches
-deste repositório ou por execução manual. O job `validateWindows` confere os
-destinos e o pacote; `securityLinux` executa a análise de segurança pelo helper
-canônico do Toolkit. Ambos usam runners CodeBuild autorizados. Essa validação
-não publica no NuGet nem roda em pull requests ou forks.
+The `validate.yml` workflow runs the same canonical gate on branch pushes from
+this repository or manual runs. `validateWindows` checks the targets and
+package; `securityLinux` runs security analysis through the canonical Toolkit
+helper. Both use authorized CodeBuild runners. This validation does not publish
+to NuGet or run on pull requests or forks.
 
-Antes de publicar uma release, confira uma execução concluída de `validate.yml`
-para o commit escolhido. Todos os jobs precisam ter resultado `success`, antes
-da data de publicação da release. `skipped`, falha ou validação de outro commit
-bloqueiam a publicação. O fluxo de release confere esse histórico e registra
-a execução e a tentativa no manifesto do pacote.
+Before publishing a release, check a completed `validate.yml` run for the chosen
+commit. Every job must have a `success` result before the release publication
+date. `skipped`, failure, or validation of another commit blocks publication.
+The release flow checks this history and records the run and attempt in the
+package manifest.
 
-Os fontes de desenvolvimento, CI, release e NuGet continuam sendo etapas
-distintas. Uma validação aprovada não autoriza commit, push, criação de release
-ou publicação.
+Development sources, CI, releases, and NuGet remain separate stages. Successful
+validation does not authorize a commit, push, release creation, or publication.

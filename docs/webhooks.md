@@ -1,8 +1,8 @@
-# Receber webhooks
+# Receive webhooks
 
-Use `WebhookUtility` para autenticar o corpo original antes de interpretar
-o evento. O helper usa os headers `webhook-id`, `webhook-timestamp` e
-`webhook-signature` do protocolo da Raims.
+Use `WebhookUtility` to authenticate the original body before interpreting the
+event. The helper uses the Raims protocol's `webhook-id`, `webhook-timestamp`,
+and `webhook-signature` headers.
 
 ```csharp
 using System.Collections.Generic;
@@ -18,48 +18,49 @@ var headers = new Dictionary<string, string>
 try
 {
     var webhookEvent = WebhookUtility.ConstructEvent(rawBodyBytes, headers, webhookSecret);
-    // Valide o evento e grave o trabalho de forma durável antes do aceite HTTP.
+    // Validate the event and persist the work durably before HTTP acceptance.
 }
 catch (SignatureVerificationException)
 {
-    // Responda com falha HTTP e não processe o corpo.
+    // Return an HTTP failure and do not process the body.
 }
 ```
 
-`rawBodyBytes` é o array de bytes original recebido pelo servidor. Os valores
-dos headers vêm da requisição; `webhookSecret` é o `secret_key` retornado ao
-criar ou rotacionar o webhook. Ele é diferente da chave Bearer da API. Guarde-o
-em um cofre; consultas posteriores do cadastro não retornam o segredo.
+`rawBodyBytes` is the original byte array received by the server. Header values
+come from the request; `webhookSecret` is the `secret_key` returned when creating
+or rotating the webhook. It differs from the API Bearer key. Store it in a
+vault; subsequent registration queries do not return the secret.
 
-Não reserialize o JSON antes de autenticar. Espaços, Unicode e quebras de linha
-participam da assinatura. O overload com string exige texto UTF-8 válido;
-prefira os bytes originais quando seu servidor permitir obtê-los.
+Do not reserialize JSON before authentication. Spaces, Unicode, and line breaks
+participate in the signature. The string overload requires valid UTF-8 text;
+prefer the original bytes when your server makes them available.
 
-`ConstructEvent` valida a assinatura e exige um objeto JSON; retorna um
-`JsonElement` independente. `VerifySignature` faz a mesma autenticação sem
-interpretar o JSON. A validação de negócio continua na sua aplicação.
+`ConstructEvent` validates the signature and requires a JSON object; it returns
+an independent `JsonElement`. `VerifySignature` performs the same authentication
+without parsing JSON. Business validation remains in your application.
 
-## Relógio e rotação
+## Clock and rotation
 
-A tolerância padrão é de 300 segundos, tanto no passado quanto no futuro.
-Mantenha o relógio sincronizado. Tolerância zero exige o mesmo segundo e não
-desativa a proteção temporal; valores negativos são inválidos. O argumento
-opcional `now` permite injetar um relógio para validação local.
+The default tolerance is 300 seconds, both in the past and in the future.
+Keep the clock synchronized. Zero tolerance requires the same second and does
+not disable time protection; negative values are invalid. The optional `now`
+argument lets you inject a clock for local validation.
 
-Os nomes dos headers não diferenciam maiúsculas de minúsculas. Headers de
-assinatura duplicados ou ambíguos são recusados. Durante a rotação, várias
-assinaturas `v1=` podem aparecer separadas por vírgula; uma correspondência com
-o segredo configurado autentica a entrega. Use `previous_secret_expires_at`
-para coordenar a atualização dos servidores da sua aplicação.
+Header names are case-insensitive. Duplicate or ambiguous signature headers
+are rejected. During rotation, several `v1=` signatures may appear separated
+by commas; a match with the configured secret authenticates the delivery.
+Use `previous_secret_expires_at` to coordinate updates to your application's
+servers.
 
-## Processar uma entrega
+## Process a delivery
 
-Antes de responder com sucesso, confira tipo, ambiente e recurso do evento.
-Deduplicate pelo `id` do corpo em armazenamento durável; `webhook-id` identifica
-a entrega e não substitui o identificador do evento. Grave o trabalho de forma
-atômica e processe o efeito com idempotência. Se a gravação falhar, devolva uma
-falha HTTP para permitir nova entrega.
+Before returning success, check the event's type, environment, and resource.
+Deduplicate by the body's `id` in durable storage; `webhook-id` identifies the
+delivery and does not replace the event identifier. Persist the work atomically
+and process its effect idempotently. If persistence fails, return an HTTP
+failure to allow another delivery.
 
-A assinatura válida não impede duplicidade dentro da tolerância. O campo
-`created_at` do evento usa ISO 8601; ele é diferente do timestamp Unix do header.
-Consulte o [guia de recebimento](https://docs.raims.com/br/integracoes/webhooks/receber-eventos).
+A valid signature does not prevent duplicates within the tolerance window.
+The event's `created_at` field uses ISO 8601; it differs from the header's Unix
+timestamp. See the
+[receiving guide](https://docs.raims.com/br/integracoes/webhooks/receber-eventos).

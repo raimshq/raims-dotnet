@@ -1,42 +1,45 @@
 # Raims .NET SDK
 
-Leia o README e os guias de contribuição e manutenção antes de alterar o SDK.
-Este repositório consome somente o contrato público publicado e não importa
-código dos hosts da Raims.
+Read the README and the contribution and maintenance guides before changing the SDK.
+This repository consumes only the published public contract and does not import
+code from Raims hosts.
 
-- Não versionar nem publicar TODOs, backlogs ou planos de trabalho internos,
-  independentemente do nome, formato ou diretório. Mantenha o acompanhamento
-  de tarefas em fonte interna, fora do GitHub. Não inclua listas de pendências
-  nem caminhos privados na documentação pública.
-- Namespace público `Raims`; pacote NuGet `Raims`; destinos `netstandard2.0`
-  e `net10.0`. Builds e solução usam Release/x64 conforme o workspace.
-- O contrato fixado e sua origem ficam em `contracts`. Geração offline deve
-  conferir o SHA-256 e cobrir cada operação publicada exatamente uma vez.
-- Serviços, opções, modelos, constantes e referência derivados do contrato
-  são gerados. Não editar esses arquivos manualmente.
-- Preserve os nomes JSON, centavos inteiros, datas Unix, omissão e null.
-  Não gerar idempotência nem repetir escritas automaticamente. Respostas
-  `202` mantêm o significado de processamento pendente.
-- Transporte autenticado não segue redirects, não baixa arquivos externos
-  e não envia uploads. Credenciais são isoladas por cliente e requisição.
-- Diagnósticos expõem somente método, caminho sem IDs, tentativa, duração,
-  status e Request-Id. Nunca incluir credenciais, query ou corpos.
-- Testes, simuladores, projetos consumidores de validação e evidências ficam
-  exclusivamente em `C:\server\raims\.tmp\raims-dotnet-sdk`.
-- Descreva os recursos da Raims diretamente nos textos do repositório.
-  Preserve procedência e avisos obrigatórios de qualquer código incorporado.
-- Deixe as alterações locais sem commit e sem conteúdo em staging.
-  GitHub, NuGet, release e deploy exigem suas autorizações próprias.
-- O workflow `validate.yml` valida pushes de branches deste repositório e
-  execuções manuais, com os jobs obrigatórios `validateWindows` e `securityLinux`.
-  Ele não publica pacotes e não recebe eventos de pull request ou de forks.
-- O workflow `nuget-release.yml` publica releases versionadas após validar o
-  pacote nos runners CodeBuild autorizados. Não publicar a cada commit na main
-  nem usar runners hospedados pelo GitHub ou computadores pessoais.
-- Antes da release, os dois jobs de `validate.yml` devem ter concluído com
-  sucesso para o mesmo commit. Jobs ignorados não aprovam a entrega. Preserve
-  a consulta ao Actions, os prazos e o vínculo da execução e tentativa no
-  manifesto; confira novamente antes de solicitar a credencial do NuGet.
-- O CI usa o validador canônico do Developer Toolkit em uma revisão fixada.
-  A publicação consome somente o pacote e o manifesto aprovados, com OIDC
-  restrito ao job de publicação e ao ambiente `release`.
+- Keep repository descriptions and all Markdown documentation in English.
+  Preserve public identifiers, contract values, commands, and link destinations.
+- Do not version or publish internal TODO lists, backlogs, or work plans,
+  regardless of their name, format, or directory. Track tasks in an internal
+  source outside GitHub. Do not include pending work or private paths in
+  public documentation.
+- The public namespace is `Raims`; the NuGet package is `Raims`; targets are
+  `netstandard2.0` and `net10.0`. Builds and the solution use Release/x64,
+  following the workspace convention.
+- The pinned contract and its provenance are in `contracts`. Offline generation
+  must verify SHA-256 and cover each published operation exactly once.
+- Services, options, models, constants, and the reference derived from the
+  contract are generated. Do not edit these files manually.
+- Preserve JSON names, integer cents, Unix dates, omission, and null.
+  Do not generate idempotency keys or retry writes automatically. `202`
+  responses retain their meaning of pending processing.
+- Authenticated transport does not follow redirects, download external files,
+  or upload files. Credentials are isolated per client and request.
+- Diagnostics expose only the method, path without IDs, attempt, duration,
+  status, and Request-Id. Never include credentials, query parameters, or bodies.
+- Tests, simulators, validation consumer projects, and evidence belong
+  exclusively in `C:\server\raims\.tmp\raims-dotnet-sdk`.
+- Describe Raims features directly in repository text. Preserve provenance
+  and mandatory notices for any incorporated code.
+- Leave local changes uncommitted and unstaged. GitHub, NuGet, releases, and
+  deployment each require their own authorization.
+- The `validate.yml` workflow validates branch pushes from this repository
+  and manual runs, with required jobs `validateWindows` and `securityLinux`.
+  It does not publish packages or receive pull request or fork events.
+- The `nuget-release.yml` workflow publishes versioned releases after validating
+  the package on authorized CodeBuild runners. Do not publish on each main
+  commit or use GitHub-hosted runners or personal computers.
+- Before a release, both jobs in `validate.yml` must have completed successfully
+  for the same commit. Skipped jobs do not approve a delivery. Preserve the
+  Actions lookup, deadlines, and run and attempt linkage in the manifest;
+  check them again before requesting the NuGet credential.
+- CI uses the canonical Developer Toolkit validator at a pinned revision.
+  Publication consumes only the approved package and manifest, with OIDC
+  restricted to the publication job and the `release` environment.

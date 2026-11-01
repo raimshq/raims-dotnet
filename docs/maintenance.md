@@ -1,118 +1,124 @@
-# Contrato e manutenção
+# Contract and maintenance
 
-## Fonte
+## Source
 
-O SDK consome o contrato público distribuído em
+The SDK consumes the public contract distributed in
 [raimshq/openapi](https://github.com/raimshq/openapi). `contracts/source.json`
-registra a revisão imutável, URL, SHA-256, versão da API e quantidade de operações.
-O snapshot inicial fixa 67 operações da revisão
+records the immutable revision, URL, SHA-256, API version, and operation count.
+The initial snapshot pins 67 operations from revision
 `a412f1f2d12edec7edf001bf2fb4b48403fcec97`.
 
-O gerador é offline: confere o hash e não baixa contratos, chama a API ou lê
-credenciais. Não copie endpoints presentes somente no código local da API.
-O espelho publicado continua sendo o limite da superfície distribuída.
+The generator is offline: it checks the hash and does not download contracts,
+call the API, or read credentials. Do not copy endpoints that exist only in
+local API code. The published mirror remains the boundary of the distributed
+surface.
 
-## Organização
+## Organization
 
-| Arquivo ou diretório | Responsabilidade |
+| File or directory | Responsibility |
 | --- | --- |
-| `src/Raims/RaimsClient.cs` | Composição dos serviços e ciclo de vida do cliente |
-| `src/Raims/Services` | Métodos por recurso; wrapper de simulações mantido manualmente |
-| `src/Raims/Options` | Entradas tipadas com distinção entre omissão e null |
-| `src/Raims/Models` | Respostas e objetos aninhados |
-| `src/Raims/Generated` | Catálogo HTTP, mapa de símbolos e constantes |
-| `src/Raims/ApiRequestor.cs` | Serialização, validação estrutural, retries e erros |
-| `src/Raims/Http` | Transporte HTTP, cancelamento e timeout |
-| `src/Raims/Serialization` | Metadados, coleções e leitura exata de inteiros |
-| `src/Raims/RaimsCollection.cs` | Paginação por cursor |
-| `src/Raims/Exceptions` | Categorias de falha e metadados |
-| `src/Raims/WebhookUtility.cs` | Autenticação dos bytes de uma entrega |
-| `scripts/generate.py` | Geração determinística |
-| `docs/reference.md` | Assinaturas e campos derivados do contrato |
+| `src/Raims/RaimsClient.cs` | Service composition and client lifecycle |
+| `src/Raims/Services` | Resource methods; manually maintained simulation wrapper |
+| `src/Raims/Options` | Typed inputs that distinguish omission from null |
+| `src/Raims/Models` | Responses and nested objects |
+| `src/Raims/Generated` | HTTP catalog, symbol map, and constants |
+| `src/Raims/ApiRequestor.cs` | Serialization, structural validation, retries, and errors |
+| `src/Raims/Http` | HTTP transport, cancellation, and timeout |
+| `src/Raims/Serialization` | Metadata, collections, and exact integer parsing |
+| `src/Raims/RaimsCollection.cs` | Cursor pagination |
+| `src/Raims/Exceptions` | Failure categories and metadata |
+| `src/Raims/WebhookUtility.cs` | Authentication of delivery bytes |
+| `scripts/generate.py` | Deterministic generation |
+| `docs/reference.md` | Signatures and fields derived from the contract |
+| `docs/reference.en.json` | Reviewed English translations for the generated reference |
 
-Todos os tipos públicos usam o namespace `Raims`. As opções e os modelos são
-gerados; `RaimsClient`, `BaseService`, o wrapper `SimulationsService` e o runtime
-são mantidos manualmente. O catálogo de serviços identifica cada operação
-exatamente uma vez, sem fallback para endpoints arbitrários.
+All public types use the `Raims` namespace. Options and models are generated;
+`RaimsClient`, `BaseService`, the `SimulationsService` wrapper, and runtime are
+maintained manually. The service catalog identifies each operation exactly
+once, without fallback to arbitrary endpoints.
 
-O SDK usa classes de opções por operação e `Optional<T>` em cada campo.
-As respostas preservam campos desconhecidos e permitem códigos de enum futuros.
-A validação estrutural exige tipos, campos obrigatórios e nullability, sem
-duplicar permissões, regras financeiras ou toda a validação de domínio da API.
-Valores monetários e datas usam inteiros; o leitor não converte esses valores
-por ponto flutuante.
+The SDK uses option classes per operation and `Optional<T>` for each field.
+Responses preserve unknown fields and allow future enum codes. Structural
+validation enforces types, required fields, and nullability without duplicating
+permissions, financial rules, or all of the API's domain validation. Monetary
+values and dates use integers; the reader does not convert them through floating
+point.
 
-## Atualizar o contrato
+The generated reference uses the reviewed translations in `docs/reference.en.json`.
+The generator requires an English translation for every nonempty operation and
+input-field description it includes. Contract updates must update that map as
+needed. This editorial layer does not change the pinned contract or the XML
+documentation derived from it.
 
-1. Selecione uma revisão pública aprovada e confira seu manifesto e checksum.
-2. Atualize o snapshot e `contracts/source.json` sem inventar rotas ou campos.
-3. Revise semântica, status, idempotência, campos, ambiente e paginação.
-4. Ajuste `contracts/service-map.json` se houver novas operações e execute
+## Update the contract
+
+1. Select an approved public revision and verify its manifest and checksum.
+2. Update the snapshot and `contracts/source.json` without inventing routes or fields.
+3. Review semantics, statuses, idempotency, fields, environments, and pagination.
+4. Adjust `contracts/service-map.json` if there are new operations and run
    `python scripts/generate.py`.
-5. Revise assinaturas, tipos, constantes e a referência; execute a validação
-   completa do [guia de contribuição](../CONTRIBUTING.md).
-6. Atualize os guias afetados e registre mudanças de compatibilidade antes
-   da distribuição. Uma mudança incompatível exige versão principal.
+5. Review signatures, types, constants, and the reference; run the full validation
+   in the [contribution guide](../CONTRIBUTING.md).
+6. Update affected guides and record compatibility changes before distribution.
+   An incompatible change requires a major version.
 
-`--check` compara os arquivos esperados sem gravá-los. O gerador recusa hash
-divergente, operação ausente ou duplicada e composições sem representação
-implementada. Não atualize uma base de compatibilidade para esconder uma quebra.
+`--check` compares expected files without writing them. The generator rejects
+a mismatched hash, missing or duplicate operations, and compositions without an
+implemented representation. Do not update a compatibility baseline to hide a
+breaking change.
 
-O projeto habilita a validação de pacote do .NET para conferir os destinos
-incluídos. Após a primeira release estável, estabeleça a versão publicada como
-baseline dessa validação antes de uma nova distribuição.
+The project enables .NET package validation to check included targets. After
+the first stable release, establish the published version as that validation's
+baseline before another distribution.
 
-## Preparar uma versão
+## Prepare a version
 
-A versão do pacote em `src/Raims/Raims.csproj` e a constante
-`RaimsClient.Version` precisam ter o mesmo valor. Atualize também os exemplos
-de instalação para a versão que será distribuída. O nome do pacote continua
-definido em `PackageId`; a versão não altera a versão HTTP `/v1` da API.
+The package version in `src/Raims/Raims.csproj` and the `RaimsClient.Version`
+constant must match. Update installation examples to the version being
+distributed as well. The package name remains defined in `PackageId`; the
+version does not change the API's `/v1` HTTP version.
 
-Antes de distribuir, confira a versão, os metadados e o pacote resultante,
-execute os gates de entrega e valide sua instalação nos destinos suportados.
-Use os runners CodeBuild autorizados para o fluxo de release. A existência de
-uma release no GitHub, por si só, não confirma a disponibilidade no NuGet;
-confira o resultado da publicação e a instalação da versão no registro público.
+Before distribution, check the version, metadata, and resulting package, run
+the delivery gates, and validate installation on supported targets. Use
+authorized CodeBuild runners for the release flow. A GitHub release alone does
+not confirm NuGet availability; check the publication result and installation
+of the version from the public registry.
 
-## Validação antes da release
+## Validation before release
 
-O workflow `validate.yml` executa após pushes de branches do próprio repositório
-e por execução manual. `validateWindows` usa o gate canônico que compila e
-executa os consumidores em .NET Framework 4.8 e .NET 10, além de conferir o pacote.
-`securityLinux` chama o helper canônico de segurança do Toolkit. A revisão do
-Toolkit é fixada nos workflows; ferramentas ausentes ou uma análise incompleta
-recusam a validação.
+The `validate.yml` workflow runs on branch pushes from this repository and
+manual runs. `validateWindows` uses the canonical gate to build and run consumers
+on .NET Framework 4.8 and .NET 10 and check the package. `securityLinux` calls the
+canonical Toolkit security helper. The Toolkit revision is pinned in workflows;
+missing tools or incomplete analysis fail validation.
 
-Os dois jobs usam runners CodeBuild e precisam terminar com `success` para
-o mesmo commit que será publicado. Pull requests e forks não entram nesse
-fluxo. A validação não publica pacotes, cria releases nem solicita credenciais
-do NuGet.
+Both jobs use CodeBuild runners and must finish with `success` for the same
+commit that will be published. Pull requests and forks do not enter this flow.
+Validation does not publish packages, create releases, or request NuGet
+credentials.
 
-Publique a release somente depois dessa execução terminar. O workflow
-`nuget-release.yml` consulta o Actions para conferir repositório, evento, commit,
-execução, tentativa, runners e conclusão dos jobs. Uma execução posterior à
-publicação da release não aprova retroativamente a entrega. `skipped` e falhas
-também bloqueiam a publicação.
+Publish the release only after that run finishes. The `nuget-release.yml`
+workflow queries Actions to check the repository, event, commit, run, attempt,
+runners, and job completion. A run after release publication does not approve
+the delivery retroactively. `skipped` and failures also block publication.
 
-O manifesto do artefato registra o ID, a tentativa, o workflow e a conclusão
-da validação anterior. O job de publicação verifica esse vínculo novamente
-antes de solicitar a credencial temporária por OIDC. Depois de publicar,
-confira a disponibilidade e a instalação do pacote no NuGet; o aceite do upload
-pode anteceder a indexação no registro.
+The artifact manifest records the ID, attempt, workflow, and completion of the
+earlier validation. The publication job checks this linkage again before
+requesting the temporary OIDC credential. After publication, check package
+availability and installation from NuGet; upload acceptance may precede registry
+indexing.
 
-## Diagnóstico e disponibilidade
+## Diagnostics and availability
 
-As exceções de conexão, HTTP e protocolo e o observador de tentativas permitem
-à aplicação detectar indisponibilidade e respostas inválidas. Agregue essas
-falhas e confirme recuperação por novas respostas válidas. Não repita uma
-escrita anterior para verificar a saúde e não envie telemetria com dados pessoais.
+Connection, HTTP, and protocol exceptions and the attempt observer let the
+application detect unavailability and invalid responses. Aggregate these
+failures and confirm recovery through new valid responses. Do not repeat a
+previous write to check health or send telemetry containing personal data.
 
-Os fontes estão no GitHub, e o pacote `Raims` está disponível no
-[NuGet](https://www.nuget.org/packages/Raims). O
-[guia de integração](https://docs.raims.com/br/integracoes/sdk-dotnet) e a
-[nota de publicação](https://docs.raims.com/br/changelog/post/2026-10-29-sdk-dotnet)
-estão na documentação da Raims. O guia também integra o catálogo aprovado do
-atendimento.
-O atendimento deve distinguir um checkout de desenvolvimento de uma versão
-disponível no gerenciador de pacotes.
+Sources are on GitHub, and the `Raims` package is available on
+[NuGet](https://www.nuget.org/packages/Raims). The
+[integration guide](https://docs.raims.com/br/integracoes/sdk-dotnet) and
+[publication note](https://docs.raims.com/br/changelog/post/2026-10-29-sdk-dotnet)
+are in the Raims documentation. The guide also belongs to the approved support
+catalog. Support must distinguish a development checkout from a version
+available in the package manager.

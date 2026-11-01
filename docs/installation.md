@@ -1,25 +1,25 @@
-# Instalação
+# Installation
 
-Os fontes de desenvolvimento estão em
-[raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), na branch `main`.
-O pacote público é [`Raims`](https://www.nuget.org/packages/Raims), com versões
-para aplicações x64 em .NET Framework 4.8/4.8.1 e .NET 10.
+Development sources are in
+[raimshq/raims-dotnet](https://github.com/raimshq/raims-dotnet), on the `main`
+branch. The public package is [`Raims`](https://www.nuget.org/packages/Raims),
+with targets for x64 applications on .NET Framework 4.8/4.8.1 and .NET 10.
 
-## Instalar pelo NuGet
+## Install from NuGet
 
-No diretório da aplicação consumidora:
+From the consuming application's directory:
 
 ```powershell
 dotnet add package Raims --version 0.1.5
 ```
 
-Mantenha a versão sob controle da aplicação. Revise as notas de cada release
-antes de atualizar e teste a integração nos frameworks usados pelo seu projeto.
-A versão do SDK é independente da versão HTTP `/v1` da API.
+Keep the version under your application's control. Review each release's notes
+before upgrading and test the integration on the frameworks your project uses.
+The SDK version is independent of the API's `/v1` HTTP version.
 
-## Usar os fontes
+## Use the sources
 
-Baixe os fontes e compile a solução com .NET SDK 10:
+Download the sources and build the solution with .NET SDK 10:
 
 ```powershell
 git clone https://github.com/raimshq/raims-dotnet.git Raims-Dotnet
@@ -27,28 +27,28 @@ cd Raims-Dotnet
 dotnet build Raims.sln -c Release -p:Platform=x64
 ```
 
-Depois, adicione uma referência ao projeto a partir do diretório da sua aplicação:
+Then add a project reference from your application's directory:
 
 ```powershell
 dotnet add reference ..\Raims-Dotnet\src\Raims\Raims.csproj
 ```
 
-O exemplo considera a aplicação e o checkout em pastas vizinhas; ajuste o
-caminho à sua organização. Compile a aplicação em x64. A solução do SDK usa
-Release/x64 por padrão. Mantenha a revisão escolhida sob controle da sua
-aplicação; a branch `main` pode receber novas versões de desenvolvimento.
+The example assumes neighboring application and checkout directories; adjust
+the path to your layout. Build the application for x64. The SDK solution uses
+Release/x64 by default. Keep the selected revision under your application's
+control; the `main` branch may receive new development versions.
 
-## Usar um pacote local
+## Use a local package
 
-Na raiz do checkout, gere o pacote em uma pasta local de artefatos:
+From the checkout root, create the package in a local artifact directory:
 
 ```powershell
 dotnet pack Raims.sln -c Release -p:Platform=x64 -o C:\server\raims\.tmp\raims-dotnet-sdk\packages
 ```
 
-Acrescente a pasta do pacote e a fonte oficial ao `NuGet.Config` da aplicação,
-preservando as demais configurações. Ajuste o caminho ao diretório em que o
-pacote foi gerado. Para um projeto novo, o arquivo pode conter:
+Add the package directory and official feed to the application's `NuGet.Config`,
+preserving its other settings. Adjust the path to the directory where the
+package was created. For a new project, the file may contain:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -60,33 +60,33 @@ pacote foi gerado. Para um projeto novo, o arquivo pode conter:
 </configuration>
 ```
 
-No diretório da aplicação consumidora, onde esse arquivo foi salvo:
+From the consuming application's directory, where this file was saved:
 
 ```powershell
 dotnet add package Raims --version 0.1.5 --no-restore
 dotnet restore --configfile NuGet.Config
 ```
 
-O primeiro comando adiciona a referência sem tentar baixar o pacote. O restore
-usa as fontes do arquivo: a pasta local para o SDK e o NuGet oficial para suas
-dependências. Mantenha as duas fontes, inclusive em máquinas com cache vazio.
-Esses comandos não publicam o SDK.
+The first command adds the reference without trying to download the package.
+Restore uses the sources in the file: the local directory for the SDK and the
+official NuGet feed for its dependencies. Keep both sources, including on
+machines with an empty cache. These commands do not publish the SDK.
 
-## Compatibilidade
+## Compatibility
 
-| Aplicação x64 | Destino selecionado pelo NuGet |
+| x64 application | Target selected by NuGet |
 | --- | --- |
-| .NET Framework 4.8 ou 4.8.1 no Windows | `netstandard2.0` |
+| .NET Framework 4.8 or 4.8.1 on Windows | `netstandard2.0` |
 | .NET 10 | `net10.0` |
 
-Os consumidores de validação executam em .NET Framework 4.8 e .NET 10.
-Outras implementações compatíveis com .NET Standard 2.0 podem resolver esse
-destino; esse fato, por si só, não representa suporte validado a elas.
+Validation consumers run on .NET Framework 4.8 and .NET 10. Other implementations
+compatible with .NET Standard 2.0 may resolve that target; this alone does not
+mean support for them has been validated.
 
-O SDK usa `System.Text.Json`. O destino Standard inclui também as interfaces
-assíncronas compatíveis. Em aplicações .NET Framework, permita a geração dos
-binding redirects e instale as atualizações do runtime e do sistema operacional.
-Não desative a verificação de certificados para contornar erros de TLS.
+The SDK uses `System.Text.Json`. The Standard target also includes compatible
+asynchronous interfaces. In .NET Framework applications, allow binding redirect
+generation and install runtime and operating system updates. Do not disable
+certificate verification to work around TLS errors.
 
-Chaves Sandbox e Produção usam `https://api.raims.com`. A chave define o
-ambiente, a empresa e as permissões; métodos de simulação exigem chave Sandbox.
+Sandbox and Production keys use `https://api.raims.com`. The key determines the
+environment, company, and permissions; simulation methods require a Sandbox key.

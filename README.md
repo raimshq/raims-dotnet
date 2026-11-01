@@ -1,27 +1,27 @@
 # Raims .NET
 
-SDK C# para facilitar a integração com a API pública da Raims.
+C# SDK for integrating with the Raims public API.
 
-Instale pelo NuGet:
+Install from NuGet:
 
 ```powershell
 dotnet add package Raims --version 0.1.5
 ```
 
-Veja a [instalação](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
-para requisitos e orientações de uso e atualização.
+See the [installation guide](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
+for requirements, usage, and upgrade instructions.
 
-A chave de API define a empresa, o ambiente e as permissões; a URL-base é
+The API key determines the company, environment, and permissions. The base URL is
 `https://api.raims.com`.
 
-## Requisitos
+## Requirements
 
-Aplicação x64 em .NET Framework 4.8/4.8.1 ou .NET 10.
+An x64 application running .NET Framework 4.8/4.8.1 or .NET 10.
 
-Use o SDK no servidor. Mantenha chaves de API, segredos de webhook, documentos
-pessoais e links temporários fora do navegador, do controle de versão e dos logs.
+Use the SDK on the server. Keep API keys, webhook secrets, personal documents,
+and temporary links out of browsers, version control, and logs.
 
-## Primeiro uso
+## Quick start
 
 ```csharp
 using System;
@@ -44,19 +44,20 @@ using (var raims = new RaimsClient(apiKey))
 }
 ```
 
-Reutilize uma instância do cliente durante a vida da integração para aproveitar
-as conexões HTTP. Cada cliente mantém sua própria credencial e configuração.
-Os exemplos assíncronos são trechos para métodos `async` da sua aplicação.
+Reuse a client instance for the lifetime of the integration to reuse HTTP
+connections. Each client keeps its own credential and configuration.
+Asynchronous examples are snippets for `async` methods in your application.
 
-## Criar um cliente e uma cobrança
+## Create a customer and a charge
 
-`customerTaxId` é o CPF ou CNPJ válido do cliente autorizado pela sua aplicação.
-`customerIdempotencyKey` e `chargeIdempotencyKey` são chaves distintas, criadas
-e persistidas antes das requisições. `chargeDueDate` é o vencimento escolhido e
-persistido para o pedido, em segundos Unix UTC. Ao repetir uma intenção após
-perder a resposta, conserve a chave e todos os parâmetros, inclusive o vencimento.
+`customerTaxId` is the valid CPF or CNPJ of the customer authorized by your
+application. `customerIdempotencyKey` and `chargeIdempotencyKey` are separate
+keys, created and persisted before the requests. `chargeDueDate` is the due date
+chosen and persisted for the order, in Unix seconds UTC. When retrying the same
+intent after losing a response, keep the key and all parameters, including the
+due date.
 
-Com uma instância `raims` já configurada:
+With a configured `raims` instance:
 
 ```csharp
 var customer = await raims.Customers.CreateAsync(new CreateCustomerOptions
@@ -69,53 +70,53 @@ var charge = await raims.Charges.CreateAsync(new CreateChargeOptions
     CustomerId = customer.Id,
     AmountCents = 15000,
     DueDate = chargeDueDate,
-    Title = "Pedido 1234",
+    Title = "Order 1234",
 }, new RequestOptions { IdempotencyKey = chargeIdempotencyKey });
 
 int? httpStatus = charge.LastResponse?.StatusCode;
 string? requestId = charge.LastResponse?.RequestId;
 ```
 
-`15000` representa R$ 150,00. Datas dos recursos usam segundos Unix UTC.
-Uma resposta `202` indica resultado pendente e exige acompanhar o recurso;
-ela não confirma pagamento ou conclusão financeira. O SDK não gera chaves de
-idempotência nem repete escritas automaticamente.
+`15000` represents BRL 150.00. Resource dates use Unix seconds UTC.
+A `202` response indicates a pending result that must be tracked through the
+resource; it does not confirm payment or financial completion. The SDK does not
+generate idempotency keys or retry writes automatically.
 
-## Serviços
+## Services
 
-| Propriedade | Recursos |
+| Property | Resources |
 | --- | --- |
-| `Accounts` | Dados da conta, tarifas e personalização do checkout |
-| `Balances` | Saldo e previsão |
-| `Customers` | Cadastro e consulta de clientes |
-| `Charges` | Cobranças, pagamento, documentos e estornos por cobrança |
-| `PaymentLinks` | Links de pagamento e solicitação de envio por e-mail |
-| `Refunds` | Consulta de estornos e recibos |
-| `Disputes` | Contestações |
-| `Statements` | Extratos |
-| `Withdrawals` | Saques, limites, resumo e configuração automática |
-| `WithdrawalDestinations` | Destinos de saque |
-| `Webhooks` | Cadastro, pausa, saúde, teste e rotação de segredo |
-| `WebhookEventTypes` | Tipos de evento disponíveis |
-| `Simulations.Charges` | Simulações de cobrança com chave Sandbox |
-| `Simulations.Refunds` | Simulações de estorno com chave Sandbox |
+| `Accounts` | Account details, fees, and checkout customization |
+| `Balances` | Balance and forecast |
+| `Customers` | Customer creation and retrieval |
+| `Charges` | Charges, payment, documents, and refunds for a charge |
+| `PaymentLinks` | Payment links and email delivery requests |
+| `Refunds` | Refund retrieval and receipts |
+| `Disputes` | Disputes |
+| `Statements` | Statements |
+| `Withdrawals` | Withdrawals, limits, summary, and automatic configuration |
+| `WithdrawalDestinations` | Withdrawal destinations |
+| `Webhooks` | Registration, pause, health, testing, and secret rotation |
+| `WebhookEventTypes` | Available event types |
+| `Simulations.Charges` | Charge simulations with a Sandbox key |
+| `Simulations.Refunds` | Refund simulations with a Sandbox key |
 
-Os métodos de recurso usam `Create`, `Get`, `Update` e `List`, com as variantes
-`Async`. Consulte a [referência do SDK](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
-para os parâmetros e as respostas de cada serviço.
+Resource methods use `Create`, `Get`, `Update`, and `List`, with `Async`
+variants. See the [SDK reference](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
+for each service's parameters and responses.
 
-## Documentação
+## Documentation
 
-- [Instalação e compatibilidade](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
-- [Configuração, respostas e atualizações parciais](https://github.com/raimshq/raims-dotnet/blob/main/docs/usage.md)
-- [Paginação](https://github.com/raimshq/raims-dotnet/blob/main/docs/pagination.md)
-- [Erros, idempotência e retries](https://github.com/raimshq/raims-dotnet/blob/main/docs/errors-and-retries.md)
-- [Recebimento e validação de webhooks](https://github.com/raimshq/raims-dotnet/blob/main/docs/webhooks.md)
-- [Referência do SDK](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
-- [Manutenção](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
-- [Contribuição](https://github.com/raimshq/raims-dotnet/blob/main/CONTRIBUTING.md) e [segurança](https://github.com/raimshq/raims-dotnet/blob/main/SECURITY.md)
-- [Documentação da API](https://docs.raims.com/br/api)
+- [Installation and compatibility](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)
+- [Configuration, responses, and partial updates](https://github.com/raimshq/raims-dotnet/blob/main/docs/usage.md)
+- [Pagination](https://github.com/raimshq/raims-dotnet/blob/main/docs/pagination.md)
+- [Errors, idempotency, and retries](https://github.com/raimshq/raims-dotnet/blob/main/docs/errors-and-retries.md)
+- [Receiving and validating webhooks](https://github.com/raimshq/raims-dotnet/blob/main/docs/webhooks.md)
+- [SDK reference](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
+- [Maintenance](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
+- [Contributing](https://github.com/raimshq/raims-dotnet/blob/main/CONTRIBUTING.md) and [security](https://github.com/raimshq/raims-dotnet/blob/main/SECURITY.md)
+- [API documentation](https://docs.raims.com/br/api)
 
-## Licença
+## License
 
-Distribuído sob a licença [MIT](https://github.com/raimshq/raims-dotnet/blob/main/LICENSE).
+Distributed under the [MIT license](https://github.com/raimshq/raims-dotnet/blob/main/LICENSE).

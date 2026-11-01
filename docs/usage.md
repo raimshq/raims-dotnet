@@ -1,6 +1,6 @@
-# Configuração e respostas
+# Configuration and responses
 
-## Configurar o cliente
+## Configure the client
 
 ```csharp
 using (var raims = new RaimsClient(new RaimsClientOptions
@@ -15,24 +15,24 @@ using (var raims = new RaimsClient(new RaimsClientOptions
 }
 ```
 
-`Timeout` limita cada tentativa, incluindo a leitura do corpo. Em .NET 10,
-`ConnectTimeout` limita também a conexão. No destino Standard, usado pelo .NET
-Framework, o transporte usa o prazo total e não oferece um prazo independente
-para conectar. Retries de leitura podem somar tentativas e intervalos.
+`Timeout` limits each attempt, including reading the body. On .NET 10,
+`ConnectTimeout` also limits the connection. On the Standard target used by
+.NET Framework, transport uses the overall deadline and does not provide a
+separate connection deadline. Read retries may add multiple attempts and delays.
 
-`RequestOptions` permite alterar a chave, o timeout, a idempotência e os retries
-de uma única chamada. O cliente não armazena configuração global. A URL-base
-aceita uma origem HTTPS; HTTP é permitido somente em loopback para desenvolvimento.
+`RequestOptions` lets you override the key, timeout, idempotency, and retries for
+a single call. The client does not store global configuration. The base URL
+accepts an HTTPS origin; HTTP is allowed only on loopback for development.
 
-Todos os métodos aceitam `CancellationToken`. O cancelamento interrompe a
-espera e os intervalos de retry; ele não prova que uma escrita deixou de ser
-processada. Use as mesmas regras de reconciliação de uma conexão interrompida.
+All methods accept `CancellationToken`. Cancellation interrupts waits and retry
+delays; it does not prove that a write was not processed. Apply the same
+reconciliation rules as for an interrupted connection.
 
-## Campos omitidos e null
+## Omitted fields and null
 
-As propriedades das opções usam `Optional<T>`. Uma propriedade que você não
-definiu é omitida do JSON. Atribuir `null` envia null somente quando esse tipo
-permite null; atribuir `false`, zero, texto vazio ou mapa vazio preserva o valor.
+Option properties use `Optional<T>`. A property you do not set is omitted from
+JSON. Assigning `null` sends null only when the type allows it; assigning `false`,
+zero, empty text, or an empty map preserves that value.
 
 ```csharp
 var options = new UpdateChargeOptions
@@ -42,61 +42,60 @@ var options = new UpdateChargeOptions
 await raims.Charges.UpdateAsync(chargeId, options);
 ```
 
-O exemplo limpa o título e preserva os campos omitidos. A API define quais campos
-podem ser limpos e em que estados. Em `metadata`, omitir ou enviar `{}` preserva
-o mapa, null remove todos os pares e null em uma chave remove somente esse par.
-Consulte a descrição específica da operação na [referência](reference.md).
+This example clears the title and preserves omitted fields. The API determines
+which fields can be cleared and in which states. In `metadata`, omission or `{}`
+preserves the map, null removes all pairs, and null for a key removes only that
+pair. See the operation's specific description in the [reference](reference.md).
 
-Para voltar uma opção ao estado omitido, atribua `default` à propriedade.
-Evite alterar as opções enquanto uma chamada estiver sendo preparada.
+To reset an option to the omitted state, assign `default` to the property.
+Avoid modifying options while a call is being prepared.
 
-## Ler respostas
+## Read responses
 
-Os modelos oferecem propriedades tipadas com setters internos. Campos novos
-recebidos da API ficam preservados em `ExtraFields`. Os códigos de enum são
-primitivos e aceitam valores futuros; as constantes geradas ajudam a escrever
-comparações com os valores publicados. Regras de negócio continuam na API.
+Models provide typed properties with internal setters. New fields received
+from the API are preserved in `ExtraFields`. Enum codes are primitives that
+accept future values; generated constants help compare against published
+values. Business rules remain in the API.
 
-`LastResponse` informa o status HTTP, os headers e o corpo recebido. Prefira
-registrar somente `StatusCode` e `RequestId`; o corpo e os headers podem conter
-dados pessoais, segredos de webhook ou links temporários. Não registre a
-resposta completa.
+`LastResponse` provides the HTTP status, headers, and received body. Prefer
+logging only `StatusCode` and `RequestId`; the body and headers may contain
+personal data, webhook secrets, or temporary links. Do not log the full response.
 
-DELETE de webhook retorna `EmptyResponse` com os metadados HTTP e status `204`.
-Uma resposta `202` mantém os dados do recurso pendente e não inicia polling
-automaticamente. Na revogação de cobrança, confira `Revoked` e
-`RevocationPending`, além do status HTTP.
+Webhook DELETE returns `EmptyResponse` with HTTP metadata and status `204`.
+A `202` response retains the pending resource's data and does not start
+automatic polling. When revoking a charge, check `Revoked` and
+`RevocationPending` as well as the HTTP status.
 
-## Documentos e uploads
+## Documents and uploads
 
-Métodos de recibo e boleto retornam `FinancialDocument`, com URL temporária e
-expiração. Baixe a URL com um cliente HTTP separado, sem chave Bearer da Raims.
-Após a expiração, consulte novamente o endpoint autenticado.
+Receipt and boleto methods return `FinancialDocument`, with a temporary URL
+and expiration. Download the URL with a separate HTTP client, without the Raims
+Bearer key. After expiration, query the authenticated endpoint again.
 
-Os métodos de personalização retornam os dados para upload. O SDK não envia
-o arquivo nem navega para URLs retornadas. Sua aplicação realiza o upload
-conforme o contrato público, usando os dados retornados e sem a chave de API.
+Customization methods return upload details. The SDK does not upload the file
+or navigate to returned URLs. Your application performs the upload according
+to the public contract, using the returned details and without the API key.
 
-## Diagnósticos
+## Diagnostics
 
-`RequestObserver` recebe metadados de cada tentativa: operação, método, caminho
-sem IDs, duração, status, `Request-Id` e decisão de retry. O callback não recebe
-credenciais, parâmetros, corpo nem URL de recurso. Uma falha no observador não
-altera o resultado da chamada.
+`RequestObserver` receives metadata for each attempt: operation, method, path
+without IDs, duration, status, `Request-Id`, and retry decision. The callback
+does not receive credentials, parameters, bodies, or resource URLs. An observer
+failure does not change the call's result.
 
-Se o servidor retornar bytes que não formam texto UTF-8 válido, o SDK recusa a
-resposta com `UnexpectedResponseException`. O diagnóstico conserva o status
-HTTP e `Request-Id`, sem uma nova tentativa automática. A propriedade `Response`
-da exceção conserva esses metadados; seu `Body` fica vazio porque o corpo não
-pôde ser decodificado.
+If the server returns bytes that do not form valid UTF-8 text, the SDK rejects
+the response with `UnexpectedResponseException`. Diagnostics retain the HTTP
+status and `Request-Id`, without another automatic attempt. The exception's
+`Response` property retains this metadata; its `Body` is empty because the body
+could not be decoded.
 
-A aplicação consumidora deve agregar falhas e recuperações para seus alertas.
-Não envie notificações por requisição nem use payloads como dados de telemetria.
-O SDK não envia telemetria ou alertas externos.
+The consuming application should aggregate failures and recoveries for alerts.
+Do not send a notification per request or use payloads as telemetry data.
+The SDK does not send external telemetry or alerts.
 
-## Transporte próprio
+## Custom transport
 
-`RaimsClientOptions.HttpClient` aceita `IRaimsHttpClient`. A aplicação é
-responsável por encerrar esse transporte e preservar TLS, prazos, cancelamento,
-ausência de redirects e proteção de credenciais. Ao encerrar `RaimsClient`, o
-SDK libera somente o transporte padrão que ele mesmo criou.
+`RaimsClientOptions.HttpClient` accepts `IRaimsHttpClient`. The application is
+responsible for disposing this transport and preserving TLS, deadlines,
+cancellation, redirect prevention, and credential protection. When
+`RaimsClient` is disposed, the SDK releases only the default transport it created.
