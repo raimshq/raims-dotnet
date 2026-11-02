@@ -43,7 +43,7 @@ control; the `main` branch may receive new development versions.
 From the checkout root, create the package in a local artifact directory:
 
 ```powershell
-dotnet pack Raims.sln -c Release -p:Platform=x64 -o C:\server\raims\.tmp\raims-dotnet-sdk\packages
+dotnet pack Raims.sln -c Release -p:Platform=x64 -o C:\path\to\raims-packages
 ```
 
 Add the package directory and official feed to the application's `NuGet.Config`,
@@ -54,7 +54,7 @@ package was created. For a new project, the file may contain:
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <packageSources>
-    <add key="raims-local" value="C:\server\raims\.tmp\raims-dotnet-sdk\packages" />
+    <add key="raims-local" value="C:\path\to\raims-packages" />
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
   </packageSources>
 </configuration>

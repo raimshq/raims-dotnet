@@ -16,7 +16,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: '1'
   DOTNET_NOLOGO: '1'
   PYTHONDONTWRITEBYTECODE: '1'
-  RAIMS_DOTNET_TOOLKIT_REF: 89c869856645c17ac12a29d48042380b0b9f539a
+  RAIMS_DOTNET_TOOLKIT_REF: c0a50d830dc92f9a869e861a235829299e81245b
 
 jobs:
   validateWindows:
@@ -98,7 +98,7 @@ jobs:
         run: |
           $workspace = $env:GITHUB_WORKSPACE
           $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/validate-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
-          Copy-Item -LiteralPath (Join-Path $workspace 'Raims-Dotnet/AGENTS.md') -Destination (Join-Path $workspace 'AGENTS.md')
+          Copy-Item -LiteralPath (Join-Path $workspace 'Developer-Toolkit/internal/public-repositories/workspace/AGENTS.md') -Destination (Join-Path $workspace 'AGENTS.md')
           if ((dotnet --version).Trim() -ne '10.0.403') { throw 'Unexpected .NET SDK version.' }
           python (Join-Path $workspace 'Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py') --source (Join-Path $workspace 'Raims-Dotnet') --workspace $workspace --output $output
           if ($LASTEXITCODE -ne 0) { throw 'Canonical SDK validation failed.' }
@@ -173,6 +173,6 @@ jobs:
           workspace="$RUNNER_TEMP/workspace"
           output="$GITHUB_WORKSPACE/Raims-Dotnet/.tmp/raims-dotnet-sdk/security-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           mkdir -p "$workspace"
-          cp Raims-Dotnet/AGENTS.md "$workspace/AGENTS.md"
+          cp Developer-Toolkit/internal/public-repositories/workspace/AGENTS.md "$workspace/AGENTS.md"
           python Developer-Toolkit/scripts/release-preflight/sdk_security.py --source "$GITHUB_WORKSPACE/Raims-Dotnet" --workspace "$workspace" --repository Raims-Dotnet --output "$output" --prepare-tools
           python -c 'import json,os,sys; r=json.load(open(sys.argv[1],encoding="utf-8")); sys.exit(0 if r.get("status")=="pass" and r.get("repository")=="Raims-Dotnet" and r.get("toolkitRevision")==os.environ["RAIMS_DOTNET_TOOLKIT_REF"] else "Canonical SDK security summary is invalid.")' "$output/summary.json"

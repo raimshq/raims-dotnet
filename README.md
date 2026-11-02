@@ -113,7 +113,6 @@ for each service's parameters and responses.
 - [Errors, idempotency, and retries](https://github.com/raimshq/raims-dotnet/blob/main/docs/errors-and-retries.md)
 - [Receiving and validating webhooks](https://github.com/raimshq/raims-dotnet/blob/main/docs/webhooks.md)
 - [SDK reference](https://github.com/raimshq/raims-dotnet/blob/main/docs/reference.md)
-- [Maintenance](https://github.com/raimshq/raims-dotnet/blob/main/docs/maintenance.md)
 - [Contributing](https://github.com/raimshq/raims-dotnet/blob/main/CONTRIBUTING.md) and [security](https://github.com/raimshq/raims-dotnet/blob/main/SECURITY.md)
 - [API documentation](https://docs.raims.com/br/api)
 

@@ -29,6 +29,6 @@
     <None Include="../../LICENSE" Pack="true" PackagePath="/" />
     <None Include="../../CONTRIBUTING.md" Pack="true" PackagePath="/" />
     <None Include="../../SECURITY.md" Pack="true" PackagePath="/" />
-    <None Include="../../docs/*.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../docs/errors-and-retries.md;../../docs/installation.md;../../docs/pagination.md;../../docs/reference.md;../../docs/usage.md;../../docs/webhooks.md" Pack="true" PackagePath="docs/" />
   </ItemGroup>
 </Project>
