@@ -238,7 +238,7 @@ def package_metadata(package, expected):
 
 def bundle(source, report_path, destination, validation_run_id, validation_run_attempt):
     expected = identity(source, validation_run_id, validation_run_attempt)
-    toolkit = source.parent / "Developer-Toolkit"
+    toolkit = next((candidate / "Developer-Toolkit" for candidate in (source.parent, source.parent.parent) if (candidate / "Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py").is_file()), source.parent / "Developer-Toolkit")
     require(git(toolkit, "rev-parse", "HEAD") == expected["toolkitRevision"], "The validation toolkit differs from the pinned revision.")
     require(git(toolkit, "status", "--porcelain") == "", "The pinned validation toolkit contains local changes.")
     report = json.loads(report_path.read_text(encoding="utf-8"))
