@@ -10,7 +10,7 @@ with targets for x64 applications on .NET Framework 4.8/4.8.1 and .NET 10.
 From the consuming application's directory:
 
 ```powershell
-dotnet add package Raims --version 0.1.5
+dotnet add package Raims
 ```
 
 Keep the version under your application's control. Review each release's notes
@@ -63,14 +63,14 @@ package was created. For a new project, the file may contain:
 From the consuming application's directory, where this file was saved:
 
 ```powershell
-dotnet add package Raims --version 0.1.5 --no-restore
+dotnet add package Raims
 dotnet restore --configfile NuGet.Config
 ```
 
-The first command adds the reference without trying to download the package.
-Restore uses the sources in the file: the local directory for the SDK and the
-official NuGet feed for its dependencies. Keep both sources, including on
-machines with an empty cache. These commands do not publish the SDK.
+The first command resolves the package and adds its version to the project.
+Both commands use the sources in the file: the local directory for the SDK
+and the official NuGet feed for its dependencies. Keep both sources, including
+on machines with an empty cache. These commands do not publish the SDK.
 
 ## Compatibility
 

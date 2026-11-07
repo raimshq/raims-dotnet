@@ -5,7 +5,7 @@ C# SDK for integrating with the Raims public API.
 Install from NuGet:
 
 ```powershell
-dotnet add package Raims --version 0.1.5
+dotnet add package Raims
 ```
 
 See the [installation guide](https://github.com/raimshq/raims-dotnet/blob/main/docs/installation.md)

@@ -26,8 +26,8 @@ namespace Raims
         public string Body { get; }
         /// <summary>Returns a response header without case sensitivity.</summary>
         public string? GetHeader(string name) => Headers.TryGetValue(name, out var value) ? value : null;
-        /// <summary>Request-Id, with X-Request-Id as a compatibility alias.</summary>
-        public string? RequestId => GetHeader("Request-Id") ?? GetHeader("X-Request-Id");
+        /// <summary>Request-Id returned by the API.</summary>
+        public string? RequestId => GetHeader("Request-Id");
         /// <summary>Returns status metadata without response bodies or headers.</summary>
         public override string ToString() => "HTTP " + StatusCode;
     }
