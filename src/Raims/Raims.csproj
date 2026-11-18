@@ -17,8 +17,6 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <IsPackable>true</IsPackable>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <NuGetAudit>true</NuGetAudit>
-    <NuGetAuditMode>all</NuGetAuditMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
