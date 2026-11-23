@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Atualizar saque automático.</summary>
     /// <remarks>
-    /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use uma chave de API de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
+    /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use chave de API ou autorização OAuth de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
     /// </remarks>
     public sealed class UpdateAutomaticWithdrawalSettingsOptions : BaseOptions
     {

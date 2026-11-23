@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar saques.</summary>
     /// <remarks>
-    /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente da sua chave de API.</para>
+    /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente autenticado.</para>
     /// </remarks>
     public sealed class ListWithdrawalsOptions : BaseOptions
     {

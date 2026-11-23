@@ -16,7 +16,7 @@ namespace Raims
     /// </remarks>
     public sealed class CreateChargeOptions : BaseOptions
     {
-        /// <summary>ID de um cliente da empresa e do ambiente da chave de API. Copie o id retornado no cadastro ou na consulta. Pix direto exige CPF/CNPJ válido. Boleto direto exige nome, e-mail válido, CPF/CNPJ e endereço, incluindo CEP e número; complete esses dados no cadastro do cliente.</summary>
+        /// <summary>ID de um cliente da empresa e do ambiente autenticado. Use o id retornado no cadastro assim que receber a resposta ou consulte o cliente pelo ID. Pix direto exige CPF/CNPJ válido. Boleto direto exige nome, e-mail válido, CPF/CNPJ e endereço, incluindo CEP e número.</summary>
         public Optional<string> CustomerId
         {
             get => Get<string>("customer_id");

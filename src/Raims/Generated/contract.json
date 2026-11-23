@@ -215,6 +215,17 @@
         "200": "Refund"
       }
     },
+    "GetAccountContext": {
+      "body": null,
+      "bodyRequired": false,
+      "idempotency": false,
+      "method": "GET",
+      "path": "/v1/accounts/context",
+      "query": {},
+      "responses": {
+        "200": "AccountContext"
+      }
+    },
     "GetAccountFees": {
       "body": null,
       "bodyRequired": false,
@@ -1126,6 +1137,84 @@
     }
   },
   "schemas": {
+    "AccountContext": {
+      "additionalProperties": false,
+      "properties": {
+        "access_revision": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "amount_unit": {
+          "enum": [
+            "cents"
+          ],
+          "type": "string"
+        },
+        "business_timezone": {
+          "enum": [
+            "America/Sao_Paulo"
+          ],
+          "type": "string"
+        },
+        "checked_at": {
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "company_id": {
+          "pattern": "^co_[A-Za-z0-9]+$",
+          "type": "string"
+        },
+        "company_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "company_status": {
+          "enum": [
+            "pending",
+            "active",
+            "limited"
+          ],
+          "type": "string"
+        },
+        "currency": {
+          "enum": [
+            "BRL"
+          ],
+          "type": "string"
+        },
+        "data_environment": {
+          "enum": [
+            "sandbox",
+            "production"
+          ],
+          "type": "string"
+        },
+        "timestamp_unit": {
+          "enum": [
+            "unix_seconds"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "company_id",
+        "company_name",
+        "company_status",
+        "data_environment",
+        "checked_at",
+        "access_revision",
+        "currency",
+        "amount_unit",
+        "timestamp_unit",
+        "business_timezone"
+      ],
+      "type": "object"
+    },
     "AccountFee": {
       "additionalProperties": false,
       "properties": {
@@ -2763,7 +2852,35 @@
               "charge.failed",
               "refund.requested",
               "refund.completed",
-              "refund.failed"
+              "refund.failed",
+              "charge.updated",
+              "charge.expired",
+              "withdrawal.requested",
+              "withdrawal.completed",
+              "withdrawal.failed",
+              "dispute.opened",
+              "dispute.updated",
+              "dispute.closed",
+              "dispute.funds_debited",
+              "balance.hold.created",
+              "balance.hold.released",
+              "statement.created",
+              "ted.received",
+              "pix_refund.received",
+              "pix.available",
+              "pix.issuance_failed",
+              "boleto.available",
+              "boleto.issuance_failed",
+              "boleto.compensated",
+              "payment_link.created",
+              "payment_link.updated",
+              "refund.accepted",
+              "account.restored",
+              "customer.created",
+              "customer.updated",
+              "customer.deleted",
+              "withdrawal.accepted",
+              "charge.fully_refunded"
             ],
             "type": "string"
           },
@@ -2800,6 +2917,14 @@
           "maximum": 1000000000000,
           "minimum": 200,
           "type": "integer"
+        },
+        "expected_destination_id": {
+          "maxLength": 100,
+          "pattern": "^wdst_[A-Za-z0-9]+$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -4754,7 +4879,35 @@
             "charge.failed",
             "refund.requested",
             "refund.completed",
-            "refund.failed"
+            "refund.failed",
+            "charge.updated",
+            "charge.expired",
+            "withdrawal.requested",
+            "withdrawal.completed",
+            "withdrawal.failed",
+            "dispute.opened",
+            "dispute.updated",
+            "dispute.closed",
+            "dispute.funds_debited",
+            "balance.hold.created",
+            "balance.hold.released",
+            "statement.created",
+            "ted.received",
+            "pix_refund.received",
+            "pix.available",
+            "pix.issuance_failed",
+            "boleto.available",
+            "boleto.issuance_failed",
+            "boleto.compensated",
+            "payment_link.created",
+            "payment_link.updated",
+            "refund.accepted",
+            "account.restored",
+            "customer.created",
+            "customer.updated",
+            "customer.deleted",
+            "withdrawal.accepted",
+            "charge.fully_refunded"
           ],
           "type": "string"
         }

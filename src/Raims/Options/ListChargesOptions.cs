@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar cobranças.</summary>
     /// <remarks>
-    /// <para>Lista cobranças da empresa e do ambiente da sua chave de API, com filtros e paginação por cursor. Para avançar, use page.next_after em after enquanto page.has_next for true, mantendo os filtros e a ordenação. Alterações de status podem levar alguns segundos para aparecer nos filtros; aguarde antes de consultar novamente.</para>
+    /// <para>Lista cobranças da empresa e do ambiente autenticado com filtros na URL e paginação por cursor. Os filtros status, email, external_reference, due_gte, due_lte, paid_gte e paid_lte podem omitir gravações recentes. O mesmo vale para customer_id com ordenação por valor ou data ou com período de criação, sem identifier. Para conferir uma cobrança conhecida, use GET /v1/charges/{id}.</para>
     /// </remarks>
     public sealed class ListChargesOptions : BaseOptions
     {
@@ -44,14 +44,14 @@ namespace Raims
             set => Set("identifier", value);
         }
 
-        /// <summary>Filtra pelo ID público completo do cliente, retornado no cadastro ou na consulta. O vínculo permanece o mesmo se nome ou e-mail mudar. Pode ser combinado com os demais filtros; mantenha o mesmo customer_id ao mudar de página. Um ID válido sem cobranças na empresa e no ambiente da chave retorna list vazio. Vazio ou ausência não aplica o filtro.</summary>
+        /// <summary>Filtra pelo ID público completo do cliente, retornado no cadastro ou na consulta. O vínculo permanece o mesmo se nome ou e-mail mudar. Pode ser combinado com os demais filtros; mantenha o mesmo customer_id ao mudar de página. Um ID válido sem cobranças na empresa e no ambiente autenticado retorna list vazio. Vazio ou ausência não aplica o filtro.</summary>
         public Optional<string> CustomerId
         {
             get => Get<string>("customer_id");
             set => Set("customer_id", value);
         }
 
-        /// <summary>Filtra pela referência atual da cobrança no seu sistema, com igualdade do valor completo, incluindo maiúsculas, minúsculas e acentos. Vazio ou ausência não aplica o filtro. Pode ser combinado com os demais filtros; preserve o valor ao navegar por cursor. Após criar ou editar uma cobrança, pode levar alguns segundos para a busca refletir a referência.</summary>
+        /// <summary>Filtra pela referência atual da cobrança no seu sistema. Compara o valor completo, com distinção de maiúsculas, minúsculas e acentos. Cobranças novas ou alteradas podem ficar temporariamente fora dos resultados. Vazio ou ausência ignora o filtro. Mantenha o valor ao navegar por cursor.</summary>
         public Optional<string> ExternalReference
         {
             get => Get<string>("external_reference");
@@ -65,7 +65,7 @@ namespace Raims
             set => Set("email", value);
         }
 
-        /// <summary>Filtra por um ou mais códigos separados por vírgula, como 0,1. 0 criado, 1 aguardando pagamento, 2 autorizado, 3 em processamento, 4 pago, 5 parcialmente devolvido, 6 devolvido, 7 cancelado, 8 expirado, 9 falha, 10 chargeback, 11 chargeback em análise, 12 chargeback perdido e 13 chargeback ganho. Pode levar alguns segundos para refletir alterações.</summary>
+        /// <summary>Filtra por um ou mais códigos separados por vírgula, como 0,1. 0 criado, 1 aguardando pagamento, 2 autorizado, 3 em processamento, 4 pago, 5 parcialmente devolvido, 6 devolvido, 7 cancelado, 8 expirado, 9 falha, 10 chargeback, 11 chargeback em análise, 12 chargeback perdido e 13 chargeback ganho. A busca pode demorar a refletir o status atual.</summary>
         public Optional<string> Status
         {
             get => Get<string>("status");

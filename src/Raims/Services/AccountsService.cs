@@ -10,10 +10,24 @@ using System.Threading.Tasks;
 
 namespace Raims
 {
-    /// <summary>Operações de informações e personalização da conta.</summary>
+    /// <summary>Operações de informações da conta.</summary>
     public sealed class AccountsService : BaseService
     {
         internal AccountsService(ApiRequestor requestor) : base(requestor) { }
+
+        /// <summary>Consultar contexto da conta</summary>
+        /// <remarks>
+        /// <para>Consulte a identidade pública, o nome empresarial, a situação cadastral e o ambiente da conta identificada pela chave. Use a data e a revisão da resposta para reconhecer informações antigas. Esta leitura não identifica a pessoa que criou a chave e não confirma que uma operação financeira pode ser executada.</para>
+        /// </remarks>
+        public AccountContext GetContext(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+            => GetContextAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
+
+        /// <summary>Consultar contexto da conta</summary>
+        /// <remarks>
+        /// <para>Consulte a identidade pública, o nome empresarial, a situação cadastral e o ambiente da conta identificada pela chave. Use a data e a revisão da resposta para reconhecer informações antigas. Esta leitura não identifica a pessoa que criou a chave e não confirma que uma operação financeira pode ser executada.</para>
+        /// </remarks>
+        public Task<AccountContext> GetContextAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+            => RequestAsync<AccountContext>("GetAccountContext", null, null, requestOptions, cancellationToken);
 
         /// <summary>Consultar tarifas da conta</summary>
         /// <remarks>
@@ -31,28 +45,28 @@ namespace Raims
 
         /// <summary>Recuperar número de conta</summary>
         /// <remarks>
-        /// <para>Consulte a agência e o número da conta financeira da sua empresa na Raims. A consulta exige uma chave de Produção e uma conta aprovada e habilitada.</para>
+        /// <para>Consulte a agência e o número da conta financeira da sua empresa na Raims. A consulta exige acesso autorizado em Produção e uma conta aprovada e habilitada.</para>
         /// </remarks>
         public AccountNumber GetNumber(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetNumberAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar número de conta</summary>
         /// <remarks>
-        /// <para>Consulte a agência e o número da conta financeira da sua empresa na Raims. A consulta exige uma chave de Produção e uma conta aprovada e habilitada.</para>
+        /// <para>Consulte a agência e o número da conta financeira da sua empresa na Raims. A consulta exige acesso autorizado em Produção e uma conta aprovada e habilitada.</para>
         /// </remarks>
         public Task<AccountNumber> GetNumberAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<AccountNumber>("GetAccountNumber", null, null, requestOptions, cancellationToken);
 
         /// <summary>Consultar personalização do checkout</summary>
         /// <remarks>
-        /// <para>Consulte as imagens, as cores, o e-mail de suporte e os meios de pagamento padrão do checkout da empresa no ambiente da chave.</para>
+        /// <para>Consulte as imagens, as cores, o e-mail de suporte e os meios de pagamento padrão do checkout da empresa no ambiente autenticado.</para>
         /// </remarks>
         public CheckoutSettings GetCheckoutSettings(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetCheckoutSettingsAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar personalização do checkout</summary>
         /// <remarks>
-        /// <para>Consulte as imagens, as cores, o e-mail de suporte e os meios de pagamento padrão do checkout da empresa no ambiente da chave.</para>
+        /// <para>Consulte as imagens, as cores, o e-mail de suporte e os meios de pagamento padrão do checkout da empresa no ambiente autenticado.</para>
         /// </remarks>
         public Task<CheckoutSettings> GetCheckoutSettingsAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CheckoutSettings>("GetCheckoutSettings", null, null, requestOptions, cancellationToken);

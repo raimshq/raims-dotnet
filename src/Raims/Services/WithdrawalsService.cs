@@ -17,28 +17,28 @@ namespace Raims
 
         /// <summary>Solicitar saque</summary>
         /// <remarks>
-        /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
+        /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Para exigir o destino padrão que você conferiu, informe expected_destination_id. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
         /// </remarks>
         public Withdrawal Create(CreateWithdrawalOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => CreateAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Solicitar saque</summary>
         /// <remarks>
-        /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
+        /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Para exigir o destino padrão que você conferiu, informe expected_destination_id. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
         /// </remarks>
         public Task<Withdrawal> CreateAsync(CreateWithdrawalOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Withdrawal>("CreateWithdrawal", null, options, requestOptions, cancellationToken);
 
         /// <summary>Listar saques</summary>
         /// <remarks>
-        /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente da sua chave de API.</para>
+        /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente autenticado.</para>
         /// </remarks>
         public WithdrawalListResponse List(ListWithdrawalsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar saques</summary>
         /// <remarks>
-        /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente da sua chave de API.</para>
+        /// <para>Consulte o histórico de saques da sua empresa. Use os filtros de status e período para acompanhar as transferências e conferir as saídas do extrato. A consulta considera o ambiente autenticado.</para>
         /// </remarks>
         public Task<WithdrawalListResponse> ListAsync(ListWithdrawalsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WithdrawalListResponse>("ListWithdrawals", null, options, requestOptions, cancellationToken);
@@ -73,42 +73,42 @@ namespace Raims
 
         /// <summary>Consultar saques em processamento</summary>
         /// <remarks>
-        /// <para>Consulte a quantidade e o valor total dos saques pendentes ou em processamento da empresa. A consulta exige uma chave de API de Produção e não altera o andamento dos pedidos.</para>
+        /// <para>Consulte a quantidade e o valor total dos saques pendentes ou em processamento da empresa. A consulta exige acesso autorizado em Produção e não altera o andamento dos pedidos.</para>
         /// </remarks>
         public WithdrawalSummary GetSummary(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetSummaryAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar saques em processamento</summary>
         /// <remarks>
-        /// <para>Consulte a quantidade e o valor total dos saques pendentes ou em processamento da empresa. A consulta exige uma chave de API de Produção e não altera o andamento dos pedidos.</para>
+        /// <para>Consulte a quantidade e o valor total dos saques pendentes ou em processamento da empresa. A consulta exige acesso autorizado em Produção e não altera o andamento dos pedidos.</para>
         /// </remarks>
         public Task<WithdrawalSummary> GetSummaryAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WithdrawalSummary>("GetWithdrawalSummary", null, null, requestOptions, cancellationToken);
 
         /// <summary>Consultar saque automático</summary>
         /// <remarks>
-        /// <para>Consulte a ativação, o valor mínimo, o horário diário e a próxima tentativa prevista de saque da empresa. A consulta exige uma chave de API de Produção.</para>
+        /// <para>Consulte a ativação, o valor mínimo, o horário diário e a próxima tentativa prevista de saque da empresa. A consulta exige acesso autorizado em Produção.</para>
         /// </remarks>
         public AutomaticWithdrawalSettings GetAutomaticSettings(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAutomaticSettingsAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar saque automático</summary>
         /// <remarks>
-        /// <para>Consulte a ativação, o valor mínimo, o horário diário e a próxima tentativa prevista de saque da empresa. A consulta exige uma chave de API de Produção.</para>
+        /// <para>Consulte a ativação, o valor mínimo, o horário diário e a próxima tentativa prevista de saque da empresa. A consulta exige acesso autorizado em Produção.</para>
         /// </remarks>
         public Task<AutomaticWithdrawalSettings> GetAutomaticSettingsAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<AutomaticWithdrawalSettings>("GetAutomaticWithdrawalSettings", null, null, requestOptions, cancellationToken);
 
         /// <summary>Atualizar saque automático</summary>
         /// <remarks>
-        /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use uma chave de API de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
+        /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use chave de API ou autorização OAuth de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
         /// </remarks>
         public AutomaticWithdrawalSettings UpdateAutomaticSettings(UpdateAutomaticWithdrawalSettingsOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => UpdateAutomaticSettingsAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Atualizar saque automático</summary>
         /// <remarks>
-        /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use uma chave de API de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
+        /// <para>Ative, desative ou ajuste a tentativa diária de saque para o destino próprio selecionado. Use chave de API ou autorização OAuth de Produção. Campos omitidos preservam o valor atual; salvar não solicita um saque imediato.</para>
         /// </remarks>
         public Task<AutomaticWithdrawalSettings> UpdateAutomaticSettingsAsync(UpdateAutomaticWithdrawalSettingsOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<AutomaticWithdrawalSettings>("UpdateAutomaticWithdrawalSettings", null, options, requestOptions, cancellationToken);

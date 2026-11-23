@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar webhooks.</summary>
     /// <remarks>
-    /// <para>Consulte os destinos cadastrados na empresa e no ambiente da sua chave de API, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
+    /// <para>Consulte os destinos cadastrados na empresa e no ambiente autenticado, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
     /// </remarks>
     public sealed class ListWebhooksOptions : BaseOptions
     {

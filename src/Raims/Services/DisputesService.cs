@@ -17,28 +17,28 @@ namespace Raims
 
         /// <summary>Listar contestações</summary>
         /// <remarks>
-        /// <para>Consulta as contestações da empresa e do ambiente da chave, com filtros e paginação por cursor.</para>
+        /// <para>Consulta as contestações da empresa e do ambiente autenticado, com filtros e paginação por cursor.</para>
         /// </remarks>
         public DisputeListResponse List(ListDisputesOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar contestações</summary>
         /// <remarks>
-        /// <para>Consulta as contestações da empresa e do ambiente da chave, com filtros e paginação por cursor.</para>
+        /// <para>Consulta as contestações da empresa e do ambiente autenticado, com filtros e paginação por cursor.</para>
         /// </remarks>
         public Task<DisputeListResponse> ListAsync(ListDisputesOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<DisputeListResponse>("ListDisputes", null, options, requestOptions, cancellationToken);
 
         /// <summary>Recuperar uma contestação</summary>
         /// <remarks>
-        /// <para>Consulta a etapa, os motivos e os resultados disponíveis de uma contestação da empresa e do ambiente da chave.</para>
+        /// <para>Consulta a etapa, os motivos e os resultados disponíveis de uma contestação da empresa e do ambiente autenticado.</para>
         /// </remarks>
         public Dispute Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar uma contestação</summary>
         /// <remarks>
-        /// <para>Consulta a etapa, os motivos e os resultados disponíveis de uma contestação da empresa e do ambiente da chave.</para>
+        /// <para>Consulta a etapa, os motivos e os resultados disponíveis de uma contestação da empresa e do ambiente autenticado.</para>
         /// </remarks>
         public Task<Dispute> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Dispute>("GetDispute", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);

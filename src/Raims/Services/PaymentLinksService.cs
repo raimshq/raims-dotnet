@@ -31,28 +31,28 @@ namespace Raims
 
         /// <summary>Listar links de pagamento</summary>
         /// <remarks>
-        /// <para>Lista os links da empresa e do ambiente da chave, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
+        /// <para>Lista os links da empresa e do ambiente autenticado, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
         /// </remarks>
         public PaymentLinkListResponse List(ListPaymentLinksOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar links de pagamento</summary>
         /// <remarks>
-        /// <para>Lista os links da empresa e do ambiente da chave, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
+        /// <para>Lista os links da empresa e do ambiente autenticado, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
         /// </remarks>
         public Task<PaymentLinkListResponse> ListAsync(ListPaymentLinksOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<PaymentLinkListResponse>("ListPaymentLinks", null, options, requestOptions, cancellationToken);
 
         /// <summary>Recuperar um link de pagamento</summary>
         /// <remarks>
-        /// <para>Consulta a URL, a configuração e a disponibilidade atual do link. is_active informa se o link está ativo; is_payable indica se o checkout pode receber pagamento neste momento. O link precisa pertencer à empresa e ao ambiente da chave. Para valor, vencimento, cliente e status financeiro, use GET /v1/charges/{charge_id}.</para>
+        /// <para>Consulta a URL, a configuração e a disponibilidade atual do link. is_active informa se o link está ativo; is_payable indica se o checkout pode receber pagamento neste momento. O link precisa pertencer à empresa e ao ambiente autenticado. Para valor, vencimento, cliente e status financeiro, use GET /v1/charges/{charge_id}.</para>
         /// </remarks>
         public PaymentLinkDetails Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar um link de pagamento</summary>
         /// <remarks>
-        /// <para>Consulta a URL, a configuração e a disponibilidade atual do link. is_active informa se o link está ativo; is_payable indica se o checkout pode receber pagamento neste momento. O link precisa pertencer à empresa e ao ambiente da chave. Para valor, vencimento, cliente e status financeiro, use GET /v1/charges/{charge_id}.</para>
+        /// <para>Consulta a URL, a configuração e a disponibilidade atual do link. is_active informa se o link está ativo; is_payable indica se o checkout pode receber pagamento neste momento. O link precisa pertencer à empresa e ao ambiente autenticado. Para valor, vencimento, cliente e status financeiro, use GET /v1/charges/{charge_id}.</para>
         /// </remarks>
         public Task<PaymentLinkDetails> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<PaymentLinkDetails>("GetPaymentLink", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);

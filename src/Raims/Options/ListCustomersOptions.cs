@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar clientes.</summary>
     /// <remarks>
-    /// <para>Lista os clientes da empresa e do ambiente da chave conforme os filtros informados, com paginação por cursor. Envie os parâmetros na URL, sem corpo na requisição.</para>
+    /// <para>Lista os clientes da empresa e do ambiente autenticado, com filtros na URL e paginação por cursor. Os filtros name e external_reference podem omitir clientes recém-criados ou alterados. Para conferir um cadastro conhecido, use GET /v1/customers/{id}.</para>
     /// </remarks>
     public sealed class ListCustomersOptions : BaseOptions
     {
@@ -44,7 +44,7 @@ namespace Raims
             set => Set("identifier", value);
         }
 
-        /// <summary>Busca pelo nome do cliente, com os cadastros mais recentes primeiro. Deixe vazio para ignorar este filtro.</summary>
+        /// <summary>Busca pelo nome do cliente, com os cadastros mais recentes primeiro. Cadastros novos ou alterados podem ficar temporariamente fora dos resultados. Após renomear um cliente, a busca pelo nome anterior ainda pode devolver o cadastro com o nome novo. Deixe vazio para ignorar este filtro.</summary>
         public Optional<string> Name
         {
             get => Get<string>("name");
@@ -65,7 +65,7 @@ namespace Raims
             set => Set("document", value);
         }
 
-        /// <summary>Filtra pela referência atual do cliente no seu sistema, com igualdade do valor completo, incluindo maiúsculas, minúsculas e acentos. Pode ser combinada com os demais filtros. Após criar ou editar o cliente, a busca pode levar alguns segundos para refletir a referência. Mantenha o valor ao navegar por cursor.</summary>
+        /// <summary>Filtra pela referência atual do cliente no seu sistema. Compara o valor completo, com distinção de maiúsculas, minúsculas e acentos. Cadastros novos ou alterados podem ficar temporariamente fora dos resultados. Mantenha o valor ao navegar por cursor.</summary>
         public Optional<string> ExternalReference
         {
             get => Get<string>("external_reference");

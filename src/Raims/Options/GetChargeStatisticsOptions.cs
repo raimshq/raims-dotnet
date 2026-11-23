@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Consultar estatísticas de cobranças.</summary>
     /// <remarks>
-    /// <para>Consulte quantidades, valores e taxa de pagamento das cobranças para acompanhar seus recebimentos no ERP ou sistema de gestão. A consulta considera a empresa e o ambiente da sua chave de API. Os dados podem levar alguns segundos para refletir alterações nas cobranças.</para>
+    /// <para>Consulta quantidades, valores e taxa de pagamento das cobranças da empresa e do ambiente autenticado. Os totais são atualizados em segundo plano. Para confirmar uma cobrança específica, use GET /v1/charges/{id}.</para>
     /// </remarks>
     public sealed class GetChargeStatisticsOptions : BaseOptions
     {

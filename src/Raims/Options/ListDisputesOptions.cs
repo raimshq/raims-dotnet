@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar contestações.</summary>
     /// <remarks>
-    /// <para>Consulta as contestações da empresa e do ambiente da chave, com filtros e paginação por cursor.</para>
+    /// <para>Consulta as contestações da empresa e do ambiente autenticado, com filtros e paginação por cursor.</para>
     /// </remarks>
     public sealed class ListDisputesOptions : BaseOptions
     {

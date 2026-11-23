@@ -17,28 +17,28 @@ namespace Raims
 
         /// <summary>Recuperar saldo atual</summary>
         /// <remarks>
-        /// <para>Consulta os valores total, bloqueado e disponível na empresa e no ambiente da chave de API. Os valores são expressos em centavos de real. O saldo disponível considera os bloqueios e não confirma a autorização de um saque ou estorno.</para>
+        /// <para>Consulta os valores total, bloqueado e disponível na empresa e no ambiente autenticado. Os valores são expressos em centavos de real. O saldo disponível considera os bloqueios e não confirma a autorização de um saque ou estorno.</para>
         /// </remarks>
         public Balance Get(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar saldo atual</summary>
         /// <remarks>
-        /// <para>Consulta os valores total, bloqueado e disponível na empresa e no ambiente da chave de API. Os valores são expressos em centavos de real. O saldo disponível considera os bloqueios e não confirma a autorização de um saque ou estorno.</para>
+        /// <para>Consulta os valores total, bloqueado e disponível na empresa e no ambiente autenticado. Os valores são expressos em centavos de real. O saldo disponível considera os bloqueios e não confirma a autorização de um saque ou estorno.</para>
         /// </remarks>
         public Task<Balance> GetAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Balance>("GetBalance", null, null, requestOptions, cancellationToken);
 
         /// <summary>Consultar recebimentos previstos</summary>
         /// <remarks>
-        /// <para>Consulte a estimativa de recebimentos pendentes no período e o saldo total projetado. Os valores são estimativas e não indicam disponibilidade para saque.</para>
+        /// <para>Consulte os recebimentos previstos no período e o saldo total projetado. Os valores são atualizados em segundo plano. Confira updated_at para saber quando a previsão foi atualizada. Para verificar o saldo disponível para saque, consulte GET /v1/balances.</para>
         /// </remarks>
         public BalanceForecast Forecast(GetBalanceForecastOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ForecastAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar recebimentos previstos</summary>
         /// <remarks>
-        /// <para>Consulte a estimativa de recebimentos pendentes no período e o saldo total projetado. Os valores são estimativas e não indicam disponibilidade para saque.</para>
+        /// <para>Consulte os recebimentos previstos no período e o saldo total projetado. Os valores são atualizados em segundo plano. Confira updated_at para saber quando a previsão foi atualizada. Para verificar o saldo disponível para saque, consulte GET /v1/balances.</para>
         /// </remarks>
         public Task<BalanceForecast> ForecastAsync(GetBalanceForecastOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<BalanceForecast>("GetBalanceForecast", null, options, requestOptions, cancellationToken);

@@ -130,6 +130,8 @@ class Generator:
                     raise ValueError('Every operation must have a unique operationId.')
                 if operation.get('x-raims-availability', 'production') != 'production':
                     raise ValueError('The SDK may only consume published operations.')
+                if {'BearerAuth': []} not in operation.get('security', self.spec.get('security', [])):
+                    raise ValueError('An operation does not support standalone API key authentication: ' + name)
                 self.operations[name] = dict(operation, method=method.upper(), path=path,
                                              path_parameters=item.get('parameters', []))
         mapped = [op for methods in self.services.values() for op in methods.values()]
@@ -340,6 +342,9 @@ class Generator:
             parameter = self.resolve(parameter)
             if parameter['in'] not in {'path', 'query', 'header'}:
                 raise ValueError('Unsupported parameter location: ' + parameter['in'])
+            if (parameter['in'] == 'header' and parameter['name'].lower() == 'x-raims-environment'
+                    and parameter.get('x-raims-security-schemes') == ['ApplicationOAuth']):
+                continue
             if parameter['in'] == 'header' and parameter['name'].lower() != 'idempotency-key':
                 raise ValueError('A new request header requires explicit support: ' + parameter['name'])
             result[(parameter['in'], parameter['name'])] = parameter

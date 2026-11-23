@@ -132,6 +132,13 @@
     "response": "Refund",
     "service": "SimulationRefundsService"
   },
+  "GetAccountContext": {
+    "member": "Accounts",
+    "method": "GetContext",
+    "options": null,
+    "response": "AccountContext",
+    "service": "AccountsService"
+  },
   "GetAccountFees": {
     "member": "Accounts",
     "method": "GetFees",

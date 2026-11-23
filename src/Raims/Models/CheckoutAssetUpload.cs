@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Raims
 {
-    /// <summary>Autorização temporária para enviar um arquivo de imagem da empresa, no ambiente da chave.</summary>
+    /// <summary>Autorização temporária para enviar um arquivo de imagem da empresa, no ambiente autenticado.</summary>
     public sealed class CheckoutAssetUpload : RaimsEntity
     {
         /// <summary>Identificador do envio. Use-o no campo correspondente do PATCH depois de enviar o arquivo.</summary>

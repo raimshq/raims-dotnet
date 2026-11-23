@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar links de pagamento.</summary>
     /// <remarks>
-    /// <para>Lista os links da empresa e do ambiente da chave, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
+    /// <para>Lista os links da empresa e do ambiente autenticado, pela ordem decrescente das cobranças vinculadas. Use charge_id para localizar o link de uma cobrança e page.next_after para continuar.</para>
     /// </remarks>
     public sealed class ListPaymentLinksOptions : BaseOptions
     {

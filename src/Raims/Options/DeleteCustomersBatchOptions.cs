@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Remover clientes em lote.</summary>
     /// <remarks>
-    /// <para>Remove até 100 clientes da empresa e do ambiente da sua chave em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
+    /// <para>Remove até 100 clientes da empresa e do ambiente autenticado em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
     /// </remarks>
     public sealed class DeleteCustomersBatchOptions : BaseOptions
     {

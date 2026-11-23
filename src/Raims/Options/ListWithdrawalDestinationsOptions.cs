@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Listar destinos de saque.</summary>
     /// <remarks>
-    /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige uma chave de Produção.</para>
+    /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige acesso autorizado em Produção.</para>
     /// </remarks>
     public sealed class ListWithdrawalDestinationsOptions : BaseOptions
     {
