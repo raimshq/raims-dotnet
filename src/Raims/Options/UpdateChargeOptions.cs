@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Atualizar cobrança existente.</summary>
     /// <remarks>
-    /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente da sua chave de API. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
+    /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente autenticado. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
     /// </remarks>
     public sealed class UpdateChargeOptions : BaseOptions
     {

@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Solicitar saque.</summary>
     /// <remarks>
-    /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
+    /// <para>Solicite um saque Pix para a chave padrão da própria empresa cadastrada no Dashboard. O valor solicitado inclui a tarifa. Para exigir o destino padrão que você conferiu, informe expected_destination_id. Guarde o identificador e acompanhe o mesmo saque enquanto o resultado estiver pendente.</para>
     /// </remarks>
     public sealed class CreateWithdrawalOptions : BaseOptions
     {
@@ -21,6 +21,13 @@ namespace Raims
         {
             get => Get<long>("amount_cents");
             set => Set("amount_cents", value);
+        }
+
+        /// <summary>ID do destino próprio que deve continuar selecionado como padrão. Copie o id retornado na consulta dos destinos. Se o destino mudar ou deixar de ser válido, o saque é recusado. Omitir ou enviar null usa o destino padrão vigente.</summary>
+        public Optional<string?> ExpectedDestinationId
+        {
+            get => Get<string?>("expected_destination_id");
+            set => Set("expected_destination_id", value);
         }
 
     }

@@ -13,6 +13,54 @@ namespace Raims
     /// <summary>Valores nomeados do contrato público. Os campos de resposta também aceitam valores futuros.</summary>
     public static class EnumValues
     {
+        /// <summary>AccountContextAmountUnit</summary>
+        public static class AccountContextAmountUnit
+        {
+            /// <summary>Valor da API: cents.</summary>
+            public const string Cents = "cents";
+        }
+
+        /// <summary>AccountContextBusinessTimezone</summary>
+        public static class AccountContextBusinessTimezone
+        {
+            /// <summary>Valor da API: America/Sao_Paulo.</summary>
+            public const string AmericaSaoPaulo = "America/Sao_Paulo";
+        }
+
+        /// <summary>AccountContextCompanyStatus</summary>
+        public static class AccountContextCompanyStatus
+        {
+            /// <summary>Valor da API: pending.</summary>
+            public const string Pending = "pending";
+            /// <summary>Valor da API: active.</summary>
+            public const string Active = "active";
+            /// <summary>Valor da API: limited.</summary>
+            public const string Limited = "limited";
+        }
+
+        /// <summary>AccountContextCurrency</summary>
+        public static class AccountContextCurrency
+        {
+            /// <summary>Valor da API: BRL.</summary>
+            public const string BRL = "BRL";
+        }
+
+        /// <summary>AccountContextDataEnvironment</summary>
+        public static class AccountContextDataEnvironment
+        {
+            /// <summary>Valor da API: sandbox.</summary>
+            public const string Sandbox = "sandbox";
+            /// <summary>Valor da API: production.</summary>
+            public const string Production = "production";
+        }
+
+        /// <summary>AccountContextTimestampUnit</summary>
+        public static class AccountContextTimestampUnit
+        {
+            /// <summary>Valor da API: unix_seconds.</summary>
+            public const string UnixSeconds = "unix_seconds";
+        }
+
         /// <summary>BalanceForecastPeriod</summary>
         public static class BalanceForecastPeriod
         {
@@ -210,6 +258,62 @@ namespace Raims
             public const string RefundCompleted = "refund.completed";
             /// <summary>Valor da API: refund.failed.</summary>
             public const string RefundFailed = "refund.failed";
+            /// <summary>Valor da API: charge.updated.</summary>
+            public const string ChargeUpdated = "charge.updated";
+            /// <summary>Valor da API: charge.expired.</summary>
+            public const string ChargeExpired = "charge.expired";
+            /// <summary>Valor da API: withdrawal.requested.</summary>
+            public const string WithdrawalRequested = "withdrawal.requested";
+            /// <summary>Valor da API: withdrawal.completed.</summary>
+            public const string WithdrawalCompleted = "withdrawal.completed";
+            /// <summary>Valor da API: withdrawal.failed.</summary>
+            public const string WithdrawalFailed = "withdrawal.failed";
+            /// <summary>Valor da API: dispute.opened.</summary>
+            public const string DisputeOpened = "dispute.opened";
+            /// <summary>Valor da API: dispute.updated.</summary>
+            public const string DisputeUpdated = "dispute.updated";
+            /// <summary>Valor da API: dispute.closed.</summary>
+            public const string DisputeClosed = "dispute.closed";
+            /// <summary>Valor da API: dispute.funds_debited.</summary>
+            public const string DisputeFundsDebited = "dispute.funds_debited";
+            /// <summary>Valor da API: balance.hold.created.</summary>
+            public const string BalanceHoldCreated = "balance.hold.created";
+            /// <summary>Valor da API: balance.hold.released.</summary>
+            public const string BalanceHoldReleased = "balance.hold.released";
+            /// <summary>Valor da API: statement.created.</summary>
+            public const string StatementCreated = "statement.created";
+            /// <summary>Valor da API: ted.received.</summary>
+            public const string TedReceived = "ted.received";
+            /// <summary>Valor da API: pix_refund.received.</summary>
+            public const string PixRefundReceived = "pix_refund.received";
+            /// <summary>Valor da API: pix.available.</summary>
+            public const string PixAvailable = "pix.available";
+            /// <summary>Valor da API: pix.issuance_failed.</summary>
+            public const string PixIssuanceFailed = "pix.issuance_failed";
+            /// <summary>Valor da API: boleto.available.</summary>
+            public const string BoletoAvailable = "boleto.available";
+            /// <summary>Valor da API: boleto.issuance_failed.</summary>
+            public const string BoletoIssuanceFailed = "boleto.issuance_failed";
+            /// <summary>Valor da API: boleto.compensated.</summary>
+            public const string BoletoCompensated = "boleto.compensated";
+            /// <summary>Valor da API: payment_link.created.</summary>
+            public const string PaymentLinkCreated = "payment_link.created";
+            /// <summary>Valor da API: payment_link.updated.</summary>
+            public const string PaymentLinkUpdated = "payment_link.updated";
+            /// <summary>Valor da API: refund.accepted.</summary>
+            public const string RefundAccepted = "refund.accepted";
+            /// <summary>Valor da API: account.restored.</summary>
+            public const string AccountRestored = "account.restored";
+            /// <summary>Valor da API: customer.created.</summary>
+            public const string CustomerCreated = "customer.created";
+            /// <summary>Valor da API: customer.updated.</summary>
+            public const string CustomerUpdated = "customer.updated";
+            /// <summary>Valor da API: customer.deleted.</summary>
+            public const string CustomerDeleted = "customer.deleted";
+            /// <summary>Valor da API: withdrawal.accepted.</summary>
+            public const string WithdrawalAccepted = "withdrawal.accepted";
+            /// <summary>Valor da API: charge.fully_refunded.</summary>
+            public const string ChargeFullyRefunded = "charge.fully_refunded";
         }
 
         /// <summary>CustomerCreatedTaxIdType</summary>
@@ -558,6 +662,62 @@ namespace Raims
             public const string RefundCompleted = "refund.completed";
             /// <summary>Valor da API: refund.failed.</summary>
             public const string RefundFailed = "refund.failed";
+            /// <summary>Valor da API: charge.updated.</summary>
+            public const string ChargeUpdated = "charge.updated";
+            /// <summary>Valor da API: charge.expired.</summary>
+            public const string ChargeExpired = "charge.expired";
+            /// <summary>Valor da API: withdrawal.requested.</summary>
+            public const string WithdrawalRequested = "withdrawal.requested";
+            /// <summary>Valor da API: withdrawal.completed.</summary>
+            public const string WithdrawalCompleted = "withdrawal.completed";
+            /// <summary>Valor da API: withdrawal.failed.</summary>
+            public const string WithdrawalFailed = "withdrawal.failed";
+            /// <summary>Valor da API: dispute.opened.</summary>
+            public const string DisputeOpened = "dispute.opened";
+            /// <summary>Valor da API: dispute.updated.</summary>
+            public const string DisputeUpdated = "dispute.updated";
+            /// <summary>Valor da API: dispute.closed.</summary>
+            public const string DisputeClosed = "dispute.closed";
+            /// <summary>Valor da API: dispute.funds_debited.</summary>
+            public const string DisputeFundsDebited = "dispute.funds_debited";
+            /// <summary>Valor da API: balance.hold.created.</summary>
+            public const string BalanceHoldCreated = "balance.hold.created";
+            /// <summary>Valor da API: balance.hold.released.</summary>
+            public const string BalanceHoldReleased = "balance.hold.released";
+            /// <summary>Valor da API: statement.created.</summary>
+            public const string StatementCreated = "statement.created";
+            /// <summary>Valor da API: ted.received.</summary>
+            public const string TedReceived = "ted.received";
+            /// <summary>Valor da API: pix_refund.received.</summary>
+            public const string PixRefundReceived = "pix_refund.received";
+            /// <summary>Valor da API: pix.available.</summary>
+            public const string PixAvailable = "pix.available";
+            /// <summary>Valor da API: pix.issuance_failed.</summary>
+            public const string PixIssuanceFailed = "pix.issuance_failed";
+            /// <summary>Valor da API: boleto.available.</summary>
+            public const string BoletoAvailable = "boleto.available";
+            /// <summary>Valor da API: boleto.issuance_failed.</summary>
+            public const string BoletoIssuanceFailed = "boleto.issuance_failed";
+            /// <summary>Valor da API: boleto.compensated.</summary>
+            public const string BoletoCompensated = "boleto.compensated";
+            /// <summary>Valor da API: payment_link.created.</summary>
+            public const string PaymentLinkCreated = "payment_link.created";
+            /// <summary>Valor da API: payment_link.updated.</summary>
+            public const string PaymentLinkUpdated = "payment_link.updated";
+            /// <summary>Valor da API: refund.accepted.</summary>
+            public const string RefundAccepted = "refund.accepted";
+            /// <summary>Valor da API: account.restored.</summary>
+            public const string AccountRestored = "account.restored";
+            /// <summary>Valor da API: customer.created.</summary>
+            public const string CustomerCreated = "customer.created";
+            /// <summary>Valor da API: customer.updated.</summary>
+            public const string CustomerUpdated = "customer.updated";
+            /// <summary>Valor da API: customer.deleted.</summary>
+            public const string CustomerDeleted = "customer.deleted";
+            /// <summary>Valor da API: withdrawal.accepted.</summary>
+            public const string WithdrawalAccepted = "withdrawal.accepted";
+            /// <summary>Valor da API: charge.fully_refunded.</summary>
+            public const string ChargeFullyRefunded = "charge.fully_refunded";
         }
 
         /// <summary>WebhookHealthStatus</summary>

@@ -17,28 +17,28 @@ namespace Raims
 
         /// <summary>Listar destinos de saque</summary>
         /// <remarks>
-        /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige uma chave de Produção.</para>
+        /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige acesso autorizado em Produção.</para>
         /// </remarks>
         public WithdrawalDestinationListResponse List(ListWithdrawalDestinationsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar destinos de saque</summary>
         /// <remarks>
-        /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige uma chave de Produção.</para>
+        /// <para>Consulte os destinos Pix próprios verificados e identifique o padrão antes de solicitar um saque. A consulta exige acesso autorizado em Produção.</para>
         /// </remarks>
         public Task<WithdrawalDestinationListResponse> ListAsync(ListWithdrawalDestinationsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WithdrawalDestinationListResponse>("ListWithdrawalDestinations", null, options, requestOptions, cancellationToken);
 
         /// <summary>Recuperar um destino de saque</summary>
         /// <remarks>
-        /// <para>Consulte um destino Pix próprio pelo identificador recebido na listagem. A resposta apresenta a chave mascarada e informa se ela é o padrão atual. Use uma chave de Produção.</para>
+        /// <para>Consulte um destino Pix próprio pelo identificador recebido na listagem. A resposta apresenta a chave mascarada e informa se ela é o padrão atual. Use chave de API ou autorização OAuth de Produção.</para>
         /// </remarks>
         public WithdrawalDestination Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar um destino de saque</summary>
         /// <remarks>
-        /// <para>Consulte um destino Pix próprio pelo identificador recebido na listagem. A resposta apresenta a chave mascarada e informa se ela é o padrão atual. Use uma chave de Produção.</para>
+        /// <para>Consulte um destino Pix próprio pelo identificador recebido na listagem. A resposta apresenta a chave mascarada e informa se ela é o padrão atual. Use chave de API ou autorização OAuth de Produção.</para>
         /// </remarks>
         public Task<WithdrawalDestination> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WithdrawalDestination>("GetWithdrawalDestination", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);

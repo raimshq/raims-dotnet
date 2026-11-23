@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Criar cliente.</summary>
     /// <remarks>
-    /// <para>Cria um cliente na empresa e no ambiente da sua chave de API. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
+    /// <para>Cria um cliente na empresa e no ambiente autenticado. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
     /// </remarks>
     public sealed class CreateCustomerOptions : BaseOptions
     {

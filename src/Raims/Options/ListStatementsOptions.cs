@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Recuperar extrato.</summary>
     /// <remarks>
-    /// <para>Consulte os lançamentos do extrato da empresa e do ambiente da sua chave de API. Filtre por período, tipo de lançamento ou referência e percorra os resultados com os cursores retornados. Valores positivos representam entradas ou liberações; valores negativos representam saídas, tarifas ou bloqueios. Uma confirmação financeira pode levar alguns instantes para aparecer no extrato.</para>
+    /// <para>Consulte os lançamentos do extrato da empresa e do ambiente autenticado. Filtre por período, tipo de lançamento ou referência e percorra os resultados com os cursores retornados. Valores positivos representam entradas ou liberações. Valores negativos representam saídas, tarifas ou bloqueios. A confirmação financeira pode anteceder o lançamento no extrato. Para acompanhar o registro do lançamento, use o evento statement.created.</para>
     /// </remarks>
     public sealed class ListStatementsOptions : BaseOptions
     {

@@ -31,70 +31,70 @@ namespace Raims
 
         /// <summary>Listar cobranças</summary>
         /// <remarks>
-        /// <para>Lista cobranças da empresa e do ambiente da sua chave de API, com filtros e paginação por cursor. Para avançar, use page.next_after em after enquanto page.has_next for true, mantendo os filtros e a ordenação. Alterações de status podem levar alguns segundos para aparecer nos filtros; aguarde antes de consultar novamente.</para>
+        /// <para>Lista cobranças da empresa e do ambiente autenticado com filtros na URL e paginação por cursor. Os filtros status, email, external_reference, due_gte, due_lte, paid_gte e paid_lte podem omitir gravações recentes. O mesmo vale para customer_id com ordenação por valor ou data ou com período de criação, sem identifier. Para conferir uma cobrança conhecida, use GET /v1/charges/{id}.</para>
         /// </remarks>
         public ChargeListResponse List(ListChargesOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar cobranças</summary>
         /// <remarks>
-        /// <para>Lista cobranças da empresa e do ambiente da sua chave de API, com filtros e paginação por cursor. Para avançar, use page.next_after em after enquanto page.has_next for true, mantendo os filtros e a ordenação. Alterações de status podem levar alguns segundos para aparecer nos filtros; aguarde antes de consultar novamente.</para>
+        /// <para>Lista cobranças da empresa e do ambiente autenticado com filtros na URL e paginação por cursor. Os filtros status, email, external_reference, due_gte, due_lte, paid_gte e paid_lte podem omitir gravações recentes. O mesmo vale para customer_id com ordenação por valor ou data ou com período de criação, sem identifier. Para conferir uma cobrança conhecida, use GET /v1/charges/{id}.</para>
         /// </remarks>
         public Task<ChargeListResponse> ListAsync(ListChargesOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<ChargeListResponse>("ListCharges", null, options, requestOptions, cancellationToken);
 
         /// <summary>Recuperar uma única cobrança</summary>
         /// <remarks>
-        /// <para>Consulta os dados, o status e as instruções de pagamento disponíveis de uma cobrança da empresa e do ambiente da sua chave de API.</para>
+        /// <para>Consulta os dados, o status e as instruções de pagamento disponíveis de uma cobrança da empresa e do ambiente autenticado.</para>
         /// </remarks>
         public Charge Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar uma única cobrança</summary>
         /// <remarks>
-        /// <para>Consulta os dados, o status e as instruções de pagamento disponíveis de uma cobrança da empresa e do ambiente da sua chave de API.</para>
+        /// <para>Consulta os dados, o status e as instruções de pagamento disponíveis de uma cobrança da empresa e do ambiente autenticado.</para>
         /// </remarks>
         public Task<Charge> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Charge>("GetCharge", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);
 
         /// <summary>Atualizar cobrança existente</summary>
         /// <remarks>
-        /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente da sua chave de API. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
+        /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente autenticado. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
         /// </remarks>
         public Charge Update(string id, UpdateChargeOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => UpdateAsync(id, options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Atualizar cobrança existente</summary>
         /// <remarks>
-        /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente da sua chave de API. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
+        /// <para>Atualiza título, descrição, referência externa e dados de integração de uma cobrança da empresa e do ambiente autenticado. Você pode alterar somente metadata mesmo após o pagamento ou estorno. Alterações nos demais campos continuam sujeitas ao estado da cobrança; se algum campo não puder ser alterado, nenhuma mudança da requisição será aplicada.</para>
         /// </remarks>
         public Task<Charge> UpdateAsync(string id, UpdateChargeOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Charge>("UpdateCharge", new Dictionary<string, string> { { "id", id } }, options, requestOptions, cancellationToken);
 
         /// <summary>Revogar cobrança</summary>
         /// <remarks>
-        /// <para>Revoga uma cobrança em aberto da empresa e do ambiente da chave de API, preservando seu histórico. No Sandbox, o cancelamento é simulado. Em Produção, a revogação pode aguardar confirmação.</para>
+        /// <para>Revoga uma cobrança em aberto da empresa e do ambiente autenticado, preservando seu histórico. No Sandbox, o cancelamento é simulado. Em Produção, a revogação pode aguardar confirmação.</para>
         /// </remarks>
         public ChargeRevoked Revoke(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RevokeAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Revogar cobrança</summary>
         /// <remarks>
-        /// <para>Revoga uma cobrança em aberto da empresa e do ambiente da chave de API, preservando seu histórico. No Sandbox, o cancelamento é simulado. Em Produção, a revogação pode aguardar confirmação.</para>
+        /// <para>Revoga uma cobrança em aberto da empresa e do ambiente autenticado, preservando seu histórico. No Sandbox, o cancelamento é simulado. Em Produção, a revogação pode aguardar confirmação.</para>
         /// </remarks>
         public Task<ChargeRevoked> RevokeAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<ChargeRevoked>("RevokeCharge", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);
 
         /// <summary>Consultar dados do pagamento</summary>
         /// <remarks>
-        /// <para>Consulte o valor, a data e o meio de pagamento confirmado de uma cobrança. Nos recebimentos Pix, end_to_end_id informa o identificador bancário quando disponível. A cobrança precisa estar paga, parcialmente estornada ou com contestação ganha, com a data do pagamento registrada. A consulta considera a empresa e o ambiente da sua chave de API.</para>
+        /// <para>Consulte o valor, a data e o meio de pagamento confirmado de uma cobrança. Nos recebimentos Pix, end_to_end_id informa o identificador bancário quando disponível. A cobrança precisa estar paga, parcialmente estornada ou com contestação ganha, com a data do pagamento registrada. A consulta considera a empresa e o ambiente autenticado.</para>
         /// </remarks>
         public PaymentReceipt GetPayment(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetPaymentAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar dados do pagamento</summary>
         /// <remarks>
-        /// <para>Consulte o valor, a data e o meio de pagamento confirmado de uma cobrança. Nos recebimentos Pix, end_to_end_id informa o identificador bancário quando disponível. A cobrança precisa estar paga, parcialmente estornada ou com contestação ganha, com a data do pagamento registrada. A consulta considera a empresa e o ambiente da sua chave de API.</para>
+        /// <para>Consulte o valor, a data e o meio de pagamento confirmado de uma cobrança. Nos recebimentos Pix, end_to_end_id informa o identificador bancário quando disponível. A cobrança precisa estar paga, parcialmente estornada ou com contestação ganha, com a data do pagamento registrada. A consulta considera a empresa e o ambiente autenticado.</para>
         /// </remarks>
         public Task<PaymentReceipt> GetPaymentAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<PaymentReceipt>("GetChargePayment", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);
@@ -171,14 +171,14 @@ namespace Raims
 
         /// <summary>Consultar estatísticas de cobranças</summary>
         /// <remarks>
-        /// <para>Consulte quantidades, valores e taxa de pagamento das cobranças para acompanhar seus recebimentos no ERP ou sistema de gestão. A consulta considera a empresa e o ambiente da sua chave de API. Os dados podem levar alguns segundos para refletir alterações nas cobranças.</para>
+        /// <para>Consulta quantidades, valores e taxa de pagamento das cobranças da empresa e do ambiente autenticado. Os totais são atualizados em segundo plano. Para confirmar uma cobrança específica, use GET /v1/charges/{id}.</para>
         /// </remarks>
         public ChargeStatistics Statistics(GetChargeStatisticsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => StatisticsAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Consultar estatísticas de cobranças</summary>
         /// <remarks>
-        /// <para>Consulte quantidades, valores e taxa de pagamento das cobranças para acompanhar seus recebimentos no ERP ou sistema de gestão. A consulta considera a empresa e o ambiente da sua chave de API. Os dados podem levar alguns segundos para refletir alterações nas cobranças.</para>
+        /// <para>Consulta quantidades, valores e taxa de pagamento das cobranças da empresa e do ambiente autenticado. Os totais são atualizados em segundo plano. Para confirmar uma cobrança específica, use GET /v1/charges/{id}.</para>
         /// </remarks>
         public Task<ChargeStatistics> StatisticsAsync(GetChargeStatisticsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<ChargeStatistics>("GetChargeStatistics", null, options, requestOptions, cancellationToken);

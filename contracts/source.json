@@ -1,8 +1,10 @@
 {
-    "repository": "https://github.com/raimshq/openapi",
-    "revision": "a412f1f2d12edec7edf001bf2fb4b48403fcec97",
-    "url": "https://raw.githubusercontent.com/raimshq/openapi/a412f1f2d12edec7edf001bf2fb4b48403fcec97/latest/openapi.spec3.json",
-    "sha256": "dc456099d6eb25808cd0cbf166ae7d4d8303578c83d1975ec524fe18e15f02af",
-    "api_version": "1.0.0",
-    "operations": 67
+  "repository": "https://github.com/raimshq/openapi",
+  "revision": "47aed0fee0f57350660595ccad636c4a6464223f",
+  "url": "https://raw.githubusercontent.com/raimshq/openapi/47aed0fee0f57350660595ccad636c4a6464223f/latest/openapi.spec3.json",
+  "sha256": "df7f6bd91a7a70ca20a5a6af84eee7f3a246250b14238e9c8349d6aa5aa670b9",
+  "api_version": "1.0.0",
+  "operations": 68,
+  "api_revision": "7973f34e56d10a495e708c6b1a28ea4b9af4c54d",
+  "api_deployment": "44994719153/1"
 }

@@ -17,42 +17,42 @@ namespace Raims
 
         /// <summary>Criar cliente</summary>
         /// <remarks>
-        /// <para>Cria um cliente na empresa e no ambiente da sua chave de API. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
+        /// <para>Cria um cliente na empresa e no ambiente autenticado. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
         /// </remarks>
         public CustomerCreated Create(CreateCustomerOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => CreateAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Criar cliente</summary>
         /// <remarks>
-        /// <para>Cria um cliente na empresa e no ambiente da sua chave de API. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
+        /// <para>Cria um cliente na empresa e no ambiente autenticado. Se o CPF ou CNPJ já estiver cadastrado, atualiza esse cliente e mantém seu identificador. Ao informar somente o CEP como endereço, logradouro, bairro, cidade e UF podem ser preenchidos automaticamente. Retorna 201 ao criar e 200 ao atualizar.</para>
         /// </remarks>
         public Task<CustomerCreated> CreateAsync(CreateCustomerOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CustomerCreated>("CreateCustomer", null, options, requestOptions, cancellationToken);
 
         /// <summary>Listar clientes</summary>
         /// <remarks>
-        /// <para>Lista os clientes da empresa e do ambiente da chave conforme os filtros informados, com paginação por cursor. Envie os parâmetros na URL, sem corpo na requisição.</para>
+        /// <para>Lista os clientes da empresa e do ambiente autenticado, com filtros na URL e paginação por cursor. Os filtros name e external_reference podem omitir clientes recém-criados ou alterados. Para conferir um cadastro conhecido, use GET /v1/customers/{id}.</para>
         /// </remarks>
         public CustomerListResponse List(ListCustomersOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar clientes</summary>
         /// <remarks>
-        /// <para>Lista os clientes da empresa e do ambiente da chave conforme os filtros informados, com paginação por cursor. Envie os parâmetros na URL, sem corpo na requisição.</para>
+        /// <para>Lista os clientes da empresa e do ambiente autenticado, com filtros na URL e paginação por cursor. Os filtros name e external_reference podem omitir clientes recém-criados ou alterados. Para conferir um cadastro conhecido, use GET /v1/customers/{id}.</para>
         /// </remarks>
         public Task<CustomerListResponse> ListAsync(ListCustomersOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CustomerListResponse>("ListCustomers", null, options, requestOptions, cancellationToken);
 
         /// <summary>Recuperar um único cliente</summary>
         /// <remarks>
-        /// <para>Consulta os dados cadastrais de um cliente pelo identificador público na empresa e no ambiente da chave de API. A requisição não tem corpo.</para>
+        /// <para>Consulta os dados cadastrais de um cliente pelo identificador público na empresa e no ambiente autenticado. A requisição não tem corpo.</para>
         /// </remarks>
         public CustomerListItem Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => GetAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Recuperar um único cliente</summary>
         /// <remarks>
-        /// <para>Consulta os dados cadastrais de um cliente pelo identificador público na empresa e no ambiente da chave de API. A requisição não tem corpo.</para>
+        /// <para>Consulta os dados cadastrais de um cliente pelo identificador público na empresa e no ambiente autenticado. A requisição não tem corpo.</para>
         /// </remarks>
         public Task<CustomerListItem> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CustomerListItem>("GetCustomer", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);
@@ -73,28 +73,28 @@ namespace Raims
 
         /// <summary>Remover cliente</summary>
         /// <remarks>
-        /// <para>Remove um cliente pelo identificador público na empresa e no ambiente da chave de API. A remoção é permitida somente quando não há cobranças vinculadas ainda não removidas, inclusive pagas. Não remove cobranças nem devolve valores. Repetir a requisição para o mesmo cadastro já removido retorna o mesmo identificador com deleted: true. A requisição não tem corpo.</para>
+        /// <para>Remove um cliente pelo identificador público na empresa e no ambiente autenticado. A remoção é permitida somente quando não há cobranças vinculadas ainda não removidas, inclusive pagas. Não remove cobranças nem devolve valores. Repetir a requisição para o mesmo cadastro já removido retorna o mesmo identificador com deleted: true. A requisição não tem corpo.</para>
         /// </remarks>
         public CustomerDeleted Delete(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => DeleteAsync(id, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Remover cliente</summary>
         /// <remarks>
-        /// <para>Remove um cliente pelo identificador público na empresa e no ambiente da chave de API. A remoção é permitida somente quando não há cobranças vinculadas ainda não removidas, inclusive pagas. Não remove cobranças nem devolve valores. Repetir a requisição para o mesmo cadastro já removido retorna o mesmo identificador com deleted: true. A requisição não tem corpo.</para>
+        /// <para>Remove um cliente pelo identificador público na empresa e no ambiente autenticado. A remoção é permitida somente quando não há cobranças vinculadas ainda não removidas, inclusive pagas. Não remove cobranças nem devolve valores. Repetir a requisição para o mesmo cadastro já removido retorna o mesmo identificador com deleted: true. A requisição não tem corpo.</para>
         /// </remarks>
         public Task<CustomerDeleted> DeleteAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CustomerDeleted>("DeleteCustomer", new Dictionary<string, string> { { "id", id } }, null, requestOptions, cancellationToken);
 
         /// <summary>Remover clientes em lote</summary>
         /// <remarks>
-        /// <para>Remove até 100 clientes da empresa e do ambiente da sua chave em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
+        /// <para>Remove até 100 clientes da empresa e do ambiente autenticado em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
         /// </remarks>
         public CustomerBatchDeleted DeleteBatch(DeleteCustomersBatchOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => DeleteBatchAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Remover clientes em lote</summary>
         /// <remarks>
-        /// <para>Remove até 100 clientes da empresa e do ambiente da sua chave em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
+        /// <para>Remove até 100 clientes da empresa e do ambiente autenticado em uma requisição. Confira o resultado de cada identificador em removed, blocked ou invalid. Cobranças não removidas impedem a remoção do cliente, inclusive quando pagas. Identificadores repetidos são processados uma vez; clientes já removidos aparecem em removed. A remoção de clientes não remove cobranças nem devolve valores.</para>
         /// </remarks>
         public Task<CustomerBatchDeleted> DeleteBatchAsync(DeleteCustomersBatchOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<CustomerBatchDeleted>("DeleteCustomersBatch", null, options, requestOptions, cancellationToken);

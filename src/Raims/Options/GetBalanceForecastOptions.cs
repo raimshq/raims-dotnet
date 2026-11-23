@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Consultar recebimentos previstos.</summary>
     /// <remarks>
-    /// <para>Consulte a estimativa de recebimentos pendentes no período e o saldo total projetado. Os valores são estimativas e não indicam disponibilidade para saque.</para>
+    /// <para>Consulte os recebimentos previstos no período e o saldo total projetado. Os valores são atualizados em segundo plano. Confira updated_at para saber quando a previsão foi atualizada. Para verificar o saldo disponível para saque, consulte GET /v1/balances.</para>
     /// </remarks>
     public sealed class GetBalanceForecastOptions : BaseOptions
     {

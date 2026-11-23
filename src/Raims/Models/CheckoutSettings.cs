@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Raims
 {
-    /// <summary>Imagens, cores, contato de suporte e meios padrão do checkout no ambiente da chave.</summary>
+    /// <summary>Imagens, cores, contato de suporte e meios padrão do checkout no ambiente autenticado.</summary>
     public sealed class CheckoutSettings : RaimsEntity
     {
         /// <summary>E-mail de suporte apresentado no checkout, ou null quando não informado.</summary>

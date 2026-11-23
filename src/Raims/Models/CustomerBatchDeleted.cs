@@ -23,7 +23,7 @@ namespace Raims
         [JsonPropertyName("blocked")]
         public List<string> Blocked { get; internal set; } = default!;
 
-        /// <summary>Valores inválidos, de clientes inexistentes ou de clientes que sua chave de API não pode acessar.</summary>
+        /// <summary>Valores inválidos, de clientes inexistentes ou de clientes que sua autenticação não permite acessar.</summary>
         [JsonInclude]
         [JsonPropertyName("invalid")]
         public List<string?> Invalid { get; internal set; } = default!;

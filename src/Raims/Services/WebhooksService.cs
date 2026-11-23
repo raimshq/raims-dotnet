@@ -17,28 +17,28 @@ namespace Raims
 
         /// <summary>Criar um webhook</summary>
         /// <remarks>
-        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente da sua chave de API. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
+        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
         /// </remarks>
         public WebhookCreated Create(CreateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => CreateAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Criar um webhook</summary>
         /// <remarks>
-        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente da sua chave de API. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
+        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
         /// </remarks>
         public Task<WebhookCreated> CreateAsync(CreateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookCreated>("CreateWebhook", null, options, requestOptions, cancellationToken);
 
         /// <summary>Listar webhooks</summary>
         /// <remarks>
-        /// <para>Consulte os destinos cadastrados na empresa e no ambiente da sua chave de API, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
+        /// <para>Consulte os destinos cadastrados na empresa e no ambiente autenticado, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
         /// </remarks>
         public WebhookListResponse List(ListWebhooksOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar webhooks</summary>
         /// <remarks>
-        /// <para>Consulte os destinos cadastrados na empresa e no ambiente da sua chave de API, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
+        /// <para>Consulte os destinos cadastrados na empresa e no ambiente autenticado, incluindo os desativados. Para avançar, copie page.next_after para after. A listagem não retorna segredos de assinatura.</para>
         /// </remarks>
         public Task<WebhookListResponse> ListAsync(ListWebhooksOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookListResponse>("ListWebhooks", null, options, requestOptions, cancellationToken);
@@ -115,28 +115,28 @@ namespace Raims
 
         /// <summary>Rotacionar o segredo de assinatura</summary>
         /// <remarks>
-        /// <para>Substitua o segredo usado para assinar os eventos, preservando o identificador e a configuração do webhook. Guarde o secret_key retornado e atualize o receptor durante o período de transição. Repetir uma rotação com período positivo enquanto a transição está ativa retorna o mesmo segredo e o mesmo vencimento. Para revogar os segredos anteriores, envie grace_period_seconds igual a zero: uma nova assinatura será gerada, inclusive durante uma transição ativa. Requisições já autorizadas ou em andamento podem chegar com a assinatura anterior.</para>
+        /// <para>Substitua o segredo usado para assinar os eventos, preservando o identificador e a configuração do webhook. Guarde o secret_key retornado e atualize o receptor durante o período de transição. Repetir uma rotação com período positivo enquanto a transição está ativa retorna o mesmo segredo e o mesmo vencimento. Para revogar os segredos anteriores, envie grace_period_seconds igual a zero: um novo segredo será gerado, inclusive durante uma transição ativa. Requisições já autorizadas ou em andamento podem chegar com a assinatura anterior.</para>
         /// </remarks>
         public WebhookSecretRotation RotateSecret(string webhookId, RotateWebhookSecretOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RotateSecretAsync(webhookId, options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Rotacionar o segredo de assinatura</summary>
         /// <remarks>
-        /// <para>Substitua o segredo usado para assinar os eventos, preservando o identificador e a configuração do webhook. Guarde o secret_key retornado e atualize o receptor durante o período de transição. Repetir uma rotação com período positivo enquanto a transição está ativa retorna o mesmo segredo e o mesmo vencimento. Para revogar os segredos anteriores, envie grace_period_seconds igual a zero: uma nova assinatura será gerada, inclusive durante uma transição ativa. Requisições já autorizadas ou em andamento podem chegar com a assinatura anterior.</para>
+        /// <para>Substitua o segredo usado para assinar os eventos, preservando o identificador e a configuração do webhook. Guarde o secret_key retornado e atualize o receptor durante o período de transição. Repetir uma rotação com período positivo enquanto a transição está ativa retorna o mesmo segredo e o mesmo vencimento. Para revogar os segredos anteriores, envie grace_period_seconds igual a zero: um novo segredo será gerado, inclusive durante uma transição ativa. Requisições já autorizadas ou em andamento podem chegar com a assinatura anterior.</para>
         /// </remarks>
         public Task<WebhookSecretRotation> RotateSecretAsync(string webhookId, RotateWebhookSecretOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookSecretRotation>("RotateWebhookSecret", new Dictionary<string, string> { { "webhook_id", webhookId } }, options, requestOptions, cancellationToken);
 
         /// <summary>Enviar um evento de teste</summary>
         /// <remarks>
-        /// <para>Envie webhook.test para conferir o recebimento e a validação da assinatura de um webhook ativo. A requisição não recebe corpo. O teste faz uma tentativa HTTP em até cinco minutos e não altera cobranças, saldo ou a contagem de falhas do destino. O aceite do pedido não confirma a entrega. Confira o recebimento nos registros do receptor.</para>
+        /// <para>Solicite webhook.test para conferir o recebimento e a validação da assinatura de um webhook ativo. A requisição não recebe corpo. A Raims agenda uma tentativa HTTPS em segundo plano. O teste pode expirar sem envio após cinco minutos. O teste não altera cobranças, saldo ou a contagem de falhas do destino. Confira os registros do receptor para verificar a entrega.</para>
         /// </remarks>
         public WebhookTestAccepted Test(string webhookId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => TestAsync(webhookId, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Enviar um evento de teste</summary>
         /// <remarks>
-        /// <para>Envie webhook.test para conferir o recebimento e a validação da assinatura de um webhook ativo. A requisição não recebe corpo. O teste faz uma tentativa HTTP em até cinco minutos e não altera cobranças, saldo ou a contagem de falhas do destino. O aceite do pedido não confirma a entrega. Confira o recebimento nos registros do receptor.</para>
+        /// <para>Solicite webhook.test para conferir o recebimento e a validação da assinatura de um webhook ativo. A requisição não recebe corpo. A Raims agenda uma tentativa HTTPS em segundo plano. O teste pode expirar sem envio após cinco minutos. O teste não altera cobranças, saldo ou a contagem de falhas do destino. Confira os registros do receptor para verificar a entrega.</para>
         /// </remarks>
         public Task<WebhookTestAccepted> TestAsync(string webhookId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookTestAccepted>("TestWebhook", new Dictionary<string, string> { { "webhook_id", webhookId } }, null, requestOptions, cancellationToken);

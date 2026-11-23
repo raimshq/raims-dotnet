@@ -17,14 +17,14 @@ namespace Raims
 
         /// <summary>Listar estornos</summary>
         /// <remarks>
-        /// <para>Lista as solicitações de estorno das cobranças da empresa e do ambiente da chave, das mais recentes para as mais antigas. Use a paginação para conciliar as devoluções sem consultar cada cobrança. A consulta não inicia nem repete estornos.</para>
+        /// <para>Lista as solicitações de estorno das cobranças da empresa e do ambiente autenticado, das mais recentes para as mais antigas. Use a paginação para conciliar as devoluções sem consultar cada cobrança. A consulta não inicia nem repete estornos.</para>
         /// </remarks>
         public RefundListResponse List(ListRefundsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar estornos</summary>
         /// <remarks>
-        /// <para>Lista as solicitações de estorno das cobranças da empresa e do ambiente da chave, das mais recentes para as mais antigas. Use a paginação para conciliar as devoluções sem consultar cada cobrança. A consulta não inicia nem repete estornos.</para>
+        /// <para>Lista as solicitações de estorno das cobranças da empresa e do ambiente autenticado, das mais recentes para as mais antigas. Use a paginação para conciliar as devoluções sem consultar cada cobrança. A consulta não inicia nem repete estornos.</para>
         /// </remarks>
         public Task<RefundListResponse> ListAsync(ListRefundsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<RefundListResponse>("ListRefunds", null, options, requestOptions, cancellationToken);
