@@ -156,7 +156,15 @@ class Generator:
         return dict(target, **{k: v for k, v in schema.items() if k != '$ref'})
 
     def normalize(self, schema):
-        if 'oneOf' in schema or 'allOf' in schema:
+        if 'oneOf' in schema:
+            branches = schema['oneOf']
+            if set(schema) != {'oneOf'} or len(branches) < 2 or any(
+                    set(branch) != {'type', 'pattern'} or branch['type'] != 'string'
+                    for branch in branches):
+                raise ValueError('Only patterned string alternatives can be represented.')
+            # All alternatives share the same CLR type. The pinned contract retains the patterns.
+            return {'type': 'string'}
+        if 'allOf' in schema:
             raise ValueError('Unsupported composition: add explicit support before updating the contract.')
         if 'anyOf' not in schema:
             return schema

@@ -93,5 +93,10 @@ namespace Raims
         [JsonPropertyName("metadata")]
         public Dictionary<string, string> Metadata { get; internal set; } = default!;
 
+        /// <summary>boleto_settlement</summary>
+        [JsonInclude]
+        [JsonPropertyName("boleto_settlement")]
+        public ChargeBoletoSettlement? BoletoSettlement { get; internal set; }
+
     }
 }

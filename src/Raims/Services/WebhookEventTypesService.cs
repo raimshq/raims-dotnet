@@ -17,14 +17,14 @@ namespace Raims
 
         /// <summary>Listar os eventos disponíveis</summary>
         /// <remarks>
-        /// <para>Consulte os códigos que podem ser selecionados ao cadastrar ou atualizar um webhook. O teste técnico webhook.test é solicitado no endpoint de teste e não entra na lista de eventos do cadastro.</para>
+        /// <para>Consulte os códigos disponíveis no ambiente para os domínios que a credencial pode ler. O teste técnico webhook.test é solicitado no endpoint de teste e não entra na seleção do cadastro.</para>
         /// </remarks>
         public WebhookEventTypeListResponse List(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => ListAsync(requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Listar os eventos disponíveis</summary>
         /// <remarks>
-        /// <para>Consulte os códigos que podem ser selecionados ao cadastrar ou atualizar um webhook. O teste técnico webhook.test é solicitado no endpoint de teste e não entra na lista de eventos do cadastro.</para>
+        /// <para>Consulte os códigos disponíveis no ambiente para os domínios que a credencial pode ler. O teste técnico webhook.test é solicitado no endpoint de teste e não entra na seleção do cadastro.</para>
         /// </remarks>
         public Task<WebhookEventTypeListResponse> ListAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookEventTypeListResponse>("ListWebhookEventTypes", null, null, requestOptions, cancellationToken);

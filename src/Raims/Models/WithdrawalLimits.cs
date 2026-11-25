@@ -38,7 +38,7 @@ namespace Raims
         [JsonPropertyName("destination_configured")]
         public bool DestinationConfigured { get; internal set; }
 
-        /// <summary>Limites Pix e consumo do período atual, ou null quando não houver limites disponíveis para consulta. No Sandbox, retorna null. Esse valor não significa que o saque esteja livre de limites.</summary>
+        /// <summary>Limites Pix e consumo do período atual para o contexto do destino padrão, interno ou externo. Retorna null quando o contexto não puder ser identificado ou no Sandbox.</summary>
         [JsonInclude]
         [JsonPropertyName("limits")]
         public WithdrawalPeriodLimits? Limits { get; internal set; }

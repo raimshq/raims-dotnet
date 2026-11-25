@@ -69,6 +69,20 @@
     "RotateSecret": "RotateWebhookSecret",
     "Test": "TestWebhook"
   },
+  "WebhookEvents": {
+    "List": "ListWebhookEvents",
+    "Get": "GetWebhookEvent",
+    "Deliver": "DeliverWebhookEvent"
+  },
+  "WebhookDeliveries": {
+    "List": "ListWebhookDeliveries",
+    "Get": "GetWebhookDelivery",
+    "ListAttempts": "ListWebhookDeliveryAttempts",
+    "GetAttempt": "GetWebhookDeliveryAttempt",
+    "Advance": "AdvanceWebhookDelivery",
+    "Resend": "ResendWebhookDelivery",
+    "ResendMany": "ResendWebhookDeliveries"
+  },
   "WithdrawalDestinations": {
     "List": "ListWithdrawalDestinations",
     "Get": "GetWithdrawalDestination"

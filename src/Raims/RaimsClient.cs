@@ -5,7 +5,7 @@ namespace Raims
     /// <summary>An isolated client for the published Raims API.</summary>
     public sealed class RaimsClient : IDisposable
     {
-        public const string Version = "0.1.7";
+        public const string Version = "1.0.0";
         public const string DefaultBaseUrl = "https://api.raims.com";
         private readonly ApiRequestor requestor;
 
@@ -24,6 +24,8 @@ namespace Raims
             Statements = new StatementsService(requestor);
             Webhooks = new WebhooksService(requestor);
             WebhookEventTypes = new WebhookEventTypesService(requestor);
+            WebhookEvents = new WebhookEventsService(requestor);
+            WebhookDeliveries = new WebhookDeliveriesService(requestor);
             Withdrawals = new WithdrawalsService(requestor);
             WithdrawalDestinations = new WithdrawalDestinationsService(requestor);
             Simulations = new SimulationsService(requestor);
@@ -39,6 +41,8 @@ namespace Raims
         public StatementsService Statements { get; }
         public WebhooksService Webhooks { get; }
         public WebhookEventTypesService WebhookEventTypes { get; }
+        public WebhookEventsService WebhookEvents { get; }
+        public WebhookDeliveriesService WebhookDeliveries { get; }
         public WithdrawalsService Withdrawals { get; }
         public WithdrawalDestinationsService WithdrawalDestinations { get; }
         public SimulationsService Simulations { get; }

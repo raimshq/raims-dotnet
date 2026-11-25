@@ -1,4 +1,11 @@
 {
+  "AdvanceWebhookDelivery": {
+    "member": "WebhookDeliveries",
+    "method": "Advance",
+    "options": null,
+    "response": "WebhookAdvanceAccepted",
+    "service": "WebhookDeliveriesService"
+  },
   "CompensateSimulationBoleto": {
     "member": "Simulations.Charges",
     "method": "CompensateBoleto",
@@ -117,6 +124,13 @@
     "options": null,
     "response": "EmptyResponse",
     "service": "WebhooksService"
+  },
+  "DeliverWebhookEvent": {
+    "member": "WebhookEvents",
+    "method": "Deliver",
+    "options": "DeliverWebhookEventOptions",
+    "response": "WebhookDeliveryResendAccepted",
+    "service": "WebhookEventsService"
   },
   "FailSimulationPayment": {
     "member": "Simulations.Charges",
@@ -272,6 +286,27 @@
     "response": "Webhook",
     "service": "WebhooksService"
   },
+  "GetWebhookDelivery": {
+    "member": "WebhookDeliveries",
+    "method": "Get",
+    "options": null,
+    "response": "WebhookDelivery",
+    "service": "WebhookDeliveriesService"
+  },
+  "GetWebhookDeliveryAttempt": {
+    "member": "WebhookDeliveries",
+    "method": "GetAttempt",
+    "options": null,
+    "response": "WebhookAttemptDetail",
+    "service": "WebhookDeliveriesService"
+  },
+  "GetWebhookEvent": {
+    "member": "WebhookEvents",
+    "method": "Get",
+    "options": null,
+    "response": "WebhookEventDetail",
+    "service": "WebhookEventsService"
+  },
   "GetWebhookHealth": {
     "member": "Webhooks",
     "method": "GetHealth",
@@ -363,12 +398,33 @@
     "response": "StatementListResponse",
     "service": "StatementsService"
   },
+  "ListWebhookDeliveries": {
+    "member": "WebhookDeliveries",
+    "method": "List",
+    "options": "ListWebhookDeliveriesOptions",
+    "response": "WebhookDeliveryListResponse",
+    "service": "WebhookDeliveriesService"
+  },
+  "ListWebhookDeliveryAttempts": {
+    "member": "WebhookDeliveries",
+    "method": "ListAttempts",
+    "options": "ListWebhookDeliveryAttemptsOptions",
+    "response": "WebhookAttemptListResponse",
+    "service": "WebhookDeliveriesService"
+  },
   "ListWebhookEventTypes": {
     "member": "WebhookEventTypes",
     "method": "List",
     "options": null,
     "response": "WebhookEventTypeListResponse",
     "service": "WebhookEventTypesService"
+  },
+  "ListWebhookEvents": {
+    "member": "WebhookEvents",
+    "method": "List",
+    "options": "ListWebhookEventsOptions",
+    "response": "WebhookEventListResponse",
+    "service": "WebhookEventsService"
   },
   "ListWebhooks": {
     "member": "Webhooks",
@@ -390,6 +446,20 @@
     "options": "ListWithdrawalsOptions",
     "response": "WithdrawalListResponse",
     "service": "WithdrawalsService"
+  },
+  "ResendWebhookDeliveries": {
+    "member": "WebhookDeliveries",
+    "method": "ResendMany",
+    "options": "ResendWebhookDeliveriesOptions",
+    "response": "WebhookBulkResendAccepted",
+    "service": "WebhookDeliveriesService"
+  },
+  "ResendWebhookDelivery": {
+    "member": "WebhookDeliveries",
+    "method": "Resend",
+    "options": null,
+    "response": "WebhookDeliveryResendAccepted",
+    "service": "WebhookDeliveriesService"
   },
   "ResolveSimulationScenario": {
     "member": "Simulations.Charges",
