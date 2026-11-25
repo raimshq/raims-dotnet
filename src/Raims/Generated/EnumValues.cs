@@ -81,6 +81,8 @@ namespace Raims
             public const string AwaitingPayment = "awaiting_payment";
             /// <summary>Valor da API: compensated.</summary>
             public const string Compensated = "compensated";
+            /// <summary>Valor da API: partially_settled.</summary>
+            public const string PartiallySettled = "partially_settled";
             /// <summary>Valor da API: settled.</summary>
             public const string Settled = "settled";
         }
@@ -286,14 +288,10 @@ namespace Raims
             public const string TedReceived = "ted.received";
             /// <summary>Valor da API: pix_refund.received.</summary>
             public const string PixRefundReceived = "pix_refund.received";
-            /// <summary>Valor da API: pix.available.</summary>
-            public const string PixAvailable = "pix.available";
-            /// <summary>Valor da API: pix.issuance_failed.</summary>
-            public const string PixIssuanceFailed = "pix.issuance_failed";
-            /// <summary>Valor da API: boleto.available.</summary>
-            public const string BoletoAvailable = "boleto.available";
-            /// <summary>Valor da API: boleto.issuance_failed.</summary>
-            public const string BoletoIssuanceFailed = "boleto.issuance_failed";
+            /// <summary>Valor da API: charge.payment_instructions_available.</summary>
+            public const string ChargePaymentInstructionsAvailable = "charge.payment_instructions_available";
+            /// <summary>Valor da API: charge.payment_instructions_failed.</summary>
+            public const string ChargePaymentInstructionsFailed = "charge.payment_instructions_failed";
             /// <summary>Valor da API: boleto.compensated.</summary>
             public const string BoletoCompensated = "boleto.compensated";
             /// <summary>Valor da API: payment_link.created.</summary>
@@ -314,6 +312,18 @@ namespace Raims
             public const string WithdrawalAccepted = "withdrawal.accepted";
             /// <summary>Valor da API: charge.fully_refunded.</summary>
             public const string ChargeFullyRefunded = "charge.fully_refunded";
+            /// <summary>Valor da API: charge.partially_refunded.</summary>
+            public const string ChargePartiallyRefunded = "charge.partially_refunded";
+            /// <summary>Valor da API: withdrawal.destination_changed.</summary>
+            public const string WithdrawalDestinationChanged = "withdrawal.destination_changed";
+            /// <summary>Valor da API: boleto.overpayment_received.</summary>
+            public const string BoletoOverpaymentReceived = "boleto.overpayment_received";
+            /// <summary>Valor da API: refund.reconciliation_required.</summary>
+            public const string RefundReconciliationRequired = "refund.reconciliation_required";
+            /// <summary>Valor da API: boleto.partial_settlement_detected.</summary>
+            public const string BoletoPartialSettlementDetected = "boleto.partial_settlement_detected";
+            /// <summary>Valor da API: withdrawal.automatic_settings_changed.</summary>
+            public const string WithdrawalAutomaticSettingsChanged = "withdrawal.automatic_settings_changed";
         }
 
         /// <summary>CustomerCreatedTaxIdType</summary>
@@ -481,6 +491,21 @@ namespace Raims
             public const string Desc = "desc";
         }
 
+        /// <summary>ListWebhookDeliveriesOptionsStatus</summary>
+        public static class ListWebhookDeliveriesOptionsStatus
+        {
+            /// <summary>Valor da API: pending.</summary>
+            public const string Pending = "pending";
+            /// <summary>Valor da API: processing.</summary>
+            public const string Processing = "processing";
+            /// <summary>Valor da API: delivered.</summary>
+            public const string Delivered = "delivered";
+            /// <summary>Valor da API: failed.</summary>
+            public const string Failed = "failed";
+            /// <summary>Valor da API: canceled.</summary>
+            public const string Canceled = "canceled";
+        }
+
         /// <summary>ListWithdrawalsOptionsSortOrder</summary>
         public static class ListWithdrawalsOptionsSortOrder
         {
@@ -636,6 +661,21 @@ namespace Raims
             public const string ContinuousFailure = "continuous_failure";
         }
 
+        /// <summary>WebhookDeliveryStatus</summary>
+        public static class WebhookDeliveryStatus
+        {
+            /// <summary>Valor da API: pending.</summary>
+            public const string Pending = "pending";
+            /// <summary>Valor da API: processing.</summary>
+            public const string Processing = "processing";
+            /// <summary>Valor da API: delivered.</summary>
+            public const string Delivered = "delivered";
+            /// <summary>Valor da API: failed.</summary>
+            public const string Failed = "failed";
+            /// <summary>Valor da API: canceled.</summary>
+            public const string Canceled = "canceled";
+        }
+
         /// <summary>WebhookDisabledReason</summary>
         public static class WebhookDisabledReason
         {
@@ -690,14 +730,10 @@ namespace Raims
             public const string TedReceived = "ted.received";
             /// <summary>Valor da API: pix_refund.received.</summary>
             public const string PixRefundReceived = "pix_refund.received";
-            /// <summary>Valor da API: pix.available.</summary>
-            public const string PixAvailable = "pix.available";
-            /// <summary>Valor da API: pix.issuance_failed.</summary>
-            public const string PixIssuanceFailed = "pix.issuance_failed";
-            /// <summary>Valor da API: boleto.available.</summary>
-            public const string BoletoAvailable = "boleto.available";
-            /// <summary>Valor da API: boleto.issuance_failed.</summary>
-            public const string BoletoIssuanceFailed = "boleto.issuance_failed";
+            /// <summary>Valor da API: charge.payment_instructions_available.</summary>
+            public const string ChargePaymentInstructionsAvailable = "charge.payment_instructions_available";
+            /// <summary>Valor da API: charge.payment_instructions_failed.</summary>
+            public const string ChargePaymentInstructionsFailed = "charge.payment_instructions_failed";
             /// <summary>Valor da API: boleto.compensated.</summary>
             public const string BoletoCompensated = "boleto.compensated";
             /// <summary>Valor da API: payment_link.created.</summary>
@@ -718,6 +754,18 @@ namespace Raims
             public const string WithdrawalAccepted = "withdrawal.accepted";
             /// <summary>Valor da API: charge.fully_refunded.</summary>
             public const string ChargeFullyRefunded = "charge.fully_refunded";
+            /// <summary>Valor da API: charge.partially_refunded.</summary>
+            public const string ChargePartiallyRefunded = "charge.partially_refunded";
+            /// <summary>Valor da API: withdrawal.destination_changed.</summary>
+            public const string WithdrawalDestinationChanged = "withdrawal.destination_changed";
+            /// <summary>Valor da API: boleto.overpayment_received.</summary>
+            public const string BoletoOverpaymentReceived = "boleto.overpayment_received";
+            /// <summary>Valor da API: refund.reconciliation_required.</summary>
+            public const string RefundReconciliationRequired = "refund.reconciliation_required";
+            /// <summary>Valor da API: boleto.partial_settlement_detected.</summary>
+            public const string BoletoPartialSettlementDetected = "boleto.partial_settlement_detected";
+            /// <summary>Valor da API: withdrawal.automatic_settings_changed.</summary>
+            public const string WithdrawalAutomaticSettingsChanged = "withdrawal.automatic_settings_changed";
         }
 
         /// <summary>WebhookHealthStatus</summary>

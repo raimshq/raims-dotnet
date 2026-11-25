@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Raims
 {
-    /// <summary>Limites e consumo de saque no período atual, pelo horário de São Paulo. O limite noturno faz parte do diário.</summary>
+    /// <summary>Limites e consumo de saque no período atual, pelo horário de São Paulo. Durante a noite, o saque precisa caber no restante diário e no noturno.</summary>
     public sealed class WithdrawalPeriodLimits : RaimsEntity
     {
-        /// <summary>Limite diário de saques, em centavos de real. O dia de saque vai das 06:00 às 06:00 do dia seguinte, no horário de São Paulo.</summary>
+        /// <summary>Limite de saques por dia civil, em centavos de real. A nova cota é liberada às 00:01, no horário de São Paulo.</summary>
         [JsonInclude]
         [JsonPropertyName("day_limit_cents")]
         public long DayLimitCents { get; internal set; }
 
-        /// <summary>Limite noturno de saques, em centavos de real, das 20:00 às 06:00 do dia seguinte. Esse valor faz parte do limite diário.</summary>
+        /// <summary>Limite noturno de saques, em centavos de real. O consumo acumula das 20:00 às 06:00 do dia seguinte, inclusive na virada do dia.</summary>
         [JsonInclude]
         [JsonPropertyName("night_limit_cents")]
         public long NightLimitCents { get; internal set; }
@@ -48,7 +48,7 @@ namespace Raims
         [JsonPropertyName("period")]
         public string Period { get; internal set; } = default!;
 
-        /// <summary>Término do período vigente, em segundos Unix UTC. Consulte novamente após esse instante para conferir as condições atualizadas.</summary>
+        /// <summary>Próxima virada dos limites, em segundos Unix UTC. Consulte novamente após esse instante para conferir as condições atualizadas.</summary>
         [JsonInclude]
         [JsonPropertyName("period_ends_at")]
         public long PeriodEndsAt { get; internal set; }

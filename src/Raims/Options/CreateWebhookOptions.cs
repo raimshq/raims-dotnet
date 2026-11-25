@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Criar um webhook.</summary>
     /// <remarks>
-    /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
+    /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. A credencial precisa de acesso de leitura ao domínio de cada evento selecionado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
     /// </remarks>
     public sealed class CreateWebhookOptions : BaseOptions
     {

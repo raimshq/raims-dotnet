@@ -17,14 +17,14 @@ namespace Raims
 
         /// <summary>Criar um webhook</summary>
         /// <remarks>
-        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
+        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. A credencial precisa de acesso de leitura ao domínio de cada evento selecionado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
         /// </remarks>
         public WebhookCreated Create(CreateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => CreateAsync(options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Criar um webhook</summary>
         /// <remarks>
-        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
+        /// <para>Cadastre o endereço HTTPS que receberá os eventos escolhidos da empresa e do ambiente autenticado. A credencial precisa de acesso de leitura ao domínio de cada evento selecionado. Guarde o id para administrar o destino e o secret_key para validar as assinaturas. As consultas do cadastro não retornam o segredo.</para>
         /// </remarks>
         public Task<WebhookCreated> CreateAsync(CreateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<WebhookCreated>("CreateWebhook", null, options, requestOptions, cancellationToken);
@@ -59,14 +59,14 @@ namespace Raims
 
         /// <summary>Atualizar um webhook</summary>
         /// <remarks>
-        /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar; omitir um campo preserva seu valor. A seleção de eventos enviada substitui a anterior. Os campos não aceitam null nem valores vazios.</para>
+        /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar. A seleção de eventos enviada substitui a anterior. Cada tipo acrescentado exige acesso de leitura ao domínio. Para trocar a URL ou reativar o destino, a credencial precisa desse acesso para toda a seleção resultante. Os campos não aceitam null nem valores vazios.</para>
         /// </remarks>
         public Webhook Update(string webhookId, UpdateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => UpdateAsync(webhookId, options, requestOptions, cancellationToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
         /// <summary>Atualizar um webhook</summary>
         /// <remarks>
-        /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar; omitir um campo preserva seu valor. A seleção de eventos enviada substitui a anterior. Os campos não aceitam null nem valores vazios.</para>
+        /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar. A seleção de eventos enviada substitui a anterior. Cada tipo acrescentado exige acesso de leitura ao domínio. Para trocar a URL ou reativar o destino, a credencial precisa desse acesso para toda a seleção resultante. Os campos não aceitam null nem valores vazios.</para>
         /// </remarks>
         public Task<Webhook> UpdateAsync(string webhookId, UpdateWebhookOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
             => RequestAsync<Webhook>("UpdateWebhook", new Dictionary<string, string> { { "webhook_id", webhookId } }, options, requestOptions, cancellationToken);

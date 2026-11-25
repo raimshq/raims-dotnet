@@ -12,7 +12,7 @@ namespace Raims
 {
     /// <summary>Atualizar um webhook.</summary>
     /// <remarks>
-    /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar; omitir um campo preserva seu valor. A seleção de eventos enviada substitui a anterior. Os campos não aceitam null nem valores vazios.</para>
+    /// <para>Altere o nome, a URL, a seleção de eventos ou a ativação de um webhook. Envie apenas os campos que deseja mudar. A seleção de eventos enviada substitui a anterior. Cada tipo acrescentado exige acesso de leitura ao domínio. Para trocar a URL ou reativar o destino, a credencial precisa desse acesso para toda a seleção resultante. Os campos não aceitam null nem valores vazios.</para>
     /// </remarks>
     public sealed class UpdateWebhookOptions : BaseOptions
     {
