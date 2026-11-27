@@ -57,20 +57,28 @@ package was created. For a new project, the file may contain:
     <add key="raims-local" value="C:\path\to\raims-packages" />
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
   </packageSources>
+  <packageSourceMapping>
+    <packageSource key="raims-local">
+      <package pattern="Raims" />
+    </packageSource>
+    <packageSource key="nuget.org">
+      <package pattern="*" />
+    </packageSource>
+  </packageSourceMapping>
 </configuration>
 ```
 
-From the consuming application's directory, where this file was saved:
+From the consuming application's directory, add the package and restore using
+the configured sources.
 
 ```powershell
 dotnet add package Raims
 dotnet restore --configfile NuGet.Config
 ```
 
-The first command resolves the package and adds its version to the project.
-Both commands use the sources in the file: the local directory for the SDK
-and the official NuGet feed for its dependencies. Keep both sources, including
-on machines with an empty cache. These commands do not publish the SDK.
+NuGet records the resolved local version in the project and uses the official
+feed for its dependencies. Keep both feeds available when the package cache
+is empty.
 
 ## Compatibility
 
