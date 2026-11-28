@@ -23,6 +23,7 @@ PACKAGE_ID = "Raims"
 SOURCE = "https://api.nuget.org/v3/index.json"
 VERSION = re.compile(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?")
 SHA = re.compile(r"[0-9a-f]{40}")
+SHA256 = re.compile(r"[0-9a-f]{64}")
 VALIDATION_WORKFLOW = ".github/workflows/validate.yml"
 VALIDATION_JOBS = {
     "validateWindows": {"image:windows-ec2-2022", "instance-size:medium", "dotnet-sdk-check"},
@@ -168,6 +169,31 @@ def prior_validation(revision, published_at, run_id=None, attempt=None):
     raise RuntimeError("No successful Windows and security validation for this commit finished before the release.")
 
 
+def prior_validation_artifact(expected):
+    run, attempt = expected["validationRunId"], expected["validationRunAttempt"]
+    name = f"raims-nuget-validation-{run}-{attempt}"
+    query = urllib.parse.urlencode({"name": name, "per_page": 100, "page": 1})
+    response = github_api(f"/actions/runs/{run}/artifacts?{query}")
+    total, rows = response.get("total_count"), response.get("artifacts")
+    require(type(total) is int and isinstance(rows, list) and 0 <= total <= 100 and len(rows) == total
+            and all(isinstance(row, dict) and row.get("name") == name for row in rows),
+            "The validation artifact inventory is incomplete.")
+    if not rows:
+        return ""
+    require(len(rows) == 1, "The validation artifact identity is ambiguous.")
+    artifact = rows[0]
+    origin = artifact.get("workflow_run")
+    require(isinstance(origin, dict) and origin.get("id") == int(run)
+            and origin.get("head_sha") == expected["revision"], "The validation artifact belongs to another run or commit.")
+    require(type(artifact.get("id")) is int and artifact["id"] > 0 and type(artifact.get("expired")) is bool,
+            "The validation artifact identity is invalid.")
+    if artifact["expired"]:
+        return ""
+    require(isinstance(artifact.get("digest"), str) and re.fullmatch(r"sha256:[0-9a-f]{64}", artifact["digest"]),
+            "The validation artifact digest is unavailable.")
+    return str(artifact["id"])
+
+
 def validation_context(source):
     require(os.environ.get("GITHUB_REPOSITORY") == REPOSITORY, "Unexpected validation repository.")
     require(os.environ.get("GITHUB_EVENT_NAME") in ("push", "workflow_dispatch"), "Only repository branch pushes and manual runs can validate this source.")
@@ -236,8 +262,7 @@ def package_metadata(package, expected):
         require(values.get("id") == PACKAGE_ID and values.get("version") == expected["version"], "The package identity differs from the release.")
 
 
-def bundle(source, report_path, destination, validation_run_id, validation_run_attempt):
-    expected = identity(source, validation_run_id, validation_run_attempt)
+def validated_package(source, report_path, expected):
     toolkit = next((candidate / "Developer-Toolkit" for candidate in (source.parent, source.parent.parent) if (candidate / "Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py").is_file()), source.parent / "Developer-Toolkit")
     require(git(toolkit, "rev-parse", "HEAD") == expected["toolkitRevision"], "The validation toolkit differs from the pinned revision.")
     require(git(toolkit, "status", "--porcelain") == "", "The pinned validation toolkit contains local changes.")
@@ -253,12 +278,57 @@ def bundle(source, report_path, destination, validation_run_id, validation_run_a
     package = packages[0]
     package_metadata(package, expected)
     require(report.get("packageSha256") == digest(package), "The package changed after validation.")
-    require(not destination.exists() or not any(destination.iterdir()), "Use an empty release artifact directory.")
+    return package, report["packageSha256"], digest(report_path)
+
+
+def write_bundle(destination, package, manifest_name, manifest):
+    require(not destination.exists() or not any(destination.iterdir()), "Use an empty artifact directory.")
     destination.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(package, destination / package.name)
+    (destination / manifest_name).write_text(json.dumps(manifest, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+
+
+def validation_bundle(source, report_path, destination):
+    expected = validation_context(source)
+    expected["version"] = ET.parse(source / "src/Raims/Raims.csproj").findtext("./PropertyGroup/Version")
+    require(expected["version"], "The validated package version is missing from the project.")
+    package, package_hash, report_hash = validated_package(source, report_path, expected)
+    manifest = {"schemaVersion": 1, **expected, "validationRunId": positive_id(os.environ.get("GITHUB_RUN_ID")),
+                "validationRunAttempt": positive_id(os.environ.get("GITHUB_RUN_ATTEMPT")), "packageFile": package.name,
+                "packageSha256": package_hash, "validationReportSha256": report_hash}
+    write_bundle(destination, package, "validation-manifest.json", manifest)
+    print("Validation artifact prepared: " + package.name)
+
+
+def prior_package(directory, expected):
+    filename = PACKAGE_ID + "." + expected["version"] + ".nupkg"
+    require({path.name for path in directory.iterdir()} == {filename, "validation-manifest.json"},
+            "The validation artifact contains files outside the approved bundle.")
+    manifest_path = directory / "validation-manifest.json"
+    package = directory / filename
+    require(not manifest_path.is_symlink() and not package.is_symlink(), "The validation artifact contains symbolic links.")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    required = {key: expected[key] for key in ("revision", "toolkitRevision", "version", "validationRunId", "validationRunAttempt")}
+    required.update(schemaVersion=1, packageFile=filename)
+    require(isinstance(manifest, dict) and set(manifest) == {*required, "packageSha256", "validationReportSha256"}
+            and type(manifest["schemaVersion"]) is int and all(manifest[key] == value for key, value in required.items()),
+            "The validation artifact belongs to another commit, toolkit, package or workflow attempt.")
+    for key in ("packageSha256", "validationReportSha256"):
+        require(isinstance(manifest[key], str) and SHA256.fullmatch(manifest[key]), "A validation artifact checksum is invalid.")
+    require(digest(package) == manifest["packageSha256"], "The package differs from the tested validation artifact.")
+    package_metadata(package, expected)
+    return package, manifest["packageSha256"], manifest["validationReportSha256"]
+
+
+def bundle(source, report_path, destination, validation_run_id, validation_run_attempt, validated_artifact=None):
+    expected = identity(source, validation_run_id, validation_run_attempt)
+    if validated_artifact is None:
+        package, package_hash, report_hash = validated_package(source, report_path, expected)
+    else:
+        package, package_hash, report_hash = prior_package(validated_artifact, expected)
     manifest = {"schemaVersion": 2, **expected, "packageFile": package.name,
-                "packageSha256": digest(package), "validationReportSha256": digest(report_path)}
-    (destination / "release-manifest.json").write_text(json.dumps(manifest, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+                "packageSha256": package_hash, "validationReportSha256": report_hash}
+    write_bundle(destination, package, "release-manifest.json", manifest)
     print("Validated release artifact: " + package.name)
 
 
@@ -274,7 +344,7 @@ def verify(source, directory):
     require(manifest.get("packageFile") == filename, "The artifact package filename differs from the release.")
     require({path.name for path in directory.iterdir()} == {filename, "release-manifest.json"}, "The artifact contains files outside the approved bundle.")
     package = directory / filename
-    require(re.fullmatch(r"[0-9a-f]{64}", manifest.get("packageSha256", "")), "The package checksum is invalid.")
+    require(SHA256.fullmatch(manifest.get("packageSha256", "")), "The package checksum is invalid.")
     require(digest(package) == manifest["packageSha256"], "The downloaded package checksum differs from the validated artifact.")
     package_metadata(package, expected)
     return package
@@ -282,28 +352,37 @@ def verify(source, directory):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("validation-context", "context", "bundle", "verify", "publish"))
+    parser.add_argument("command", choices=("validation-context", "validation-bundle", "context", "bundle", "verify", "publish"))
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--artifact", type=Path)
+    parser.add_argument("--validated-artifact", type=Path)
     parser.add_argument("--validation-run-id")
     parser.add_argument("--validation-run-attempt")
     args = parser.parse_args()
     source = args.source.resolve()
     if args.command in ("context", "validation-context"):
         context = identity(source) if args.command == "context" else validation_context(source)
+        if args.command == "context":
+            context["validationArtifactId"] = prior_validation_artifact(context)
         output = os.environ.get("GITHUB_OUTPUT")
         require(output, "GitHub step outputs are unavailable.")
         with Path(output).open("a", encoding="utf-8") as stream:
-            for field in ("version", "revision", "toolkitRevision", "validationRunId", "validationRunAttempt", "validationWorkflowId", "validationCompletedAt"):
+            for field in ("version", "revision", "toolkitRevision", "validationRunId", "validationRunAttempt", "validationWorkflowId", "validationCompletedAt", "validationArtifactId"):
                 if field not in context:
                     continue
                 stream.write(field + "=" + str(context[field]) + "\n")
         print("Release context verified: " + context["tag"] if args.command == "context" else "Repository validation context verified.")
+    elif args.command == "validation-bundle":
+        require(args.report is not None and args.artifact is not None, "Validation bundle requires the canonical report and artifact directory.")
+        validation_bundle(source, args.report.resolve(), args.artifact.resolve())
     elif args.command == "bundle":
-        require(args.report is not None and args.artifact is not None, "Bundle requires the canonical report and artifact directory.")
+        require(args.artifact is not None and (args.report is None) != (args.validated_artifact is None),
+                "Bundle requires the destination and exactly one canonical report or validation artifact.")
         require(args.validation_run_id is not None and args.validation_run_attempt is not None, "Bundle requires the prior validation run and attempt.")
-        bundle(source, args.report.resolve(), args.artifact.resolve(), args.validation_run_id, args.validation_run_attempt)
+        report = args.report.resolve() if args.report is not None else None
+        artifact = args.validated_artifact.resolve() if args.validated_artifact is not None else None
+        bundle(source, report, args.artifact.resolve(), args.validation_run_id, args.validation_run_attempt, artifact)
     else:
         require(args.artifact is not None, "The artifact directory is required.")
         package = verify(source, args.artifact.resolve())

@@ -15,8 +15,9 @@ concurrency:
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: '1'
   DOTNET_NOLOGO: '1'
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: 'false'
   PYTHONDONTWRITEBYTECODE: '1'
-  RAIMS_DOTNET_TOOLKIT_REF: 05c55b00950bc216c3a3bd33e631dc117d9396d4
+  RAIMS_DOTNET_TOOLKIT_REF: d1257827c06210275b9edb955fb1611fed41b4b5
 
 jobs:
   validateWindows:
@@ -55,7 +56,19 @@ jobs:
           python Raims-Dotnet/scripts/release.py context --source Raims-Dotnet
           if ($LASTEXITCODE -ne 0) { throw 'Release identity validation failed.' }
 
+      - name: Download the NuGet package from the approved validation attempt
+        if: steps.context.outputs.validationArtifactId != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.context.outputs.validationRunId }}
+          artifact-ids: ${{ steps.context.outputs.validationArtifactId }}
+          path: .tmp/raims-dotnet-sdk/nuget-validation
+          merge-multiple: true
+          digest-mismatch: error
+
       - name: Create a read-only validation source token
+        if: steps.context.outputs.validationArtifactId == ''
         id: sources
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
@@ -66,6 +79,7 @@ jobs:
           permission-contents: read
 
       - name: Checkout the reviewed validation tooling
+        if: steps.context.outputs.validationArtifactId == ''
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: raimshq/Raims-Developer-Toolkit
@@ -75,11 +89,13 @@ jobs:
           persist-credentials: false
 
       - name: Setup .NET
+        if: steps.context.outputs.validationArtifactId == ''
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
           dotnet-version: '10.0.403'
 
       - name: Run the canonical SDK checks
+        if: steps.context.outputs.validationArtifactId == ''
         run: |
           $workspace = $env:GITHUB_WORKSPACE
           $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
@@ -88,13 +104,22 @@ jobs:
           python (Join-Path $workspace 'Developer-Toolkit/scripts/release-preflight/dotnet_sdk.py') --source (Join-Path $workspace 'Raims-Dotnet') --workspace $workspace --output $output
           if ($LASTEXITCODE -ne 0) { throw 'Canonical SDK validation failed.' }
 
-      - name: Bind the package to the prior validation
+      - name: Bind the tested package to this release
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          VALIDATION_ARTIFACT_ID: ${{ steps.context.outputs.validationArtifactId }}
+          VALIDATION_RUN_ID: ${{ steps.context.outputs.validationRunId }}
+          VALIDATION_RUN_ATTEMPT: ${{ steps.context.outputs.validationRunAttempt }}
         run: |
           $workspace = $env:GITHUB_WORKSPACE
-          $output = Join-Path $workspace ".tmp/raims-dotnet-sdk/release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
-          python (Join-Path $workspace 'Raims-Dotnet/scripts/release.py') bundle --source (Join-Path $workspace 'Raims-Dotnet') --report (Join-Path $output 'report.json') --artifact (Join-Path $workspace '.tmp/raims-dotnet-sdk/nuget-upload') --validation-run-id '${{ steps.context.outputs.validationRunId }}' --validation-run-attempt '${{ steps.context.outputs.validationRunAttempt }}'
+          $artifactRoot = Join-Path $workspace '.tmp/raims-dotnet-sdk'
+          if ($env:VALIDATION_ARTIFACT_ID) {
+            $proof = @('--validated-artifact', (Join-Path $artifactRoot 'nuget-validation'))
+          } else {
+            $output = Join-Path $artifactRoot "release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+            $proof = @('--report', (Join-Path $output 'report.json'))
+          }
+          python (Join-Path $workspace 'Raims-Dotnet/scripts/release.py') bundle --source (Join-Path $workspace 'Raims-Dotnet') --artifact (Join-Path $artifactRoot 'nuget-upload') --validation-run-id $env:VALIDATION_RUN_ID --validation-run-attempt $env:VALIDATION_RUN_ATTEMPT @proof
           if ($LASTEXITCODE -ne 0) { throw 'Release artifact binding failed.' }
 
       - name: Upload only the validated public package
